@@ -12,11 +12,11 @@
 
     <v-layout class="mt-2">
       <v-flex xs6>
-        <tab :song="song" />
+        <lyrics :song="song" />
       </v-flex>
 
       <v-flex xs6 class="ml-2">
-        <lyrics :song="song" />
+        <tab :song="song" />
       </v-flex>
     </v-layout>
   </div>

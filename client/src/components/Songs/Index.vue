@@ -1,6 +1,6 @@
 <template>
   <v-layout>     
-    <v-flex xs12 v-if="isUserLoggedIn">
+    <v-flex xs12>
       <!-- <songs-search-panel /> -->
       <songs-panel/>    
       <v-layout class="mt-2">  

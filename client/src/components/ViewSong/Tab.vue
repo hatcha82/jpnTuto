@@ -1,9 +1,7 @@
 <template>
-  <panel title="Tab">
-    <textarea
-      readonly
-      v-model="song.tab"
-    ></textarea>
+  <panel title="Furigana">
+    <p v-html="song.tab">
+    </p>
   </panel>
 </template>
 
@@ -16,14 +14,12 @@ export default {
 </script>
 
 <style scoped>
-textarea {
+p {
   width: 100%;
   font-family: monospace;
-  border: none;
-  height: 600px;
-  border-style: none;
-  border-color: transparent;
-  overflow: auto;
+  text-align: left;
+  text-justify: auto;
+  white-space:pre-line;
   padding: 40px;
 }
 </style>

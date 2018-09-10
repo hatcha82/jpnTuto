@@ -3,9 +3,9 @@
       :append-icon-cb="() => {}"
       placeholder="Search..."
       single-line
+      class="searchBox "
       append-icon="search"
       color="white"
-      hide-details
       label="Search by song title, artist, album, or genre"
       v-model="search"
     ></v-text-field>
@@ -45,5 +45,7 @@ export default {
 </script>
 
 <style>
-
+.searchBox{
+  margin-top:20px
+}
 </style>

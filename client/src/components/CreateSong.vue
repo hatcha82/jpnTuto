@@ -116,7 +116,7 @@ export default {
           name: 'songs'
         })
       } catch (err) {
-        console.log(err)
+        alert(err)
       }
     }
   }
