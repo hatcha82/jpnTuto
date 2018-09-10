@@ -14,7 +14,7 @@ Vue.config.productionTip = false
 
 Vue.use(Vuetify)
 Vue.use(VueYouTubeEmbed)
-
+Vue.use(require('vue-moment'))
 Vue.component('panel', Panel)
 
 sync(store, router)

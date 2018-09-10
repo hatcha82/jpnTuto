@@ -28,7 +28,7 @@
         </v-flex>
         <v-flex xs10>
           <div class="song-title">
-            {{song.title}}<br> {{song.artist}} {{song.genre}}
+            {{song.title}} {{song.artist}} {{song.genre}}
           </div>
           <div class="song-artist">
            
@@ -36,6 +36,10 @@
           <div class="song-genre">
             
           </div>
+          <div class="song-genre">
+          Created At : {{song.createdAt | moment("dddd, MMMM Do YYYY, h:mm:ss a")}}<br>
+          Updated At : {{song.updatedAt | moment("dddd, MMMM Do YYYY, h:mm:ss a")}}
+        </div>
           <v-btn
             dark
             class="cyan"

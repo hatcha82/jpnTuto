@@ -11,7 +11,6 @@
         <div class="song-genre">
           {{song.genre}}
         </div>
-
         <v-btn
           dark
           class="cyan"
