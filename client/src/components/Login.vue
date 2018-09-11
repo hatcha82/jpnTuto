@@ -17,7 +17,7 @@
         <br>
         <v-btn
           dark
-          class="cyan"
+          class="appColorThema"
           @click="login">
           Login
         </v-btn>

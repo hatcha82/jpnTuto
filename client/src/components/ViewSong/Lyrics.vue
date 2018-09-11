@@ -17,11 +17,13 @@ export default {
 
 <style scoped>
 p {
-  width: 100%;
-  font-family: monospace;
+  width: 100%;  
   text-align: left;
   text-justify: auto;
   white-space:pre-line;
   padding: 40px;
+  line-height: 30px;
+  font-size: 20px;
+  font-family: sans-serif;
 }
 </style>

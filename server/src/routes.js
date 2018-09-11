@@ -3,6 +3,7 @@ const AuthenticationControllerPolicy = require('./policies/AuthenticationControl
 const SongsController = require('./controllers/SongsController')
 const BookmarksController = require('./controllers/BookmarksController')
 const HistoriesController = require('./controllers/HistoriesController')
+const FuriganaController = require('./controllers/FuriganaController')
 
 const isAuthenticated = require('./policies/isAuthenticated')
 
@@ -12,6 +13,8 @@ module.exports = (app) => {
     AuthenticationController.register)
   app.post('/login',
     AuthenticationController.login)
+  app.post('/furigana',
+    FuriganaController.convert)
 
   app.get('/songs',
     SongsController.index)
@@ -21,6 +24,9 @@ module.exports = (app) => {
     SongsController.put)
   app.post('/songs',
     SongsController.post)
+  app.delete('/songs/:songId',
+    isAuthenticated,
+    SongsController.remove)
 
   app.get('/bookmarks',
     isAuthenticated,
@@ -29,9 +35,8 @@ module.exports = (app) => {
     isAuthenticated,
     BookmarksController.post)
   app.delete('/bookmarks/:bookmarkId',
-    isAuthenticated,  
+    isAuthenticated,
     BookmarksController.remove)
-
   app.get('/histories',
     isAuthenticated,
     HistoriesController.index)

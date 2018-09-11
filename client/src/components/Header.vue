@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar fixed class="cyan" dark>
+  <v-toolbar fixed class="appColorThema" dark>
     <v-toolbar-title class="mr-4">
       <router-link 
         class="home"
@@ -18,10 +18,19 @@
         :to="{
           name: 'songs'
         }">
-        Browse
+        Music
       </v-btn>
     </v-toolbar-items>
-        
+     <v-toolbar-items>
+      <v-btn 
+        flat 
+        dark
+        :to="{
+          name: 'songs'
+        }">
+        Article
+      </v-btn>
+    </v-toolbar-items>   
     <v-spacer></v-spacer>
     <v-toolbar-items>
       <songs-search-panel />      

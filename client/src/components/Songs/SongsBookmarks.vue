@@ -10,8 +10,7 @@
            :src="props.item.albumImageUrl" />
           <div class="bookMarkRow">
             {{props.item.title}}   
-          </div>   
-                  
+          </div>                     
         </td>
         <td class="text-xs-left">
           {{props.item.artist}}
@@ -19,7 +18,7 @@
         <td class="text-xs-right">
           <v-btn
             fab dark small
-            class="cyan"
+            class="appColorThema"
             :to="{
               name: 'song', 
               params: {

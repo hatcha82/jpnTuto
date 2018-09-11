@@ -16,7 +16,7 @@
       </v-flex>
 
       <v-flex xs6 class="ml-2">
-        <tab :song="song" />
+        <Furigana :song="song" />
       </v-flex>
     </v-layout>
   </div>
@@ -25,7 +25,7 @@
 <script>
 import {mapState} from 'vuex'
 import Lyrics from './Lyrics'
-import Tab from './Tab'
+import Furigana from './Furigana'
 import SongMetadata from './SongMetadata'
 import YouTube from './YouTube'
 import SongsService from '@/services/SongsService'
@@ -58,7 +58,7 @@ export default {
     SongMetadata,
     YouTube,
     Lyrics,
-    Tab
+    Furigana
   }
 }
 </script>

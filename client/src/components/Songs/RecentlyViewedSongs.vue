@@ -5,16 +5,20 @@
       :pagination.sync="pagination"
       :items="histories">
       <template slot="items" scope="props">
-        <td class="text-xs-left" >
-          {{props.item.title}}           
-        </td>
+        <td class="text-xs-left ">
+            <img class="album-image"         
+           :src="props.item.albumImageUrl" />
+          <div class="bookMarkRow">
+            {{props.item.title}}   
+          </div>                     
+        </td>        
         <td class="text-xs-left">
           {{props.item.artist}}
         </td>
         <td class="text-xs-right">
           <v-btn
             fab dark small
-            class="cyan"
+            class="appColorThema"
             :to="{
               name: 'song', 
               params: {

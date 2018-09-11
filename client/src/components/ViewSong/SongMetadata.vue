@@ -3,7 +3,7 @@
     <v-layout>
       <v-flex xs6>
         <div class="song-title">
-          {{song.title}}
+          {{song.title}} ({{song.album}})
         </div>
         <div class="song-artist">
           {{song.artist}}
@@ -13,7 +13,7 @@
         </div>
         <v-btn
           dark
-          class="cyan"
+          class="appColorThema"
           :to="{
             name: 'song-edit', 
             params () {
@@ -24,11 +24,10 @@
           }">
           Edit
         </v-btn>
-
         <v-btn
           v-if="isUserLoggedIn && !bookmark"
           dark
-          class="cyan"
+          class="appColorThema"
           @click="setAsBookmark">
           Set As Bookmark
         </v-btn>
@@ -36,16 +35,14 @@
         <v-btn
           v-if="isUserLoggedIn && bookmark"
           dark
-          class="cyan"
+          class="appColorThema"
           @click="unsetAsBookmark">
           Unset As Bookmark
         </v-btn>
       </v-flex>
 
       <v-flex xs6>
-        <img class="album-image" :src="song.albumImageUrl" />
-        <br>
-        {{song.album}}
+        <img class="album-image" :src="song.albumImageUrl" />                
       </v-flex>
     </v-layout>
   </panel>

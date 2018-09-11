@@ -1,5 +1,41 @@
 <template>
-  <panel title="노래">
+  <panel title="Music">
+     <v-card>
+      <v-card-title>
+        <v-spacer></v-spacer>
+        <v-text-field
+          v-model="search"
+          append-icon="search"
+          label="Search"
+          single-line
+          hide-details
+        ></v-text-field>
+      </v-card-title>   
+      <v-data-table
+        :headers="headers"
+        :search="search"
+        :pagination.sync="pagination"
+        :items="songs">
+        <template slot="items" scope="props">
+          <td><img class="album-image" :src="props.item.albumImageUrl" /></td>
+          <td class="text-xs-left">{{ props.item.title }}</td>
+          <td class="text-xs-left">{{ props.item.artist }}</td>
+          <td class="text-xs-right">{{ props.item.updatedAt | moment("dddd, MMMM Do YYYY, h:mm:ss a")}}</td>
+          <td class="text-xs-right">{{ props.item.createdAt | moment("dddd, MMMM Do YYYY, h:mm:ss a")}}</td>
+          <td class="text-xs-right">
+          <v-btn fab dark small class="appColorThema"
+              :to="{
+                name: 'song', 
+                params: {
+                  songId: props.item.id
+                }
+              }">
+              View
+            </v-btn>
+          </td> 
+        </template>
+      </v-data-table>
+    </v-card>
     <v-btn
       slot="action"
       :to="{
@@ -14,58 +50,53 @@
       fab>
       Add
     </v-btn>
-
-    <div 
-      v-for="song in songs"
-      class="song"
-      :key="song.id">
-
-      <v-layout>
-        <v-flex xs2>
-          <img class="album-image"
-         
-           :src="song.albumImageUrl" />           
-        </v-flex>
-        <v-flex xs10>
-          <div class="song-title">
-            {{song.title}} {{song.artist}} {{song.genre}}
-          </div>
-          <div class="song-artist">
-           
-          </div>
-          <div class="song-genre">
-            
-          </div>
-          <div class="song-genre">
-          Created At : {{song.createdAt | moment("dddd, MMMM Do YYYY, h:mm:ss a")}}<br>
-          Updated At : {{song.updatedAt | moment("dddd, MMMM Do YYYY, h:mm:ss a")}}
-        </div>
-          <v-btn
-            dark
-            class="cyan"
-            :to="{
-              name: 'song', 
-              params: {
-                songId: song.id
-              }
-            }">
-            보기
-          </v-btn>
-        </v-flex>
-
-       
-      </v-layout>
-    </div>
   </panel>
 </template>
-
 <script>
 import SongsService from '@/services/SongsService'
 
 export default {
   data () {
     return {
-      songs: null
+      search: '',
+      headers: [
+        {
+          text: 'Album',
+          value: 'album',
+          align: 'center'
+        },
+        {
+          text: 'Title',
+          value: 'title',
+          align: 'center'
+        },
+        {
+          text: 'Artist',
+          value: 'artist',
+          align: 'center'
+        },
+        {
+          text: 'Updated',
+          value: 'updatedAt',
+          align: 'center'
+        },
+        {
+          text: 'Created',
+          value: 'createdAt',
+          align: 'center'
+
+        },
+        {
+          text: '',
+          value: 'View',
+          align: 'right'
+        }
+      ],
+      pagination: {
+        sortBy: 'createdAt',
+        descending: true
+      },
+      songs: []
     }
   },
   watch: {
@@ -100,8 +131,8 @@ export default {
   font-size: 18px;
 }
 
-.album-image {
-  width: 150px;
-  margin: 0 auto;
+.album-image{
+  width:40px;
+  float:left;
 }
 </style>

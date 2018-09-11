@@ -49,29 +49,25 @@
     <v-flex xs8>
       <panel title="Song Structure" class="ml-2">
         <v-text-field
-          label="Tab"
-          multi-line
-          required
-          :rules="[required]"
-          v-model="song.tab"
-        ></v-text-field>
-
-        <v-text-field
           label="Lyrics"
           multi-line
           required
           :rules="[required]"
           v-model="song.lyrics"
         ></v-text-field>
+        <v-text-field
+          label="Furigana"
+          multi-line
+          v-model="song.tab"
+        ></v-text-field>
       </panel>
 
       <div class="danger-alert" v-if="error">
         {{error}}
       </div>
-
       <v-btn
         dark
-        class="cyan"
+        class="appColorThema"
         @click="create">
         Create Song
       </v-btn>
@@ -101,14 +97,18 @@ export default {
   },
   methods: {
     async create () {
-      this.error = null
-      const areAllFieldsFilledIn = Object
-        .keys(this.song)
-        .every(key => !!this.song[key])
-      if (!areAllFieldsFilledIn) {
-        this.error = 'Please fill in all the required fields.'
-        return
-      }
+      // this.error = null
+      // const areAllFieldsFilledIn = Object
+      //   .keys(this.song)
+      //   .every(key => {
+      //     if (key !== 'tab') {
+      //       return !!this.song[key]
+      //     }
+      //   })
+      // if (!areAllFieldsFilledIn) {
+      //   this.error = 'Please fill in all the required fields.'
+      //   return
+      // }
 
       try {
         await SongsService.post(this.song)

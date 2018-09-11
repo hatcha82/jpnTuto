@@ -1,6 +1,6 @@
 <template>
   <panel title="Furigana">
-    <p v-html="song.tab">
+    <p class="furigana" v-html="song.tab">
     </p>
   </panel>
 </template>
@@ -13,13 +13,18 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 p {
-  width: 100%;
-  font-family: monospace;
+  width: 100%;  
   text-align: left;
   text-justify: auto;
   white-space:pre-line;
   padding: 40px;
+  line-height: 30px;
+  font-size: 20px;
+  font-family: sans-serif;
+}
+rt {
+  font-size: 12px;  
 }
 </style>
