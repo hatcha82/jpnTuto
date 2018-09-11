@@ -12,6 +12,7 @@
           {{song.genre}}
         </div>
         <v-btn
+          v-if="isUserLoggedIn"
           dark
           class="appColorThema"
           :to="{

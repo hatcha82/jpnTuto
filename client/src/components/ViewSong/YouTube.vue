@@ -2,8 +2,9 @@
   <panel title="YouTube Video">
     <youtube
       :video-id="youtubeId"
-      :player-width="800"
-      :player-height="330">
+      
+      :player-vars="playerVars"
+      >
     </youtube>
   </panel>
 </template>
@@ -12,7 +13,14 @@
 export default {
   props: [
     'youtubeId'
-  ]
+  ],
+  data () {
+    return {
+      playerVars: {
+        autoplay: 1
+      }
+    }
+  }
 }
 </script>
 
