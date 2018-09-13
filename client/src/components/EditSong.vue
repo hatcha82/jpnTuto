@@ -122,7 +122,7 @@ export default {
         .keys(this.song)
         .every(key => !!this.song[key])
       if (!areAllFieldsFilledIn) {
-        this.error = 'Please fill in all the required fields.'
+        this.error = 'Please fill in all the required fields..'
         return
       }
       const songId = this.$store.state.route.params.songId
