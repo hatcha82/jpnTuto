@@ -1,6 +1,6 @@
 // const path = require('path')
 module.exports = {
-  port: process.env.PORT || 8081,
+  port: process.env.PORT || 8080,
   db: {
     database: process.env.DB_NAME || 'jpn_tuto',
     user: process.env.DB_USER || 'jpn_tuto',
