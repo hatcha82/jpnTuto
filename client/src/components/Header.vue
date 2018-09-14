@@ -44,7 +44,7 @@
         Login
       </v-btn>
       
-      <v-btn 
+      <!-- <v-btn 
         v-if="!$store.state.isUserLoggedIn"
         flat 
         dark
@@ -52,7 +52,7 @@
           name: 'register'
         }">
         Sign Up
-      </v-btn>
+      </v-btn> -->
       
       <v-btn 
         v-if="$store.state.isUserLoggedIn"
