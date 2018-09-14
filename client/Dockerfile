@@ -15,5 +15,5 @@ COPY package*.json ./
 # Bundle app source
 COPY . .
 
-EXPOSE 80
+EXPOSE 8088
 CMD [ "npm", "start" ]
