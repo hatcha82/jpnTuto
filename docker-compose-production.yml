@@ -3,7 +3,7 @@ services:
   furigana-web-app-client:    
     image: "hatcha82/furigana-web-app-client"
     ports:
-     - "80:80"
+     - "80:8088"
   furigana-web-app-server:    
     image: "hatcha82/furigana-web-app-server"
     ports:
