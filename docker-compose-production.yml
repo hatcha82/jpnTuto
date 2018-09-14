@@ -1,0 +1,10 @@
+version: '3'
+services:
+  furigana-web-app-client:    
+    image: "hatcha82/furigana-web-app-client"
+    ports:
+     - "80:80"
+  furigana-web-app-server:    
+    image: "hatcha82/furigana-web-app-server"
+    ports:
+     - "8080:8080"
