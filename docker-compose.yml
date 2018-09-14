@@ -4,7 +4,7 @@ services:
     build: client
     image: "hatcha82/furigana-web-app-client"
     ports:
-     - "80:80"
+     - "80:8088"
   furigana-web-app-server:
     build: server
     image: "hatcha82/furigana-web-app-server"
