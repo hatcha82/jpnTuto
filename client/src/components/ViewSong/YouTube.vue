@@ -1,12 +1,6 @@
 <template>
-  <panel title="YouTube Video">
-    <youtube
-      :video-id="youtubeId"
-      
-      :player-vars="playerVars"
-      >
+    <youtube :video-id="youtubeId" :player-vars="playerVars">
     </youtube>
-  </panel>
 </template>
 
 <script>

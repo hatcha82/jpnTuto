@@ -1,21 +1,27 @@
 <template>
-  <panel title="Furigana">
+  <div>
+    
     <p class="furigana" v-html="song.tab">
     </p>
-  </panel>
+  </div>
 </template>
 
 <script>
+import YouTube from './YouTube'
 export default {
   props: [
     'song'
-  ]
+  ],
+  components: {
+    YouTube
+  }
 }
 </script>
 
 <style>
 p {
   width: 100%;  
+
   text-align: left;
   text-justify: auto;
   white-space:pre-line;

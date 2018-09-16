@@ -1,24 +1,38 @@
 <template>
   <div>
-    <v-layout>
-      <v-flex xs6>
-        <song-metadata :song="song" />
-      </v-flex>
+      <song-metadata :song="song" />
 
-      <v-flex xs6 class="ml-2">
-        <you-tube :youtubeId="song.youtubeId" />
-      </v-flex>
-    </v-layout>
 
-    <v-layout class="mt-2">
+      <v-layout class="mt-2">  
+         <v-flex xs6 >  
+           <Furigana :song="song" />
+         </v-flex>
+          <v-flex xs6 >  
+          <div class="youTubeArea">  
+          <you-tube :youtubeId="song.youtubeId" />
+          </div>
+          <div class="rencetView">
+           <recently-viewed-songs class="ml-2" />
+           </div>
+         </v-flex>
+      </v-layout>    
+      
+       
+        
+      
+      
+      
+    
+    
+    <!-- <v-layout class="mt-2">
       <v-flex xs6>
         <lyrics :song="song" />
       </v-flex>
 
       <v-flex xs6 class="ml-2">
-        <Furigana :song="song" />
+        
       </v-flex>
-    </v-layout>
+    </v-layout> -->
   </div>
 </template>
 
@@ -26,10 +40,11 @@
 import {mapState} from 'vuex'
 import Lyrics from './Lyrics'
 import Furigana from './Furigana'
-import SongMetadata from './SongMetadata'
 import YouTube from './YouTube'
+import SongMetadata from './SongMetadata'
 import SongsService from '@/services/SongsService'
 import SongHistoryService from '@/services/SongHistoryService'
+import RecentlyViewedSongs from '../Songs/RecentlyViewedSongs'
 
 export default {
   data () {
@@ -56,12 +71,16 @@ export default {
   },
   components: {
     SongMetadata,
-    YouTube,
     Lyrics,
-    Furigana
+    Furigana,
+    YouTube,
+    RecentlyViewedSongs
   }
 }
 </script>
 
 <style scoped>
+.rencetView{
+  margin-top:10px;
+}
 </style>

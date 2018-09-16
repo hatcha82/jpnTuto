@@ -3,21 +3,23 @@
      <v-card>
       <v-card-title>
         <v-spacer></v-spacer>
-        <v-text-field
-          v-model="search"
-          append-icon="search"
-          label="Search"
-          single-line
-          hide-details
-        ></v-text-field>
+        <v-text-field v-model="search" append-icon="search" label="Search" single-line hide-details></v-text-field>
       </v-card-title>   
       <v-data-table
         :headers="headers"
         :search="search"
         :pagination.sync="pagination"
         :items="songs">
+       
         <template slot="items" scope="props">
-          <td><img class="album-image" :src="props.item.albumImageUrl" /></td>
+          
+          <tr> 
+          <td>
+            <router-link :to="{ name: 'song', params: {  songId: props.item.id}}">
+            <img class="album-image" :src="props.item.albumImageUrl" />
+            </router-link>
+          </td>
+            
           <td class="text-xs-left">{{ props.item.title }}</td>
           <td class="text-xs-left">{{ props.item.artist }}</td>
           <td class="text-xs-right">{{ props.item.updatedAt | moment("dddd, MMMM Do YYYY, h:mm:ss a")}}</td>
@@ -33,7 +35,10 @@
               View
             </v-btn>
           </td> 
+          </tr>
+          
         </template>
+        
       </v-data-table>
     </v-card>
     <v-btn
@@ -105,6 +110,16 @@ export default {
       async handler (value) {
         this.songs = (await SongsService.index(value)).data
       }
+    }
+  },
+  method: {
+    linkToDetail (id) {
+      this.$router.push({
+        name: 'song',
+        params: {
+          songId: id
+        }
+      })
     }
   }
 }

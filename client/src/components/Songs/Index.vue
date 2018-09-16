@@ -7,8 +7,9 @@
          <v-flex xs6 >  
            <songs-bookmarks />
          </v-flex>
-          <v-flex xs6 >  
+          <v-flex xs6 >        
            <recently-viewed-songs class="ml-2" />
+
          </v-flex>
       </v-layout>      
                   

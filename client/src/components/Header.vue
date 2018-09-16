@@ -1,5 +1,5 @@
 <template>
-  <v-toolbar fixed class="appColorThema" dark>
+  <v-toolbar fixed>
     <v-toolbar-title class="mr-4">
       <router-link 
         class="home"
@@ -7,7 +7,7 @@
         :to="{
           name: 'songs'
         }">
-        Japanese Tutorial
+        <img src="../assets/logo.png" id="logoImag"/>
       </router-link>
     </v-toolbar-title>
 
@@ -84,11 +84,15 @@ export default {
 </script>
 
 <style scoped>
+#logoImag{height:40px}
 .home {
   cursor: pointer;
 }
 
 .home:hover {
   color: #E9E;
+}
+.appColorThema{
+  background: red;
 }
 </style>

@@ -1,8 +1,6 @@
 <template>
-  <panel title="Lyrics">
-    <p
-      readonly
-      v-html="song.lyrics"
+  <panel :title="song.title">
+    <p readonly v-html="song.lyrics"
     ></p>
   </panel>
 </template>

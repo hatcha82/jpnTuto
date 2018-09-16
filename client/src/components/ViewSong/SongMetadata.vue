@@ -1,62 +1,52 @@
 <template>
-  <panel title="Song Metadata">
-    <v-layout>
-      <v-flex xs6>
-        <div class="song-title">
-          {{song.title}} ({{song.album}})
-        </div>
-        <div class="song-artist">
-          {{song.artist}}
-        </div>
-        <div class="song-genre">
-          {{song.genre}}
-        </div>
-        <v-btn
-          v-if="isUserLoggedIn"
-          dark
-          class="appColorThema"
-          :to="{
-            name: 'song-edit', 
-            params () {
-              return {
-                songId: song.id
-              }
+ <div>
+  <div class="metaArea">
+      <img style="float:left;margin-bottom:5px;height:40px;" :src="song.albumImageUrl"/> 
+      <h5 style="float:left;line-height:40px;margin-left:10px;">{{song.title}} - {{song.artist}}</h5>
+      <div class="buttonArea">   
+        <v-btn @click="back">back</v-btn>
+        <v-btn v-if="isUserLoggedIn"  
+        :to="{
+          name: 'song-edit', 
+          params () {
+            return {
+              songId: song.id
             }
-          }">
-          Edit
-        </v-btn>
-        <v-btn
-          v-if="isUserLoggedIn && !bookmark"
-          dark
-          class="appColorThema"
-          @click="setAsBookmark">
-          Set As Bookmark
-        </v-btn>
+          }
+        }">
+        Edit
+      </v-btn>
+      <v-btn v-if="isUserLoggedIn && !bookmark"
+        @click="setAsBookmark">
+        Bookmark
+      </v-btn>
 
-        <v-btn
-          v-if="isUserLoggedIn && bookmark"
-          dark
-          class="appColorThema"
-          @click="unsetAsBookmark">
-          Unset As Bookmark
-        </v-btn>
-      </v-flex>
+      <v-btn
+        v-if="isUserLoggedIn && bookmark"
+        @click="unsetAsBookmark">
+        Unbook
+      </v-btn>
+      </div>
+  </div>
+  
+  
+  
+  <div style="clear:both"></div>
+</div>
 
-      <v-flex xs6>
-        <img class="album-image" :src="song.albumImageUrl" />                
-      </v-flex>
-    </v-layout>
-  </panel>
 </template>
 
 <script>
 import {mapState} from 'vuex'
 import BookmarksService from '@/services/BookmarksService'
-
+import YouTube from './YouTube'
 export default {
   props: [
     'song'
   ],
+  components: {
+    YouTube
+  },
   data () {
     return {
       bookmark: null
@@ -87,6 +77,9 @@ export default {
     }
   },
   methods: {
+    back () {
+      this.$router.back()
+    },
     async setAsBookmark () {
       try {
         this.bookmark = (await BookmarksService.post({
@@ -109,6 +102,20 @@ export default {
 </script>
 
 <style scoped>
+.metaArea{
+  background: #777777;
+    height: 66px;
+    padding: 14px;
+    color: white;
+    margin-bottom: 5px;
+}
+.buttonArea{
+  float:right;
+}
+.youTubeArea{
+  width:640px;
+ 
+}
 .song {
   padding: 20px;
   height: 330px;

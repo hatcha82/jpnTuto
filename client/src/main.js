@@ -12,8 +12,9 @@ import Panel from '@/components/globals/Panel'
 
 Vue.config.productionTip = false
 
-Vue.use(Vuetify)
 Vue.use(VueYouTubeEmbed)
+Vue.use(Vuetify)
+
 Vue.use(require('vue-moment'))
 Vue.component('panel', Panel)
 
