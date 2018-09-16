@@ -39,7 +39,6 @@
 <script>
 import {mapState} from 'vuex'
 import BookmarksService from '@/services/BookmarksService'
-import YouTube from './YouTube'
 export default {
   props: [
     'song'
