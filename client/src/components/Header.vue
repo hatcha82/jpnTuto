@@ -33,7 +33,7 @@
     </v-toolbar-items>   
     <v-spacer></v-spacer>
     <v-toolbar-items>
-      <songs-search-panel />      
+      <!-- <songs-search-panel />       -->
       <v-btn 
         v-if="!$store.state.isUserLoggedIn"
         flat 
@@ -66,11 +66,11 @@
 </template>
 
 <script>
-import SongsSearchPanel from './Songs/SongsSearchPanel'
+// import SongsSearchPanel from './Songs/SongsSearchPanel'
 export default {
-  components: {
-    SongsSearchPanel
-  },
+  // components: {
+  //   SongsSearchPanel
+  // },
   methods: {
     logout () {
       this.$store.dispatch('setToken', null)
