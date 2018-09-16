@@ -9,6 +9,7 @@
         :headers="headers"
         :search="search"
         :pagination.sync="pagination"
+        :rows-per-page-items="[30,50,100]"
         :items="songs">
        
         <template slot="items" scope="props">
@@ -42,6 +43,7 @@
     </v-card>
     <v-btn
       slot="action"
+      v-if="isUserLoggedIn"
       :to="{
         name: 'songs-create'
       }"

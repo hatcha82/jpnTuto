@@ -9,8 +9,8 @@
         :headers="headers"
         :search="search"
         :pagination.sync="pagination"
+        :rows-per-page-items="[30,50,100]"
         :items="articles">
-       
         <template slot="items" scope="props">
           
           <tr> 
@@ -40,6 +40,7 @@
       </v-data-table>
     </v-card>
     <v-btn
+      v-if="isUserLoggedIn"
       slot="action"
       :to="{
         name: 'articles-create'
