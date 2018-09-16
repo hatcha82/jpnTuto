@@ -44,7 +44,7 @@ import YouTube from './YouTube'
 import SongMetadata from './SongMetadata'
 import SongsService from '@/services/SongsService'
 import SongHistoryService from '@/services/SongHistoryService'
-import RecentlyViewedSongs from '../Songs/RecentlyViewedSongs'
+import RecentlyViewedSongs from '../List/RecentlyViewedSongs'
 
 export default {
   data () {

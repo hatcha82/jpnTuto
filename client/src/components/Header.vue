@@ -26,7 +26,7 @@
         flat 
         dark
         :to="{
-          name: 'songs'
+          name: 'articles'
         }">
         Article
       </v-btn>

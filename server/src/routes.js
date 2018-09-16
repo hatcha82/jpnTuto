@@ -1,5 +1,7 @@
 const AuthenticationController = require('./controllers/AuthenticationController')
 const AuthenticationControllerPolicy = require('./policies/AuthenticationControllerPolicy')
+
+const ArticleController = require('./controllers/ArticleController')
 const SongsController = require('./controllers/SongsController')
 const BookmarksController = require('./controllers/BookmarksController')
 const HistoriesController = require('./controllers/HistoriesController')
@@ -15,6 +17,18 @@ module.exports = (app) => {
     AuthenticationController.login)
   app.post('/furigana',
     FuriganaController.convert)
+
+  app.get('/articles',
+    ArticleController.index)
+  app.get('/articles/:articleId',
+    ArticleController.show)
+  app.put('/articles/:articleId',
+    ArticleController.put)
+  app.post('/articles',
+    ArticleController.post)
+  app.delete('/articles/:articleId',
+    isAuthenticated,
+    ArticleController.remove)
 
   app.get('/songs',
     SongsController.index)
