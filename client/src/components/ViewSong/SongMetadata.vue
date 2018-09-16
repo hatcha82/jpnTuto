@@ -43,9 +43,6 @@ export default {
   props: [
     'song'
   ],
-  components: {
-    YouTube
-  },
   data () {
     return {
       bookmark: null
