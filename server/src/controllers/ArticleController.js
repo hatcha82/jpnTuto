@@ -27,7 +27,7 @@ module.exports = {
         })
       } else {
         articles = await Article.findAll({
-          limit: 10
+          limit: 1000
         })
       }
       res.send(articles)
