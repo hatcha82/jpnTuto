@@ -24,7 +24,7 @@
           <td class="text-xs-left">{{ props.item.title }}</td>
           <td class="text-xs-left">{{ props.item.artist }}</td>
           <td class="text-xs-right">{{ props.item.updatedAt | moment("dddd, MMMM Do YYYY, h:mm:ss a")}}</td>
-          <td class="text-xs-right">{{ props.item.createdAt | moment("dddd, MMMM Do YYYY, h:mm:ss a")}}</td>
+          <!-- <td class="text-xs-right">{{ props.item.createdAt | moment("dddd, MMMM Do YYYY, h:mm:ss a")}}</td> -->
           <td class="text-xs-right">
           <v-btn fab dark small class="appColorThema"
               :to="{
@@ -92,12 +92,6 @@ export default {
           text: 'Updated',
           value: 'updatedAt',
           align: 'center'
-        },
-        {
-          text: 'Created',
-          value: 'createdAt',
-          align: 'center'
-
         },
         {
           text: '',

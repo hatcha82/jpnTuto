@@ -50,9 +50,14 @@ export default {
       'route'
     ])
   },
+  methods: {
+    async search () {
+      const articleId = this.route.params.articleId
+      this.article = (await ArticlesService.show(articleId)).data
+    }
+  },
   async mounted () {
-    const articleId = this.route.params.articleId
-    this.article = (await ArticlesService.show(articleId)).data
+    this.search()
     // const articleId = this.route.params.articleId
     // console.log(articleId)
     // this.article = (await ArticlesService.show(a)).data
@@ -61,6 +66,11 @@ export default {
     //     articleId: articleId
     //   })
     // }
+  },
+  watch: {
+    '$route' (to, from) {
+      this.search()
+    }
   },
   components: {
     ArticleMetadata,

@@ -1,8 +1,6 @@
 <template>
   <div>
       <song-metadata :song="song" />
-
-
       <v-layout class="mt-2">  
          <v-flex xs6 >  
            <Furigana :song="song" />
@@ -10,29 +8,12 @@
           <v-flex xs6 >  
           <div class="youTubeArea">  
           <you-tube :youtubeId="song.youtubeId" />
-          </div>
+          </div>              
           <div class="rencetView">
            <recently-viewed-songs class="ml-2" />
            </div>
          </v-flex>
-      </v-layout>    
-      
-       
-        
-      
-      
-      
-    
-    
-    <!-- <v-layout class="mt-2">
-      <v-flex xs6>
-        <lyrics :song="song" />
-      </v-flex>
-
-      <v-flex xs6 class="ml-2">
-        
-      </v-flex>
-    </v-layout> -->
+      </v-layout>          
   </div>
 </template>
 
@@ -59,14 +40,23 @@ export default {
       'route'
     ])
   },
+  methods: {
+    async search () {
+      const songId = this.route.params.songId
+      this.song = (await SongsService.show(songId)).data
+      if (this.isUserLoggedIn) {
+        SongHistoryService.post({
+          songId: songId
+        })
+      }
+    }
+  },
   async mounted () {
-    const songId = this.route.params.songId
-    this.song = (await SongsService.show(songId)).data
-
-    if (this.isUserLoggedIn) {
-      SongHistoryService.post({
-        songId: songId
-      })
+    this.search()
+  },
+  watch: {
+    '$route' (to, from) {
+      this.search()
     }
   },
   components: {
@@ -80,6 +70,9 @@ export default {
 </script>
 
 <style scoped>
+.youTubeArea{
+  padding-left:8px;
+}
 .rencetView{
   margin-top:10px;
 }

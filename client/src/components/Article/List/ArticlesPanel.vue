@@ -62,8 +62,7 @@
 <script>
 import {mapState} from 'vuex'
 import ArticlesService from '@/services/ArticlesService'
-import Moment from 'moment'
-Moment.locale('ko')
+
 export default {
   computed: {
     ...mapState([
@@ -97,7 +96,7 @@ export default {
         }
       ],
       pagination: {
-        sortBy: 'createdAt',
+        sortBy: 'Updated',
         descending: true
       },
       articles: []
