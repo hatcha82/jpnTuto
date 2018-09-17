@@ -4,7 +4,7 @@
       <img style="float:left;margin-bottom:5px;height:40px;" :src="song.albumImageUrl"/> 
       <h5 style="float:left;line-height:40px;margin-left:10px;">{{song.title}} - {{song.artist}}</h5>
       <div class="buttonArea">   
-        <v-btn @click="back">back</v-btn>
+       <v-btn @click="back"><v-icon dark>keyboard_backspace</v-icon></v-btn>
         <v-btn v-if="isUserLoggedIn"  
         :to="{
           name: 'song-edit', 
@@ -14,17 +14,17 @@
             }
           }
         }">
-        Edit
+        <v-icon dark>edit</v-icon>
       </v-btn>
       <v-btn v-if="isUserLoggedIn && !bookmark"
         @click="setAsBookmark">
-        Bookmark
+        <v-icon dark>bookmark</v-icon>
       </v-btn>
 
       <v-btn
         v-if="isUserLoggedIn && bookmark"
         @click="unsetAsBookmark">
-        Unbook
+        <v-icon dark>bookmark_border</v-icon>
       </v-btn>
       </div>
   </div>
