@@ -21,7 +21,7 @@
         Music
       </v-btn>
     </v-toolbar-items>
-     <v-toolbar-items>
+    <v-toolbar-items>
       <v-btn 
         flat 
         dark
@@ -29,6 +29,16 @@
           name: 'articles'
         }">
         Article
+      </v-btn>
+    </v-toolbar-items>   
+    <v-toolbar-items>
+      <v-btn 
+        flat 
+        dark
+        :to="{
+          name: 'convertFurigana'
+        }">
+        Furigana
       </v-btn>
     </v-toolbar-items>   
     <v-spacer></v-spacer>

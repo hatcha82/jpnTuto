@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Register from '@/components/Register'
 import Login from '@/components/Login'
+import ConvertFurigana from '@/components/Converter/ConvertFurigana'
 import Articles from '@/components/Article/List/Index'
 import CreateArticle from '@/components/Article/CreateArticle'
 import EditArticle from '@/components/Article/EditArticle'
@@ -24,6 +25,11 @@ export default new Router({
       path: '/login',
       name: 'login',
       component: Login
+    },
+    {
+      path: '/convertFurigana',
+      name: 'convertFurigana',
+      component: ConvertFurigana
     },
     {
       path: '/articles',
