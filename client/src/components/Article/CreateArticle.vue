@@ -13,9 +13,15 @@
           required
           :rules="[required]"
           v-model="article.type"
+        ></v-text-field>        
+        <v-text-field
+          label="News URL"
+          required
+          :rules="[required]"
+          v-model="article.newsUrl"
         ></v-text-field>
         <v-text-field
-          label="New Image Url"
+          label="News Image URL"
           required
           :rules="[required]"
           v-model="article.newsImageUrl"
@@ -61,8 +67,9 @@ export default {
     return {
       article: {
         title: null,
-        type: null,
-        newsImageUrl: null,
+        type: 'NEWS',
+        newsImageUrl: 'https://s.yimg.jp/c/logo/f/2.0/news_r_34_2x.png',
+        newsUrl: null,
         article: null,
         furigana: null
       },

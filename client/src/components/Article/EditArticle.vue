@@ -15,7 +15,13 @@
           v-model="article.type"
         ></v-text-field>
         <v-text-field
-          label="New Image Url"
+          label="News URL"
+          required
+          :rules="[required]"
+          v-model="article.newsUrl"
+        ></v-text-field>
+        <v-text-field
+          label="News Image URL"
           required
           :rules="[required]"
           v-model="article.newsImageUrl"
@@ -71,6 +77,7 @@ export default {
       article: {
         title: null,
         type: null,
+        newsUrl: null,
         newsImageUrl: null,
         article: null,
         furigana: null
@@ -127,6 +134,7 @@ export default {
     try {
       const articleId = this.$store.state.route.params.articleId
       this.article = (await ArticlesService.show(articleId)).data
+      console.log(this.article)
     } catch (err) {
       console.log(err)
     }

@@ -2,6 +2,9 @@
   <div>
     <p class="furigana" v-html="article.furigana">
     </p>
+    <p>
+      Refernce Link: <a target="_blank" :href="article.newsUrl"><span>{{article.newsUrl}}</span></a>
+    </p>  
   </div>
 </template>
 

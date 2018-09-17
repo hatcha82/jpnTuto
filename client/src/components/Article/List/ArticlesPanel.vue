@@ -11,17 +11,20 @@
         :pagination.sync="pagination"
         :rows-per-page-items="[30,50,100]"
         :items="articles">
-        <template slot="items" scope="props">
-          
-          <tr> 
+        <template slot="items" scope="props">           
+          <tr>           
           <td>
             <router-link :to="{ name: 'article', params: {  articleId: props.item.id}}">
             <img class="album-image" :src="props.item.newsImageUrl" />
             </router-link>
           </td>
             
-          <td class="text-xs-left">{{ props.item.title }}</td>         
-          <td class="text-xs-right">{{ props.item.updatedAt | moment("dddd, MMMM Do YYYY, h:mm:ss a")}}</td>    
+          <td class="text-xs-left">
+            <router-link :to="{ name: 'article', params: {  articleId: props.item.id}}">
+            {{ props.item.title }}
+            </router-link>
+          </td>         
+          <td class="text-xs-right">{{ props.item.updatedAt |moment("dddd, MMMM Do YYYY, h:mm:ss a")}}</td>    
           <td class="text-xs-right">
           <v-btn fab dark small class="appColorThema"
               :to="{
@@ -32,7 +35,7 @@
               }">
               View
             </v-btn>
-          </td> 
+          </td>           
           </tr>
           
         </template>
@@ -57,9 +60,17 @@
   </panel>
 </template>
 <script>
+import {mapState} from 'vuex'
 import ArticlesService from '@/services/ArticlesService'
-
+import Moment from 'moment'
+Moment.locale('ko')
 export default {
+  computed: {
+    ...mapState([
+      'isUserLoggedIn',
+      'user'
+    ])
+  },
   data () {
     return {
       search: '',

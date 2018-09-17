@@ -4,21 +4,16 @@
       <v-layout class="mt-2">  
          <v-flex xs6 >  
            <Furigana :article="article" />
+
+           
          </v-flex>
           <v-flex xs6 >            
           <div class="rencetView">
+            <Synthesis :article="article" />
            <!-- <recently-viewed-songs class="ml-2" /> -->
            </div>
          </v-flex>
-      </v-layout>    
-      
-       
-        
-      
-      
-      
-    
-    
+      </v-layout>          
     <!-- <v-layout class="mt-2">
       <v-flex xs6>
         <lyrics :song="song" />
@@ -35,6 +30,7 @@
 import {mapState} from 'vuex'
 import Lyrics from './Lyrics'
 import Furigana from './Furigana'
+import Synthesis from './Synthesis'
 // import YouTube from './YouTube'
 import ArticleMetadata from './ArticleMetadata'
 import ArticlesService from '@/services/ArticlesService'
@@ -69,7 +65,8 @@ export default {
   components: {
     ArticleMetadata,
     Lyrics,
-    Furigana
+    Furigana,
+    Synthesis
   }
 }
 </script>

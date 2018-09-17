@@ -59,9 +59,16 @@
   </panel>
 </template>
 <script>
+import {mapState} from 'vuex'
 import SongsService from '@/services/SongsService'
 
 export default {
+  computed: {
+    ...mapState([
+      'isUserLoggedIn',
+      'user'
+    ])
+  },
   data () {
     return {
       search: '',

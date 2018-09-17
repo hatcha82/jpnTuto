@@ -25,6 +25,7 @@
     "kuroshiro-analyzer-yahoo-webapi": "^1.1.0",
     "morgan": "^1.9.0",
     "mysql2": "^1.6.1",
+    "papago": "^1.1.1",
     "passport": "^0.4.0",
     "passport-jwt": "^3.0.0",
     "sequelize": "^4.38.0"

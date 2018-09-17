@@ -1,10 +1,11 @@
 <template>
  <div>
-  <div class="metaArea">
-      <img style="float:left;margin-bottom:5px;height:40px;" :src="article.newsImageUrl"/> 
-      <h5 style="float:left;line-height:40px;margin-left:10px;">{{article.title}}</h5>
-      <div class="buttonArea">   
-        <v-btn @click="back">back</v-btn>
+  <div class="metaArea">      
+      <img style="float:left;margin-bottom:5px;height:40px;" :src="article.newsImageUrl"/>       
+      <a target="_blank" :href="article.newsUrl"><h5 style="float:left;line-height:40px;margin-left:10px;">{{article.title}}</h5></a>      
+  </div>
+  <div class="buttonArea">   
+        <v-btn @click="back"><v-icon dark>keyboard_backspace</v-icon></v-btn>
         <v-btn v-if="isUserLoggedIn"  
         :to="{
           name: 'article-edit', 
@@ -14,21 +15,19 @@
             }
           }
         }">
-        Edit
+       <v-icon dark>edit</v-icon>
       </v-btn>
       <v-btn v-if="isUserLoggedIn && !bookmark"
         @click="setAsBookmark">
-        Bookmark
+        <v-icon dark>bookmark</v-icon>
       </v-btn>
 
       <v-btn
         v-if="isUserLoggedIn && bookmark"
         @click="unsetAsBookmark">
-        Unbook
+        <v-icon dark>bookmark_border</v-icon>
       </v-btn>
       </div>
-  </div>
-  
   
   
   <div style="clear:both"></div>
@@ -104,6 +103,17 @@ export default {
     padding: 14px;
     color: white;
     margin-bottom: 5px;
+    text-overflow: ellipsis;    
+    white-space: nowrap;   
+    overflow:hidden;
+}
+.metaArea a h5{
+  
+  color:#ddd;
+}
+.metaArea a:hover h5{
+  text-decoration: underline;
+  color:white;
 }
 .buttonArea{
   float:right;
