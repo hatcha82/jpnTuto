@@ -35,7 +35,7 @@ export default {
       select: {name: 'Microsoft Haruka Desktop - Japanese'},
       isLoading: false,
       name: '',
-      selectedVoice: 1,
+      selectedVoice: 0,
       synth: window.speechSynthesis,
       voiceList: [],
       greetingSpeech: new window.SpeechSynthesisUtterance()
@@ -49,8 +49,9 @@ export default {
     // wait for voices to load
     // I can't get FF to work without calling this first
     // Chrome works on the onvoiceschanged function
-    this.voiceList = this.synth.getVoices()
-    console.log(this.voiceList)
+    this.voiceList = window.speechSynthesis.getVoices().filter(function (obj) {
+      if (obj.lang === 'ja-JP') return true
+    })
     if (this.voiceList.length) {
       this.isLoading = false
     }
