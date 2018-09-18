@@ -30,6 +30,7 @@ p {
   font-family: sans-serif;
 }
 rt {
-  font-size: 12px;  
+  font-size: 12px; 
+  color:#c72929 
 }
 </style>

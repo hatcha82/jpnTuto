@@ -1,6 +1,6 @@
 <template>
   <v-layout>     
-    <v-flex xs12>
+    <v-flex>
       <!-- <songs-search-panel /> -->
       <Articles-panel/>    
       <!-- <v-layout class="mt-2">  

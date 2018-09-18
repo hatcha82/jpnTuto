@@ -13,30 +13,26 @@
         :items="songs">
        
         <template slot="items" scope="props">
-          
-          <tr> 
+           <router-link :to="{ name: 'song', params: {  songId: props.item.id}}" tag="tr">
           <td>
-            <router-link :to="{ name: 'song', params: {  songId: props.item.id}}">
             <img class="album-image" :src="props.item.albumImageUrl" />
-            </router-link>
           </td>
             
-          <td class="text-xs-left">{{ props.item.title }}</td>
-          <td class="text-xs-left">{{ props.item.artist }}</td>
-          <td class="text-xs-right">{{ props.item.updatedAt | moment("dddd, MMMM Do YYYY, h:mm:ss a")}}</td>
+          <td class="text-xs-left">[{{ props.item.artist }}] {{ props.item.title }}</td>
+          <td class="text-xs-left">
+            
+          </td>
+          <td class="text-xs-right">
+{{ props.item.updatedAt | moment("dddd, MMMM Do YYYY, h:mm:ss a")}}
+            <!-- <you-tube :youtubeId="props.item.youtubeId" /> -->
+          </td>
           <!-- <td class="text-xs-right">{{ props.item.createdAt | moment("dddd, MMMM Do YYYY, h:mm:ss a")}}</td> -->
           <td class="text-xs-right">
-          <v-btn fab dark small class="appColorThema"
-              :to="{
-                name: 'song', 
-                params: {
-                  songId: props.item.id
-                }
-              }">
+          <v-btn fab dark class="appColorThema">
               View
             </v-btn>
           </td> 
-          </tr>
+           </router-link>
         </template>
         
       </v-data-table>
@@ -61,8 +57,11 @@
 <script>
 import {mapState} from 'vuex'
 import SongsService from '@/services/SongsService'
-
+import YouTube from '../ViewSong/YouTube'
 export default {
+  components: {
+    YouTube
+  },
   computed: {
     ...mapState([
       'isUserLoggedIn',
@@ -116,6 +115,7 @@ export default {
   },
   method: {
     linkToDetail (id) {
+      alert()
       this.$router.push({
         name: 'song',
         params: {
@@ -149,7 +149,8 @@ export default {
 }
 
 .album-image{
-  width:40px;
+  width:50px;
+  margin:10px;
   float:left;
   border-radius: 25px;
 }

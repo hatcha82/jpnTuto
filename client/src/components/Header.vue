@@ -5,7 +5,7 @@
         class="home"
         tag="span"
         :to="{
-          name: 'songs'
+          name: 'home'
         }">
         <img src="../assets/logo.png" id="logoImag"/>
       </router-link>
