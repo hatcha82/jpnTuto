@@ -16,19 +16,19 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
 p {
   width: 100%;  
-
   text-align: left;
   text-justify: auto;
   white-space:pre-line;
   padding: 40px;
-  line-height: 30px;
-  font-size: 20px;
+  line-height:2em;
+  font-size: 2em;
   font-family: sans-serif;
 }
 rt {
-  font-size: 12px;  
+  font-size: 0.5em;  
+  color:#4caf50
 }
 </style>
