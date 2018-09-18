@@ -11,7 +11,8 @@
         <v-btn @click="play"><v-icon dark>play_arrow</v-icon></v-btn>
         <v-btn @click="pause"><v-icon dark>pause</v-icon></v-btn>
         <v-btn @click="stop"><v-icon dark>stop</v-icon></v-btn>        
-        <div class="form-group" v-if="voiceList.length">          
+        <div class="form-group" v-if="voiceList.length">
+          Voice :         
           <select class="form-control" style="" id="voices" v-model="selectedVoice" @change="langChange">
             <template v-for="(voice, index) in voiceList">              
             <option :data-lang="voice.lang" :value="index">{{ voice.name }}</option>
@@ -36,7 +37,7 @@ export default {
       select: {name: 'Microsoft Haruka Desktop - Japanese'},
       isLoading: false,
       name: '',
-      selectedVoice: 1,
+      selectedVoice: 0,
       synth: window.speechSynthesis,
       voiceList: [],
       greetingSpeech: new window.SpeechSynthesisUtterance()
@@ -50,13 +51,14 @@ export default {
     // wait for voices to load
     // I can't get FF to work without calling this first
     // Chrome works on the onvoiceschanged function
-    this.voiceList = this.synth.getVoices()
-    console.log(this.voiceList)
+    this.voiceList = this.synth.getVoices().filter(function (obj) {
+      if (obj.lang === 'ja-JP') return true
+    })
     if (this.voiceList.length) {
       this.isLoading = false
     }
     this.synth.onvoiceschanged = () => {
-      this.voiceList = this.synth.getVoices()
+      // Wthis.voiceList = this.synth.getVoices()
       this.synth.cancel()
       // give a bit of delay to show loading screen
       // just for the sake of it, I suppose. Not the best reason

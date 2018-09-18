@@ -4,7 +4,7 @@
     {{error}}
   </div>       
   <v-layout row justify-end class="mb-3">
-    <v-btn style="margin-top:14px" class="" @click="convert"><v-icon dark>translate</v-icon> Translate</v-btn>        
+    <v-btn style="margin-top:14px" class="" @click="convert"><v-icon dark>translate</v-icon> Furigana</v-btn>        
     <Synthesis :contents="userInput" class="ml-2 mt-2"/>    
   </v-layout>   
   <v-layout>
