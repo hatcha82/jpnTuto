@@ -1,7 +1,7 @@
 <template>
  <div>
   <div class="metaArea">
-      <img style="float:left;margin-bottom:5px;height:40px;" :src="song.albumImageUrl"/> 
+      <img style="float:left;margin-bottom:5px;height:40px;border-radius: 25px;" :src="song.albumImageUrl"/> 
       <h5 style="float:left;line-height:40px;margin-left:10px;">{{song.title}} - {{song.artist}}</h5>
       <div class="buttonArea">   
        <v-btn @click="back"><v-icon dark>keyboard_backspace</v-icon></v-btn>
@@ -133,5 +133,6 @@ export default {
 .album-image {
   width: 70%;
   margin: 0 auto;
+  border-radius: 25px;
 }
 </style>

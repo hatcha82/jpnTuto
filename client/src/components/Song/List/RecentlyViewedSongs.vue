@@ -79,5 +79,9 @@ export default {
 </script>
 
 <style>
-
+.album-image{
+  width:40px;
+  float:left;
+  border-radius: 25px;
+}
 </style>

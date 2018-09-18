@@ -151,5 +151,6 @@ export default {
 .album-image{
   width:40px;
   float:left;
+  border-radius: 25px;
 }
 </style>
