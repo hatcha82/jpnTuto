@@ -100,7 +100,7 @@ export default {
         }
       ],
       pagination: {
-        sortBy: 'createdAt',
+        sortBy: 'Updated',
         descending: true
       },
       songs: []

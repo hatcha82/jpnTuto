@@ -8,16 +8,17 @@
       
       <form @submit.prevent="play">        
         <!-- <div class="" style="text-align:left;padding:5px;padding-top:0;">발음 듣기</div> -->
+        <v-btn @click="play"><v-icon dark>play_arrow</v-icon></v-btn>
+        <v-btn @click="pause"><v-icon dark>pause</v-icon></v-btn>
+        <v-btn @click="stop"><v-icon dark>stop</v-icon></v-btn>        
         <div class="form-group" v-if="voiceList.length">          
-          <select class="form-control" style="display:none" id="voices" v-model="selectedVoice" @change="langChange">
+          <select class="form-control" style="" id="voices" v-model="selectedVoice" @change="langChange">
             <template v-for="(voice, index) in voiceList">              
             <option :data-lang="voice.lang" :value="index">{{ voice.name }}</option>
             </template>
           </select>
         </div>
-        <v-btn @click="play"><v-icon dark>play_arrow</v-icon></v-btn>
-        <v-btn @click="pause"><v-icon dark>pause</v-icon></v-btn>
-        <v-btn @click="stop"><v-icon dark>stop</v-icon></v-btn>        
+        
       </form>
     </div>
   </transition>
