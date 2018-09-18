@@ -96,7 +96,7 @@ export default {
         }
       ],
       pagination: {
-        sortBy: 'Updated',
+        sortBy: 'updatedAt',
         descending: true
       },
       articles: []

@@ -1,24 +1,41 @@
 <template>
-<div id="app">
+<div>
 <transition name="fade" v-if="isLoading">
     <pulse-loader></pulse-loader>
   </transition>
-  <transition name="fade" v-if="!isLoading">
-    <div class="form-container">
-      
-      <form @submit.prevent="play">        
-        <!-- <div class="" style="text-align:left;padding:5px;padding-top:0;">발음 듣기</div> -->
-        <div class="form-group" v-if="voiceList.length">          
-          <select class="form-control" style="display:none" id="voices" v-model="selectedVoice" @change="langChange">
-            <template v-for="(voice, index) in voiceList">              
-            <option :data-lang="voice.lang" :value="index">{{ voice.name }}</option>
-            </template>
-          </select>
-        </div>
-        <v-btn @click="play"><v-icon dark>play_arrow</v-icon></v-btn>
-        <v-btn @click="pause"><v-icon dark>pause</v-icon></v-btn>
-        <v-btn @click="stop"><v-icon dark>stop</v-icon></v-btn>        
-      </form>
+  <transition name="fade" v-if="!isLoading">    
+     <div id="page-wrapper">       
+      <v-container grid-list-lg>          
+        <v-layout  wrap>
+          <v-flex xs12>
+            <v-select 
+              @change="voiceChange"
+              v-model="selectedVoice"             
+              :items="voiceList"
+              :hint="Voice선택"
+              item-text="name"
+              item-value="name"
+              label="Voice"
+              persistent-hint
+              return-object
+              single-line
+            ></v-select>
+          </v-flex>
+          <v-flex xs6>
+            <v-slider min="0" max="10" step="1" thumb-label="always" v-model="volume" label="Volume"></v-slider>
+          </v-flex>
+          <v-flex xs6>
+            <v-slider min="0" max="10" step="1" thumb-label="always" v-model="rate" label="Rate"></v-slider>
+          </v-flex>           
+          <!-- <v-flex xs4>
+            <v-slider min="0" max="10" step="1" thumb-label="always" v-model="pitch" label="Pitch"></v-slider>
+          </v-flex>            -->
+        </v-layout>
+      </v-container>
+      <v-btn @click="play"><v-icon dark>play_arrow</v-icon></v-btn>
+      <v-btn @click="pause"><v-icon dark>pause</v-icon></v-btn>
+      <v-btn @click="stop"><v-icon dark>stop</v-icon></v-btn> 
+      <v-btn @click="reset"><v-icon dark></v-icon>Reset</v-btn>    
     </div>
   </transition>
 </div>  
@@ -28,14 +45,17 @@
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 export default {
   props: [
-    'contents'
+    'text'
   ],
   data () {
     return {
       select: {name: 'Microsoft Haruka Desktop - Japanese'},
       isLoading: false,
       name: '',
-      selectedVoice: 0,
+      selectedVoice: null,
+      rate: 5,
+      volume: 5,
+      pitch: 5,
       synth: window.speechSynthesis,
       voiceList: [],
       greetingSpeech: new window.SpeechSynthesisUtterance()
@@ -49,14 +69,18 @@ export default {
     // wait for voices to load
     // I can't get FF to work without calling this first
     // Chrome works on the onvoiceschanged function
-    this.voiceList = window.speechSynthesis.getVoices().filter(function (obj) {
+    this.voiceList = this.synth.getVoices().filter(function (obj) {
       if (obj.lang === 'ja-JP') return true
     })
+    this.selectedVoice = this.voiceList[0]
     if (this.voiceList.length) {
       this.isLoading = false
     }
     this.synth.onvoiceschanged = () => {
-      this.voiceList = this.synth.getVoices()
+      this.voiceList = this.synth.getVoices().filter(function (obj) {
+        if (obj.lang === 'ja-JP') return true
+      })
+      this.selectedVoice = this.voiceList[0]
       this.synth.cancel()
       // give a bit of delay to show loading screen
       // just for the sake of it, I suppose. Not the best reason
@@ -81,14 +105,18 @@ export default {
     /**
      * Shout at the user
      */
+    voiceChange () {
+    },
     play () {
       // it should be 'craic', but it doesn't sound right
       if (this.synth.paused) {
         this.synth.resume()
       } else {
-        this.synth.cancel()
-        this.greetingSpeech.text = this.contents.text
-        this.greetingSpeech.voice = this.voiceList[this.selectedVoice]
+        this.greetingSpeech.text = this.text
+        this.greetingSpeech.rate = this.rate / 5
+        this.greetingSpeech.volume = this.volume / 5
+        this.greetingSpeech.pitch = this.pitch / 5
+        this.greetingSpeech.voice = this.selectedVoice
         this.synth.speak(this.greetingSpeech)
       }
     },
@@ -98,6 +126,11 @@ export default {
     stop () {
       this.synth.cancel()
     },
+    reset () {
+      this.rate = 5
+      this.volume = 5
+      this.pitch = 5
+    },
     langChange () {
       this.synth.cancel()
     }
@@ -106,58 +139,10 @@ export default {
 </script>
 
 <style scope>
-.form-container {
-  min-width: 100%;
-  min-height: 100%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-}
+#page-wrapper{
 
-form {
-  /* padding: 20px; */
-  max-width: 600px;  
-  /* background: #fff;
-  border-radius: 3px;
-  box-shadow: 0 10px 30px 10px rgba(0, 0, 0, 0.1); */
+  background: #bbe6cc47;
+  padding:10px;
+  border-radius: 10px
 }
-form select{
-  border:1px solid #ddd;
-  padding: 5px;  
-  line-height: 30px;
-  font-size:13px;
-}
-.v-spinner {
-  position: fixed;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(255, 255, 255, 0.8);
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
-}
-
-.fade-enter-active, .fade-leave-active {
-  transition: opacity ease .5s;
-}
-
-.fade-enter, .fade-leave-to {
-  opacity: 0;
-}
-
-.btn-success {
-  background: #43C6AC;
-  border-color: #43C6AC;
-  cursor: pointer;
-}
-
-h1 {
-  margin-bottom: 25px;
-}
-
 </style>

@@ -2,16 +2,17 @@
 <div>
   <div class="danger-alert" v-if="error">
     {{error}}
-  </div>       
-  <v-layout row justify-end class="mb-3">
-    <v-btn style="margin-top:14px" class="" @click="convert"><v-icon dark>translate</v-icon> Translate</v-btn>        
-    <Synthesis :contents="userInput" class="ml-2 mt-2"/>    
+  </div>
+   <v-layout row justify-end class="mb-3">
+     <v-flex xs10>
+     </v-flex>
+     
   </v-layout>   
   <v-layout>
-    <v-flex xs6>
-      <panel title="Text" class="ml-2" style="height:100%">
+    <v-flex xs4>
+      <panel title="Text" class="ml-2" >
         <v-text-field
-          style="height:500px"
+          style="height:700px"
           label="Text"
           multi-line
           required
@@ -22,11 +23,18 @@
     </v-flex>
      <v-flex xs6>
        <panel title="Furigana" class="ml-2" style="height:100%">
-      <Furigana :contents="userInput" class="ml-2 mt-2"/>
+         <Furigana :contents="userInput" class="ml-2 mt-2"/>
        </panel>
     </v-flex>        
+    <v-flex xs2>    
+    <Synthesis :text="userInput.text" class="ml-2"/>    
+    <v-flex xs12>
+       <v-btn style="margin-top:14px" class="" @click="convert"><v-icon dark>translate</v-icon> Furigana</v-btn>                   
+     </v-flex>  
+    </v-flex>
+
   </v-layout>
-  
+ 
 </div>  
 </template>
 <script>

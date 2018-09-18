@@ -100,7 +100,7 @@ export default {
         }
       ],
       pagination: {
-        sortBy: 'createdAt',
+        sortBy: 'updatedAt',
         descending: true
       },
       songs: []
@@ -151,5 +151,6 @@ export default {
 .album-image{
   width:40px;
   float:left;
+  border-radius: 25px;
 }
 </style>

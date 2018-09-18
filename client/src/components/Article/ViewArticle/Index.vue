@@ -2,14 +2,14 @@
   <div>
       <article-metadata :article="article" />
       <v-layout class="mt-2">  
-         <v-flex xs6 >  
+         <v-flex xs9 >  
            <Furigana :article="article" />
 
            
          </v-flex>
-          <v-flex xs6 >            
-          <div class="rencetView">
-            <Synthesis :article="article" />
+          <v-flex xs3 >            
+          <div class="rencetView">            
+            <Synthesis :text="article.article" class="ml-2 mt-2"/>   
            <!-- <recently-viewed-songs class="ml-2" /> -->
            </div>
          </v-flex>
@@ -30,7 +30,7 @@
 import {mapState} from 'vuex'
 import Lyrics from './Lyrics'
 import Furigana from './Furigana'
-import Synthesis from './Synthesis'
+import Synthesis from '../../globals/Synthesis'
 // import YouTube from './YouTube'
 import ArticleMetadata from './ArticleMetadata'
 import ArticlesService from '@/services/ArticlesService'
@@ -54,6 +54,7 @@ export default {
     async search () {
       const articleId = this.route.params.articleId
       this.article = (await ArticlesService.show(articleId)).data
+      this.contents = this.article.article
     }
   },
   async mounted () {

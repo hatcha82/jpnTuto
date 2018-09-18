@@ -16,10 +16,9 @@ export default {
 }
 </script>
 
-<style>
+<style scope>
 p {
   width: 100%;  
-
   text-align: left;
   text-justify: auto;
   white-space:pre-line;
@@ -30,5 +29,6 @@ p {
 }
 rt {
   font-size: 12px;  
+  color:#4caf50
 }
 </style>
