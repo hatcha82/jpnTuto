@@ -58,6 +58,9 @@ export default {
       this.isLoading = false
     }
     this.synth.onvoiceschanged = () => {
+      this.voiceList = this.synth.getVoices().filter(function (obj) {
+        if (obj.lang === 'ja-JP') return true
+      })
       this.synth.cancel()
       // give a bit of delay to show loading screen
       // just for the sake of it, I suppose. Not the best reason
