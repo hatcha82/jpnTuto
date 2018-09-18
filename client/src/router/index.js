@@ -72,12 +72,12 @@ export default new Router({
       name: 'song-edit',
       component: EditSong
     },
-    {
-      path: '/home',
-      redirect: 'song'
-      // name: 'home',
-      // component: Home
-    },
+    // {
+    //   path: '/home',
+    //   redirect: 'song'
+    //   // name: 'home',
+    //   // component: Home
+    // },
     {
       path: '*',
       redirect: 'song'

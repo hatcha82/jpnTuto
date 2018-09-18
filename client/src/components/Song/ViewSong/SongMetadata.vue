@@ -5,7 +5,7 @@
       <h5 style="float:left;line-height:40px;margin-left:10px;">{{song.title}} - {{song.artist}}</h5>
       <div class="buttonArea">   
        <v-btn @click="back"><v-icon dark>keyboard_backspace</v-icon></v-btn>
-        <v-btn v-if="isUserLoggedIn"  
+        <v-btn v-if="(isUserLoggedIn && user.id === song.createdUserId)"  
         :to="{
           name: 'song-edit', 
           params () {

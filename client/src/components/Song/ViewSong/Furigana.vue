@@ -31,6 +31,6 @@ p {
 }
 rt {
   font-size: 12px;  
-  color:#4caf50
+  color:#c72929
 }
 </style>

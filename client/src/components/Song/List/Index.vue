@@ -48,7 +48,11 @@ export default {
     }
   },
   async mounted () {
-    this.songs = (await SongsService.index()).data
+    try {
+      this.songs = (await SongsService.index()).data
+    } catch (error) {
+      alert(error)
+    }
   }
 }
 </script>

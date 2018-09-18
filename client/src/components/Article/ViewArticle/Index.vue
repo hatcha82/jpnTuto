@@ -4,8 +4,6 @@
       <v-layout class="mt-2">  
          <v-flex xs9 >  
            <Furigana :article="article" />
-
-           
          </v-flex>
           <v-flex xs3 >            
           <div class="rencetView">            

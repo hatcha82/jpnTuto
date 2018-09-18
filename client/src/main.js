@@ -9,6 +9,8 @@ import 'vuetify/dist/vuetify.min.css'
 import store from '@/store/store'
 import VueYouTubeEmbed from 'vue-youtube-embed'
 import Panel from '@/components/globals/Panel'
+import PanelPadding from '@/components/globals/PanelPadding'
+
 import moment from 'moment'
 Vue.config.productionTip = false
 
@@ -20,6 +22,7 @@ Vue.use(require('vue-moment'), {
 })
 console.log(Vue.moment().locale())
 Vue.component('panel', Panel)
+Vue.component('PanelPadding', PanelPadding)
 
 sync(store, router)
 /* eslint-disable no-new */

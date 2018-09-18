@@ -7,11 +7,12 @@ module.exports = (sequelize, DataTypes) => {
     albumImageUrl: DataTypes.STRING,
     youtubeId: DataTypes.STRING,
     lyrics: DataTypes.TEXT,
-    tab: DataTypes.TEXT
+    tab: DataTypes.TEXT,
+    createdUserId: DataTypes.INTEGER,
+    updatedUserId: DataTypes.INTEGER
   })
 
   Song.associate = function (models) {
   }
-
   return Song
 }

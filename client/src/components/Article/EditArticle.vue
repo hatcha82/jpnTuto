@@ -1,7 +1,7 @@
 <template>
   <v-layout>
     <v-flex xs4>
-      <panel title="Article Metadata">
+      <panel-padding title="Article Metadata">
         <v-text-field
           label="Title"
           required
@@ -26,11 +26,11 @@
           :rules="[required]"
           v-model="article.newsImageUrl"
         ></v-text-field>
-      </panel>
+      </panel-padding>
     </v-flex>
 
     <v-flex xs8>
-      <panel title="Article Structure" class="ml-2">
+      <panel-padding title="Article Structure" class="ml-2">
         <v-text-field
           label="News"
           multi-line
@@ -38,7 +38,7 @@
           :rules="[required]"
           v-model="article.article"
         ></v-text-field>
-      </panel>
+      </panel-padding>
       <Furigana :article="article" class="ml-2 mt-2"/>
       <div class="danger-alert" v-if="error">
         {{error}}

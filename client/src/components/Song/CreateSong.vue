@@ -1,7 +1,7 @@
 <template>
   <v-layout>
     <v-flex xs4>
-      <panel title="Song Metadata">
+      <panel-padding title="Song Metadata">
         <v-text-field
           label="Title"
           required
@@ -43,11 +43,11 @@
           :rules="[required]"
           v-model="song.youtubeId"
         ></v-text-field>
-      </panel>
+      </panel-padding >
     </v-flex>
 
     <v-flex xs8>
-      <panel title="Lyrics" class="ml-2">
+      <panel-padding  title="Lyrics" class="ml-2">
         <v-text-field
           label="Lyrics"
           multi-line
@@ -60,11 +60,12 @@
           multi-line
           v-model="song.tab"
         ></v-text-field>
-      </panel>
+      </panel-padding>
 
       <div class="danger-alert" v-if="error">
         {{error}}
       </div>
+      <v-btn dark class="appColorThema" @click="convert">Convert</v-btn>
       <v-btn
         dark
         class="appColorThema"
@@ -77,40 +78,56 @@
 
 <script>
 import SongsService from '@/services/SongsService'
-
+import FuriganaService from '@/services/FuriganaService'
+import {mapState} from 'vuex'
 export default {
+  computed: {
+    ...mapState([
+      'isUserLoggedIn',
+      'user'
+    ])
+  },
   data () {
     return {
       song: {
         title: null,
         artist: null,
-        genre: null,
+        genre: 'J-pop',
         album: null,
         albumImageUrl: null,
         youtubeId: null,
         lyrics: null,
-        tab: null
+        tab: 'No Furigana translated'
       },
       error: null,
       required: (value) => !!value || 'Required.'
     }
   },
   methods: {
-    async create () {
-      // this.error = null
-      // const areAllFieldsFilledIn = Object
-      //   .keys(this.song)
-      //   .every(key => {
-      //     if (key !== 'tab') {
-      //       return !!this.song[key]
-      //     }
-      //   })
-      // if (!areAllFieldsFilledIn) {
-      //   this.error = 'Please fill in all the required fields.'
-      //   return
-      // }
-
+    async convert () {
       try {
+        const text = this.song.lyrics
+        this.song.tab = (await FuriganaService.post(text)).data.result.furigana
+      } catch (err) {
+        alert(err)
+      }
+    },
+    async create () {
+      this.error = null
+      const areAllFieldsFilledIn = Object
+        .keys(this.song)
+        .every(key => {
+          // if (key !== 'tab') {
+          return this.song[key]
+          // }
+        })
+      if (!areAllFieldsFilledIn) {
+        this.error = 'Please fill in all the required fields.'
+        return
+      }
+      try {
+        this.song.createdUserId = this.user.id
+        this.song.updatedUserId = this.user.id
         await SongsService.post(this.song)
         this.$router.push({
           name: 'songs'

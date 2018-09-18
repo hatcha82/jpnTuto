@@ -1,7 +1,7 @@
 <template>
   <v-layout column>
     <v-flex xs6 offset-xs3>
-      <panel title="Login">
+      <panel-padding title="Login">
         <v-text-field
           label="Email"
           v-model="email"
@@ -21,7 +21,7 @@
           @click="login">
           Login
         </v-btn>
-      </panel>
+      </panel-padding >
     </v-flex>
   </v-layout>
 </template>

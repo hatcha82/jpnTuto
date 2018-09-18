@@ -5,7 +5,9 @@ module.exports = (sequelize, DataTypes) => {
     newsUrl: DataTypes.STRING,
     newsImageUrl: DataTypes.STRING,
     article: DataTypes.TEXT,
-    furigana: DataTypes.TEXT
+    furigana: DataTypes.TEXT,
+    createdUserId: DataTypes.INTEGER,
+    updatedUserId: DataTypes.INTEGER
   })
 
   Article.associate = function (models) {

@@ -1,7 +1,7 @@
 <template>
   <v-layout>
     <v-flex xs4>
-      <panel title="Song Metadata">
+      <panel-padding  title="Song Metadata">
         <v-text-field
           label="Title"
           required
@@ -43,11 +43,11 @@
           :rules="[required]"
           v-model="song.youtubeId"
         ></v-text-field>
-      </panel>
+      </panel-padding>
     </v-flex>
 
     <v-flex xs8>
-      <panel title="Song Structure" class="ml-2">
+      <panel-padding title="Song Structure" class="ml-2">
         <v-text-field
           label="Lyrics"
           multi-line
@@ -55,7 +55,7 @@
           :rules="[required]"
           v-model="song.lyrics"
         ></v-text-field>       
-      </panel>
+      </panel-padding>
       <Furigana :song="song" class="ml-2 mt-2"/>
       <div class="danger-alert" v-if="error">
         {{error}}
@@ -84,7 +84,14 @@
 import SongsService from '@/services/SongsService'
 import FuriganaService from '@/services/FuriganaService'
 import Furigana from './ViewSong/Furigana'
+import {mapState} from 'vuex'
 export default {
+  computed: {
+    ...mapState([
+      'isUserLoggedIn',
+      'user'
+    ])
+  },
   components: {
     Furigana
   },
@@ -113,20 +120,22 @@ export default {
           name: 'songs'
         })
       } catch (err) {
-        console.log(err)
+        alert(err)
       }
     },
     async save () {
       this.error = null
-      const areAllFieldsFilledIn = Object
-        .keys(this.song)
-        .every(key => !!this.song[key])
-      if (!areAllFieldsFilledIn) {
-        this.error = 'Please fill in all the required fields..'
-        return
-      }
+      // const areAllFieldsFilledIn = Object
+      //   .keys(this.song)
+      //   .every(key => !!this.song[key])
+      // if (!areAllFieldsFilledIn) {
+      //   this.error = areAllFieldsFilledIn + 'Please fill in all the required fields..'
+      //   return
+      // }
       const songId = this.$store.state.route.params.songId
       try {
+        this.song.createdUserId = this.song.createdUserId ? this.song.createdUserId : this.user.id
+        this.song.updatedUserId = this.user.id
         await SongsService.put(this.song)
         this.$router.push({
           name: 'song',
@@ -135,7 +144,7 @@ export default {
           }
         })
       } catch (err) {
-        console.log(err)
+        alert(err)
       }
     },
     async convert () {
@@ -143,7 +152,6 @@ export default {
         const text = this.song.lyrics
         this.song.tab = (await FuriganaService.post(text)).data.result.furigana
       } catch (err) {
-        console.log(err)
         alert(err)
       }
     }
@@ -153,7 +161,7 @@ export default {
       const songId = this.$store.state.route.params.songId
       this.song = (await SongsService.show(songId)).data
     } catch (err) {
-      console.log(err)
+      alert(err)
     }
   }
 }

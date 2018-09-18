@@ -3,23 +3,17 @@
     <v-app>
       <page-header />      
       <main>
-        <v-parallax class="" dark src="https://www.jrailpass.com/blog/wp-content/uploads/2016/06/fukuoka-tower-1024x682.jpg"   height="300">
-          <v-layout
-            align-center
-            column
-            justify-center>
-            <h1 class="display-2 font-weight-thin">Hatcha'S</h1>
-            <h4 class="subheading">Lifelong Learning</h4>          
+        <v-parallax :title=" '이미지 출처 [Image Source] : \n' + 'https://www.jrailpass.com/blog/wp-content/uploads/2016/06/fukuoka-tower-1024x682.jpg'" class="" dark src="https://www.jrailpass.com/blog/wp-content/uploads/2016/06/fukuoka-tower-1024x682.jpg"   height="300">
+          <v-layout align-center justify-end>
+            <h1 class="display-2">Hatcha'S</h1>
+            <h4 class="subheading">Lifelong Learning</h4>       
           </v-layout>
         </v-parallax>  
       <v-container fluid>
           <router-view></router-view>
       </v-container>
-        <v-parallax class="" dark src="https://wallpaperstudio10.com/static/wpdb/wallpapers/1920x1080/172268.jpg"   height="300">
-          <v-layout
-            align-center
-            column
-            justify-center>
+        <v-parallax class="" :title=" '이미지 출처 [Image Source] : \n' + 'https://wallpaperstudio10.com/static/wpdb/wallpapers/1920x1080/172268.jpg'"  src="https://wallpaperstudio10.com/static/wpdb/wallpapers/1920x1080/172268.jpg"   height="300">
+         <v-layout align-end justify-end>
             <h1 class="display-2 font-weight-thin">Hatcha'S</h1>
             <h4 class="subheading">Lifelong Learning</h4>          
           </v-layout>
