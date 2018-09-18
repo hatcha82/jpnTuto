@@ -8,7 +8,10 @@
           <v-flex xs6 >  
           <div class="youTubeArea">  
           <you-tube :youtubeId="song.youtubeId" />
-          </div>              
+          저작권에 의한 플레이 불가능 할 경우 Youtube 이동
+          <a target="_blank" :href="'https://www.youtube.com/watch?v='+ song.youtubeId" > {{song.title}} - {{song.artist}}</a>
+          </div>
+          <Synthesis :text="song.lyrics" class="ml-2"/>                  
           <div class="rencetView">
            <recently-viewed-songs class="ml-2" />
            </div>
@@ -26,6 +29,7 @@ import SongMetadata from './SongMetadata'
 import SongsService from '@/services/SongsService'
 import SongHistoryService from '@/services/SongHistoryService'
 import RecentlyViewedSongs from '../List/RecentlyViewedSongs'
+import Synthesis from '../../globals/Synthesis'
 
 export default {
   data () {
@@ -64,7 +68,8 @@ export default {
     Lyrics,
     Furigana,
     YouTube,
-    RecentlyViewedSongs
+    RecentlyViewedSongs,
+    Synthesis
   }
 }
 </script>
