@@ -2,10 +2,9 @@
   <v-toolbar fixed>
     <v-toolbar-title class="mr-4">
       <router-link 
-        class="home"
         tag="span"
         :to="{
-          name: 'home'
+          name: 'songs'
         }">
         <img src="../assets/logo.png" id="logoImag"/>
       </router-link>
