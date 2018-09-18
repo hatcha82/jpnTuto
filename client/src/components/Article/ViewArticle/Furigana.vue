@@ -23,12 +23,12 @@ p {
   text-justify: auto;
   white-space:pre-line;
   padding: 40px;
-  line-height:2em;
-  font-size: 2em;
+  line-height: 30px;
+  font-size: 20px;
   font-family: sans-serif;
 }
 rt {
-  font-size: 0.5em;  
+  font-size: 12px;  
   color:#4caf50
 }
 </style>
