@@ -20,7 +20,7 @@ export default {
 <style>
 p {
   width: 100%;  
-  background: white;
+  background: bbe6cc47;
   text-align: left;
   text-justify: auto;
   white-space:pre-line;

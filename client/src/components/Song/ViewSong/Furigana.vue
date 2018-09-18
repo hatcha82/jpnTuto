@@ -20,7 +20,7 @@ export default {
 
 <style scope>
 p {
-  width: 100%;  
+  width: 100%;    
   text-align: left;
   text-justify: auto;
   white-space:pre-line;

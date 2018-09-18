@@ -141,7 +141,7 @@ export default {
 <style scope>
 #page-wrapper{
 
-  background: #ddd;
+  background: #bbe6cc47;
   padding:10px;
   border-radius: 10px
 }

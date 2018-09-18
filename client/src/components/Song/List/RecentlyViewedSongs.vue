@@ -1,11 +1,11 @@
 <template>
-  <panel title="Recently Viewed Songs">
-    <v-data-table
+  <panel title="Recently Viewed Songs" >
+    <v-data-table s
       :headers="headers"
       :pagination.sync="pagination"
       :items="histories">
       <template slot="items" scope="props">
-        <td class="text-xs-left ">
+        <td class="text-xs-left" >
             <img class="album-image"         
            :src="props.item.albumImageUrl" />
           <div class="bookMarkRow">
