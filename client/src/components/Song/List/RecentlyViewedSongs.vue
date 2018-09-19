@@ -5,29 +5,23 @@
       :pagination.sync="pagination"
       :items="histories">
       <template slot="items" scope="props">
-        <td class="text-xs-left" >
-            <img class="album-image"         
-           :src="props.item.albumImageUrl" />
-          <div class="bookMarkRow">
-            {{props.item.title}}   
-          </div>                     
-        </td>        
+        <router-link :to="{ name: 'song', params: {  songId: props.item.SongId}}" tag="tr">
         <td class="text-xs-left">
-          {{props.item.artist}}
-        </td>
+          <img class="album-image"         
+           :src="props.item.albumImageUrl" /> 
+        </td>      
+        <td class="text-xs-left">
+            [{{props.item.artist}}]<br>{{props.item.title}}   
+        </td>        
         <td class="text-xs-right">
           <v-btn
-            fab dark small
+            fab dark
             class="appColorThema"
-            :to="{
-              name: 'song', 
-              params: {
-                songId: props.item.SongId
-              }
-            }">
+            >
             View
           </v-btn>
-        </td>  
+        </td>
+        </router-link>
       </template>
     </v-data-table>
   </panel>
@@ -44,11 +38,6 @@ export default {
         {
           text: 'Title',
           value: 'title',
-          align: 'left'
-        },
-        {
-          text: 'Artist',
-          value: 'artist',
           align: 'left'
         },
         {
@@ -80,8 +69,9 @@ export default {
 
 <style>
 .album-image{
-  width:40px;
+  width:50px;
   float:left;
+  margin-right:5px;
   border-radius: 25px;
 }
 </style>

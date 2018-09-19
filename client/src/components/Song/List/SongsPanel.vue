@@ -13,12 +13,12 @@
         :items="songs">
        
         <template slot="items" scope="props">
-           <router-link :to="{ name: 'song', params: {  songId: props.item.id}}" tag="tr">
+          <router-link :to="{ name: 'song', params: {  songId: props.item.id}}" tag="tr">
           <td>
             <img class="album-image" :src="props.item.albumImageUrl" />
           </td>
             
-          <td class="text-xs-left">[{{ props.item.artist }}] {{ props.item.title }}</td>
+          <td class="text-xs-left">[{{ props.item.artist }}]<br>{{ props.item.title }}</td>
           <td class="text-xs-left">
             
           </td>

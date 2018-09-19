@@ -5,29 +5,23 @@
       :pagination.sync="pagination"
       :items="bookmarks">
       <template slot="items" scope="props">
+        <router-link :to="{ name: 'song', params: {  songId: props.item.SongId}}" tag="tr">
         <td class="text-xs-left ">
-            <img class="album-image"         
+          <img class="album-image"         
            :src="props.item.albumImageUrl" />
-          <div class="bookMarkRow">
-            {{props.item.title}}   
-          </div>                     
         </td>
         <td class="text-xs-left">
-          {{props.item.artist}}
+          [{{props.item.artist}}]<br>
+          {{props.item.title}}   
         </td>
         <td class="text-xs-right">
           <v-btn
-            fab dark small
-            class="appColorThema"
-            :to="{
-              name: 'song', 
-              params: {
-                songId: props.item.SongId
-              }
-            }">
+            fab dark 
+            class="appColorThema">
             View
           </v-btn>
-        </td>  
+        </td>
+        </router-link>  
       </template>
     </v-data-table>
   </panel>
@@ -44,11 +38,6 @@ export default {
         {
           text: 'Title',
           value: 'title',
-          align: 'left'
-        },
-        {
-          text: 'Artist',
-          value: 'artist',
           align: 'left'
         },
         {

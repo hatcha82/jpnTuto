@@ -8,13 +8,12 @@
           <v-flex xs6 >  
           <div class="youTubeArea">  
           <you-tube :youtubeId="song.youtubeId" />
-          저작권에 의한 플레이 불가능 할 경우 Youtube 이동
+          저작권에 의한 플레이 불가능 할 경우 Youtube 이동<br>
           <a target="_blank" :href="'https://www.youtube.com/watch?v='+ song.youtubeId" > {{song.title}} - {{song.artist}}</a>
           </div>
           <Synthesis :text="song.lyrics" class="ml-2"/>                  
-          <div class="rencetView">
-           <recently-viewed-songs class="ml-2" />
-           </div>
+          <recently-viewed-songs class="ml-2 mt-3" />
+          <songs-bookmarks v-if="isUserLoggedIn"  class="ml-2 mt-3"/>
          </v-flex>
       </v-layout>          
   </div>
@@ -26,6 +25,7 @@ import Lyrics from './Lyrics'
 import Furigana from './Furigana'
 import YouTube from './YouTube'
 import SongMetadata from './SongMetadata'
+import SongsBookmarks from '../List/SongsBookmarks'
 import SongsService from '@/services/SongsService'
 import SongHistoryService from '@/services/SongHistoryService'
 import RecentlyViewedSongs from '../List/RecentlyViewedSongs'
@@ -65,6 +65,7 @@ export default {
   },
   components: {
     SongMetadata,
+    SongsBookmarks,
     Lyrics,
     Furigana,
     YouTube,

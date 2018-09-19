@@ -10,7 +10,7 @@
   </v-layout>   
   <v-layout>
     <v-flex xs4>
-      <panel title="Text" class="ml-2" >
+      <panel-padding title="Text" class="ml-2" >
         <v-text-field
           style="height:700px"
           label="Text"
@@ -19,7 +19,7 @@
           :rules="[required]"
           v-model="userInput.text"
         ></v-text-field>       
-      </panel>
+      </panel-padding>
     </v-flex>
      <v-flex xs6>
        <panel title="Furigana" class="ml-2" style="height:100%">
@@ -27,10 +27,11 @@
        </panel>
     </v-flex>        
     <v-flex xs2>    
-    <Synthesis :text="userInput.text" class="ml-2"/>    
-    <v-flex xs12>
-       <v-btn style="margin-top:14px" class="" @click="convert"><v-icon dark>translate</v-icon> Furigana</v-btn>                   
+      <v-flex xs12>
+       <v-btn  class="mb-3" dark @click="convert"><v-icon dark>translate</v-icon> Furigana</v-btn>                   
      </v-flex>  
+     <Synthesis :text="userInput.text" class="ml-2"/>    
+    
     </v-flex>
 
   </v-layout>
