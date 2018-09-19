@@ -1,7 +1,7 @@
 <template>  
   <div id="app">
     <v-app>
-      <page-header />      
+      <page-header />
       <main>
         <v-parallax :title=" '이미지 출처 [Image Source] : \n' + 'https://www.jrailpass.com/blog/wp-content/uploads/2016/06/fukuoka-tower-1024x682.jpg'" class="" dark src="https://www.jrailpass.com/blog/wp-content/uploads/2016/06/fukuoka-tower-1024x682.jpg"   height="300">
           <v-layout align-center justify-end>
