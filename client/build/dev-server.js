@@ -66,6 +66,7 @@ var staticPath = path.posix.join(config.dev.assetsPublicPath, config.dev.assetsS
 app.use(staticPath, express.static('./static'))
 
 var uri = 'http://localhost:' + port
+var apiUrl = `API URL : http://${process.env.API_URL}/\n`
 
 var _resolve
 var readyPromise = new Promise(resolve => {
@@ -74,7 +75,10 @@ var readyPromise = new Promise(resolve => {
 
 console.log('> Starting dev server...')
 devMiddleware.waitUntilValid(() => {
+  console.log(process.env.NODE_ENV + process.env.API_KEY)
   console.log('> Listening at ' + uri + '\n')
+  console.log('> API Server at ' + apiUrl + '\n')
+  
   // when env is testing, don't need open it
   if (autoOpenBrowser && process.env.NODE_ENV !== 'testing') {
     opn(uri)
