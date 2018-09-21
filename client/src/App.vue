@@ -1,5 +1,18 @@
-<template>  
+<template>
   <div id="app">
+    <v-app id="inspire">
+      <page-header />
+      <v-content>
+        <v-container fluid fill-height style="padding:0;padding-top:68px" >
+          <router-view></router-view>
+        </v-container>
+      </v-content>
+      <v-footer color="indigo" app inset>
+        <span class="white--text">&copy; 2017</span>
+      </v-footer>
+    </v-app>
+  </div>
+  <!-- <div id="app">
     <v-app>
       <page-header />
       <main>
@@ -20,7 +33,7 @@
         </v-parallax>  
       </main>
     </v-app>
-  </div>
+  </div> -->
 </template>
 
 <script>

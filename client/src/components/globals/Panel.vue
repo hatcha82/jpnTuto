@@ -1,10 +1,9 @@
 <template>
-  <div class="white elevation-2">
-    <v-toolbar flat dense>
+  <div class="white elevation-1">
+    <v-toolbar flat >
       <v-toolbar-title>{{title}}</v-toolbar-title>
       <slot name="action" />
     </v-toolbar>
-
     <div class="">
       <slot>
         No slot content defined.
@@ -12,7 +11,6 @@
     </div>
   </div>
 </template>
-
 <script>
 export default {
   props: [
@@ -20,6 +18,5 @@ export default {
   ]
 }
 </script>
-
 <style scoped>
 </style>

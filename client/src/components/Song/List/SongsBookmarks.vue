@@ -14,13 +14,6 @@
           [{{props.item.artist}}]<br>
           {{props.item.title}}   
         </td>
-        <td class="text-xs-right">
-          <v-btn
-            fab dark 
-            class="appColorThema">
-            View
-          </v-btn>
-        </td>
         </router-link>  
       </template>
     </v-data-table>
@@ -39,11 +32,6 @@ export default {
           text: 'Title',
           value: 'title',
           align: 'left'
-        },
-        {
-          text: '',
-          value: 'View',
-          align: 'right'
         }
       ],
       pagination: {
@@ -75,5 +63,6 @@ export default {
 .album-image{
   width:40px;
   float:left;
+  padding:5px;
 }
 </style>

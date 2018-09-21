@@ -19,19 +19,13 @@
           </td>
             
           <td class="text-xs-left">[{{ props.item.artist }}]<br>{{ props.item.title }}</td>
-          <td class="text-xs-left">
-            
-          </td>
+         
           <td class="text-xs-right">
 {{ props.item.updatedAt | moment("dddd, MMMM Do YYYY, h:mm:ss a")}}
             <!-- <you-tube :youtubeId="props.item.youtubeId" /> -->
           </td>
           <!-- <td class="text-xs-right">{{ props.item.createdAt | moment("dddd, MMMM Do YYYY, h:mm:ss a")}}</td> -->
-          <td class="text-xs-right">
-          <v-btn fab dark class="appColorThema">
-              View
-            </v-btn>
-          </td> 
+         
            </router-link>
         </template>
         
@@ -75,27 +69,17 @@ export default {
         {
           text: 'Album',
           value: 'album',
-          align: 'center'
+          align: 'left'
         },
         {
           text: 'Title',
           value: 'title',
-          align: 'center'
-        },
-        {
-          text: 'Artist',
-          value: 'artist',
-          align: 'center'
+          align: 'left'
         },
         {
           text: 'Updated',
           value: 'updatedAt',
-          align: 'center'
-        },
-        {
-          text: '',
-          value: 'View',
-          align: 'right'
+          align: 'left'
         }
       ],
       pagination: {
