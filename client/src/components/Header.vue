@@ -1,10 +1,22 @@
 <template>
 <div>
   <v-navigation-drawer
-          fixed
           v-model="drawer"
-          app          
+          app
+          fixed
+          disable-route-watcher
+          disable-resize-watcher
         >
+    <!-- <v-list class="pa-1">
+      <v-list-tile avatar>
+        <v-list-tile-avatar>
+          <img src="../assets/logo.png">
+        </v-list-tile-avatar>
+        <v-list-tile-content>
+          <v-list-tile-title>Hatcha'S</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
+    </v-list>     -->
     <v-list dense>
       <v-list-tile @click="linkTo('songs')">
         <v-list-tile-action>
@@ -59,79 +71,6 @@
     </v-toolbar-title>     
   </v-toolbar>
 </div>
-  <!-- <v-toolbar fixed>
-    <v-toolbar-title class="mr-4">
-      <router-link 
-        tag="span"
-        :to="{
-          name: 'songs'
-        }">
-        <img src="../assets/logo.png" id="logoImag"/>
-      </router-link>
-    </v-toolbar-title>
-
-    <v-toolbar-items>
-      <v-btn 
-        flat 
-        dark
-        :to="{
-          name: 'songs'
-        }">
-        Music
-      </v-btn>
-    </v-toolbar-items>
-    <v-toolbar-items>
-      <v-btn 
-        flat 
-        dark
-        :to="{
-          name: 'articles'
-        }">
-        Article
-      </v-btn>
-    </v-toolbar-items>   
-    <v-toolbar-items>
-      <v-btn 
-        flat 
-        dark
-        :to="{
-          name: 'convertFurigana'
-        }">
-        Furigana
-      </v-btn>
-    </v-toolbar-items>   
-    <v-spacer></v-spacer>
-    <v-toolbar-items> -->
-      <!-- <songs-search-panel />       -->
-      <!-- <v-btn 
-        v-if="!$store.state.isUserLoggedIn"
-        flat 
-        dark
-        :to="{
-          name: 'login'
-        }">
-        Login
-      </v-btn> -->
-      
-      <!-- <v-btn 
-        v-if="!$store.state.isUserLoggedIn"
-        flat 
-        dark
-        :to="{
-          name: 'register'
-        }">
-        Sign Up
-      </v-btn> -->
-      
-      <!-- <v-btn 
-        v-if="$store.state.isUserLoggedIn"
-        flat 
-        dark
-        @click="logout">
-        Log Out
-      </v-btn>
-    </v-toolbar-items>
-  </v-toolbar> -->
 </template>
 
 <script>
@@ -162,6 +101,6 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 #logoImag{height:35px}
 </style>

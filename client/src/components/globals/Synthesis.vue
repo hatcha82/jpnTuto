@@ -12,7 +12,6 @@
               @change="voiceChange"
               v-model="selectedVoice"             
               :items="voiceList"
-              :hint="Voice선택"
               item-text="name"
               item-value="name"
               label="Voice"
@@ -22,10 +21,10 @@
             ></v-select>
           </v-flex>
           <v-flex xs6>
-            <v-slider min="0" max="10" step="1" thumb-label="always" v-model="volume" label="Volume"></v-slider>
+            <v-slider min="0" max="10" step="1" v-model="volume" label="Volume"></v-slider>
           </v-flex>
           <v-flex xs6>
-            <v-slider min="0" max="10" step="1" thumb-label="always" v-model="rate" label="Rate"></v-slider>
+            <v-slider min="0" max="10" step="1" v-model="rate" label="Rate"></v-slider>
           </v-flex>           
           <!-- <v-flex xs4>
             <v-slider min="0" max="10" step="1" thumb-label="always" v-model="pitch" label="Pitch"></v-slider>

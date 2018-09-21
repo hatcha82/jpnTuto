@@ -10,17 +10,15 @@ import store from '@/store/store'
 import VueYouTubeEmbed from 'vue-youtube-embed'
 import Panel from '@/components/globals/Panel'
 import PanelPadding from '@/components/globals/PanelPadding'
-
 import moment from 'moment'
 Vue.config.productionTip = false
 
-Vue.use(VueYouTubeEmbed)
 Vue.use(Vuetify)
 moment.locale('ko')
 Vue.use(require('vue-moment'), {
   moment
 })
-console.log(Vue.moment().locale())
+Vue.use(VueYouTubeEmbed)
 Vue.component('panel', Panel)
 Vue.component('PanelPadding', PanelPadding)
 
