@@ -4,8 +4,6 @@
           v-model="drawer"
           app
           fixed
-          disable-route-watcher
-          disable-resize-watcher
         >
     <!-- <v-list class="pa-1">
       <v-list-tile avatar>
