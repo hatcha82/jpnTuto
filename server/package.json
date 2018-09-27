@@ -27,8 +27,13 @@
     "mysql2": "^1.6.1",
     "papago": "^1.1.1",
     "passport": "^0.4.0",
+    "passport-facebook": "^2.1.1",
+    "passport-google-oauth20": "^1.0.0",
     "passport-jwt": "^3.0.0",
-    "sequelize": "^4.38.0"
+    "passport-kakao": "0.0.5",
+    "passport-naver": "^1.0.6",
+    "sequelize": "^4.38.0",
+    "twitter": "^1.7.1"
   },
   "devDependencies": {
     "eslint": "^4.6.0",
