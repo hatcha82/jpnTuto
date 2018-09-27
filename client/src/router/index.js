@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-// import Home from '@/components/Home'
+import Home from '@/components/Home'
 import Register from '@/components/Register'
 import Login from '@/components/Login'
 import ConvertFurigana from '@/components/Converter/ConvertFurigana'
@@ -74,9 +74,8 @@ export default new Router({
     },
     {
       path: '/home',
-      redirect: 'song'
-      // name: 'home',
-      // component: Home
+      name: 'home',
+      component: Home
     },
     {
       path: '*',

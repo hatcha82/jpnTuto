@@ -13,6 +13,7 @@ module.exports = {
     try {
       let articles = null
       const search = req.query.search
+      const offset = parseInt(req.query.offset)
       if (search) {
         articles = await Article.findAll({
           where: {
@@ -26,11 +27,19 @@ module.exports = {
           }
         })
       } else {
+        var count = await Article.findOne({
+          attributes: [[Article.sequelize.fn('COUNT', Article.sequelize.col('id')), 'count']]
+        })
         articles = await Article.findAll({
-          limit: 1000
+          attributes: {exclude: ['lyrics', 'tab']},
+          order: [
+            ['createdAt', 'DESC']
+          ],
+          limit: 100,
+          offset: offset
         })
       }
-      res.send(articles)
+      res.send({data: articles, count: count})
     } catch (err) {
       res.status(500).send({
         error: 'an error has occured trying to fetch the articles'

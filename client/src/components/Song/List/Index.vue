@@ -1,7 +1,7 @@
 <template>
   <v-layout>     
-    <v-flex xs12>
-      <!-- <songs-search-panel /> -->      
+    <v-flex>
+      <songs-search-panel />      
       <songs-panel/>    
       <recently-viewed-songs />
       <songs-bookmarks />

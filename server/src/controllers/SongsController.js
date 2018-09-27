@@ -13,8 +13,24 @@ module.exports = {
     try {
       let songs = null
       const search = req.query.search
+      const offset = parseInt(req.query.offset)
+      var count = 0
       if (search) {
+        count = await Song.findOne({
+          attributes: [[Song.sequelize.fn('COUNT', Song.sequelize.col('id')), 'count']],
+          where: {
+            $or: [
+              'title', 'artist', 'genre', 'album'
+            ].map(key => ({
+              [key]: {
+                $like: `%${search}%`
+              }
+            }))
+          }
+        })
+
         songs = await Song.findAll({
+          attributes: {exclude: ['lyrics', 'tab']},
           where: {
             $or: [
               'title', 'artist', 'genre', 'album'
@@ -26,11 +42,20 @@ module.exports = {
           }
         })
       } else {
+        count = await Song.findOne({
+          attributes: [[Song.sequelize.fn('COUNT', Song.sequelize.col('id')), 'count']]
+        })
+
         songs = await Song.findAll({
-          limit: 1000
+          attributes: {exclude: ['lyrics', 'tab']},
+          order: [
+            ['createdAt', 'DESC']
+          ],
+          limit: 100,
+          offset: offset
         })
       }
-      res.send(songs)
+      res.send({data: songs, count: count})
     } catch (err) {
       res.status(500).send({
         error: err

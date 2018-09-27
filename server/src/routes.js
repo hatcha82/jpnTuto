@@ -3,13 +3,20 @@ const AuthenticationControllerPolicy = require('./policies/AuthenticationControl
 
 const ArticleController = require('./controllers/ArticleController')
 const SongsController = require('./controllers/SongsController')
+const TwitterController = require('./controllers/TwitterController')
+
 const BookmarksController = require('./controllers/BookmarksController')
 const HistoriesController = require('./controllers/HistoriesController')
 const FuriganaController = require('./controllers/FuriganaController')
 
 const isAuthenticated = require('./policies/isAuthenticated')
+const passport = require('passport')
 
 module.exports = (app) => {
+  app.get('/google', passport.authenticate('google', {
+    scope: ['profile']
+  }))
+
   app.post('/register',
     AuthenticationControllerPolicy.register,
     AuthenticationController.register)
@@ -29,6 +36,9 @@ module.exports = (app) => {
   app.delete('/articles/:articleId',
     isAuthenticated,
     ArticleController.remove)
+
+    app.get('/twitters',
+    TwitterController.index)
 
   app.get('/songs',
     SongsController.index)

@@ -42,9 +42,13 @@
       </v-list-tile>
     </v-list>
   </v-navigation-drawer>
-  <v-toolbar color="indigo"  fixed app>
+  <v-toolbar class="primary" 
+      fixed
+      clipped-left
+      app
+       >
     <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-    <v-toolbar-title  @click="linkTo('songs')" ><img src="../assets/logo.png" id="logoImag"/></v-toolbar-title>
+    <v-toolbar-title  @click="linkTo('home')" ><img src="../assets/logo.png" id="logoImag"/></v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-title  @click="linkTo('songs')" > 
       <v-btn icon>
