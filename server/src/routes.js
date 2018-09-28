@@ -37,8 +37,8 @@ module.exports = (app) => {
     isAuthenticated,
     ArticleController.remove)
 
-    app.get('/twitters',
-    TwitterController.index)
+  app.get('/twitters/userTimeLine', TwitterController.userTimeLine)
+  app.get('/twitters/homeTimeline', TwitterController.homeTimeline)
 
   app.get('/songs',
     SongsController.index)

@@ -1,5 +1,6 @@
 import '@babel/polyfill'
 import Vue from 'vue'
+import VueHead from 'vue-head'
 import './plugins/vuetify'
 import App from './App.vue'
 import router from './router'
@@ -10,7 +11,7 @@ import BackToTop from 'vue-backtotop'
 import moment from 'moment'
 
 Vue.config.productionTip = false
-
+Vue.use(VueHead)
 moment.locale('ko')
 Vue.use(require('vue-moment'), {
   moment

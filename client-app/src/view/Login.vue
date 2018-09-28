@@ -14,16 +14,26 @@
         <br>
         <div class="danger-alert" v-html="error" />
         <br>
-        <div class="text-xs-center">
+           
+    </v-flex>
+  </v-layout>
+  <v-layout column>
+    
         <v-btn
         large
           color="primary" 
-          round
+          Block
           @click="login">
           Login
         </v-btn>
-      </div>
-    </v-flex>
+        <v-btn
+          large
+          color="primary" 
+          Block
+          flat
+          @click="linkTo('register')">
+          Sign Up
+        </v-btn>    
   </v-layout>
   </v-container>
 </template>
@@ -40,6 +50,11 @@ export default {
     }
   },
   methods: {
+    linkTo (name) {
+        this.$router.push({
+          name: name
+        })
+    },
     async login () {
       try {
         const response = await AuthenticationService.login({

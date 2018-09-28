@@ -13,6 +13,7 @@
     "moment": "^2.22.2",
     "vue": "^2.5.17",
     "vue-backtotop": "^1.4.12",
+    "vue-head": "^2.0.12",
     "vue-infinite-scroll": "^2.0.2",
     "vue-moment": "^4.0.0",
     "vue-router": "^3.0.1",

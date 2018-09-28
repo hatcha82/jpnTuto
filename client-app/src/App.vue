@@ -27,10 +27,24 @@
       Header,
       Footer
     },
+    head: {
+      // To use "this" in the component, it is necessary to return the object through a function
+      title: function () {
+        return {
+          inner: this.title,
+          separator: '-',
+          complement: 'Leaning Japanese'
+        }
+      },
+      meta: [      
+      ]
+    },
     data: () => ({
+      title: 'Furigana'
     }),
     props: {
       source: String
     }
+    
   }
 </script>

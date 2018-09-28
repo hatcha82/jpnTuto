@@ -1,5 +1,5 @@
 <template>
-<div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="-37">
+<div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="-37">  
   <v-btn 
         v-if="isUserLoggedIn"
         class="mb-5 mr-2"
@@ -14,16 +14,14 @@
       </v-btn>
    <v-layout row>   
      <v-flex pa-3 pb-0>
-      <v-text-field
-      fixed
-      placeholder="Search..."
-      single-line
-      class="searchBox "
-      append-icon="search"
-      color="white"
-      hint="Search by song title, artist, album, or genre"
-      v-model="searchKeyword"
-    ></v-text-field>
+       <v-text-field
+          fixed
+          label="음악 검색"
+          append-icon="search"
+          placeholder="Search"
+          v-model="searchKeyword"
+         hint="검색어: 제목, 아티스트, 앨범, 장르"
+        ></v-text-field>
      </v-flex>
    </v-layout>
   <v-layout row>

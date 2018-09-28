@@ -2,7 +2,15 @@ import Api from '@/services/Api'
 
 export default {
   index (search,offset) {
-    return Api().get('twitters', {
+    return Api().get('twitters/userTimeLine', {
+      params: {
+        search: search,
+        offset: offset
+      }
+    })
+  },
+  homeTimeLine (search,offset) {
+    return Api().get('twitters/homeTimeLine', {
       params: {
         search: search,
         offset: offset

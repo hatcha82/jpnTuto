@@ -56,11 +56,15 @@ export default new Router({
       component: ViewArticle
     },
     {
-      path: '/twitter/list',
+      path: '/twitter/list/',
       name: 'twitter-list',
       component: Twitter
     },
-    
+    {
+      path: '/twitter/list/:search',
+      name: 'twitter-list-search',
+      component: Twitter
+    },
     // {
     //   path: '/articles/create',
     //   name: 'articles-create',

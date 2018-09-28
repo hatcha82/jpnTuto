@@ -60,7 +60,7 @@
       <v-toolbar-title  v-if="$store.state.isUserLoggedIn"  @click="linkTo('music-list')" > 
         <v-btn icon>
         <v-icon>music_note</v-icon>
-        </v-btn>
+        </v-btn>        
       </v-toolbar-title>
       <v-toolbar-title  v-if="$store.state.isUserLoggedIn"  @click="linkTo('article-list')"> 
         <v-btn icon>
@@ -73,13 +73,15 @@
         </v-btn>
       </v-toolbar-title>     -->
       <v-toolbar-title v-if="!$store.state.isUserLoggedIn"  class="mr-4"  @click="linkTo('login')">
-        Login
+        <v-btn icon>
+        <v-icon>fas fa-sign-in-alt</v-icon>
+        </v-btn>
       </v-toolbar-title>
-      <v-toolbar-title v-if="!$store.state.isUserLoggedIn"  class="mr-4"  @click="linkTo('register')">
+      <!-- <v-toolbar-title v-if="!$store.state.isUserLoggedIn"  class="mr-4"  @click="linkTo('register')">
         Sign Up
-      </v-toolbar-title>
+      </v-toolbar-title> -->
       <v-toolbar-title v-if="$store.state.isUserLoggedIn"  class="mr-4"  @click="logout">
-        Logout
+        <v-icon>fas fa-sign-out-alt</v-icon>
       </v-toolbar-title>
       <!-- <v-layout row align-center style="max-width: 650px">
         <v-text-field
@@ -103,7 +105,7 @@
         // { icon: 'subscriptions', text: 'Subscriptions' },
         { icon: 'music_note', text: 'Music', linkTo: 'music-list'},
         { icon: 'description', text: 'News', linkTo: 'article-list' },
-        { icon: 'fab fa-twitter', text: 'Twitter', linkTo: 'twitter-list' },
+        { icon: 'fab fa-twitter', text: 'Twitter', linkTo: 'twitter-list'},
 
         // { icon: 'history', text: 'History', linkTo: 'history' },
         // { icon: 'featured_play_list', text: 'Playlists' },

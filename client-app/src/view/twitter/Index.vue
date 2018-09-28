@@ -1,6 +1,7 @@
 <template>
 <!-- <div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="-37"> -->
 <div>
+  
   <v-btn 
         v-if="isUserLoggedIn"
         class="mb-5 mr-2"
@@ -15,30 +16,40 @@
       </v-btn>
    <v-layout row>   
      <v-flex pa-3 pb-0>
-      <v-text-field
-      fixed
-      placeholder="Search...Twitter"
-      single-line
-      class="searchBox "
-      append-icon="search"
-      color="white"
-      hint="Search by song title, artist, album, or genre"
-      v-model="searchKeyword"
-    ></v-text-field>
+        <v-text-field
+          fixed
+          label="Twitter ID"
+          append-icon="search"
+          placeholder="Search"
+          v-model="searchKeyword"
+          hint="트위터 계정을 입력하세요"
+        ></v-text-field>
+     </v-flex>
+     
+   </v-layout>
+   <v-layout  align-center justify-center column fill-height>
+     <v-flex pb-2>
+     <v-progress-circular
+        :size="50"
+        v-if="busy"
+        color="primary"
+        indeterminate
+        class="mb-3"
+      ></v-progress-circular >
      </v-flex>
    </v-layout>
-  <v-layout row>
+   
+  <v-layout column v-if="twitters">
+      <v-flex xs12 sm12 lg12 md12 v-if="!twitters && searchKeyword !== '' ">
+        트윗이 없습니다.
+      </v-flex>
       <v-flex xs12 sm12 lg12 md12>
-        <template v-for="(item, index) in songs">
+        <template v-for="(item, index) in twitters">
       <v-card class="mb-3 ml-1 mr-1">
         <v-img
           :src="item.user.profile_banner_url"
           height="60px"
         >
-          
-
-          
-          
         </v-img>
 
         <v-card-title primary-title>
@@ -56,14 +67,12 @@
                 <span class="headline">{{item.user.screen_name}}@{{item.user.name}}</span>
               </v-flex>
             </v-layout>
-            <span class="grey--text">1,000 miles of wonder</span>
+            <span class="grey--text">{{item.user.description}}</span>
           </div>
         </v-card-title>
-
-        
         <v-slide-y-transition>
           <v-card-text>
-            <p class="furigana" v-html="item.furigana"></p>
+            <p class="furigana" v-html="$options.filters.twiterLink(item.furigana, item)"></p>
             <v-container grid-list-sm fluid>
               <v-layout row wrap>
                 <v-flex
@@ -93,6 +102,11 @@
                 </v-flex>
               </v-layout>
             </v-container>
+             <v-layout>
+               <v-flex class="text-xs-right grey--text">
+                 {{item.created_at |moment("dddd, MMMM Do YYYY, h:mm:ss a")  }}
+               </v-flex>
+             </v-layout>
             <v-card-actions>
             <v-btn flat>Share</v-btn>
             <v-btn flat color="purple">Explore</v-btn>
@@ -117,7 +131,7 @@
           color="primary">
         <v-icon>keyboard_arrow_up</v-icon>
       </v-btn>
-  </back-to-top>  
+  </back-to-top>    
 </div>    
 </template>
 <script>
@@ -132,7 +146,7 @@ export default {
   data () {
     return {
       searchKeyword : '',
-      songs: null,
+      twitters: null,
       busy : false,
       count: 0,
       offset: 0
@@ -147,33 +161,36 @@ export default {
   watch: {
     searchKeyword: _.debounce(async function (value) {
       var serach = null 
+      
       if (this.searchKeyword === '') {
         serach = null
         this.offset = 0
-      }else{
+      } else{
         serach = this.searchKeyword
       }
-
-      try {
-        var dataSet = (await SongsService.index(serach, this.offset)).data;
-        this.songs = dataSet.data;
-        this.count = dataSet.count.count
-        this.offset = this.songs.length
-      } catch (error) {
-        alert(error)
-      }
-      
+      this.search()
     }, 700)
   },
   async mounted () {
-    try {
-      var dataSet = (await TwitterService.index(null, this.offset)).data;
-      this.songs = dataSet;
-      console.log(dataSet)
-      //this.count = dataSet.count.count
-      //this.offset = this.songs.length
-    } catch (error) {
-      alert(error)
+     const search = this.$route.params.search
+     this.searchKeyword = search;
+     this.search()
+  },
+  filters: {
+    twiterLink (value, item) {
+      var html = value
+
+      if(item.entities.media){
+        item.entities.media.forEach(mediaEle => {
+          html = html.replace(mediaEle.url, '<a target="_blank" href="'+ mediaEle.url +'">Twitter</a>')
+        })
+      }
+      if(item.entities.urls){
+        item.entities.urls.forEach(urlEle => {
+          html = html.replace(urlEle.url, '' )
+        })
+      }
+     return html
     }
   },
   methods: {
@@ -183,10 +200,34 @@ export default {
         params: {  newSong : true}
       })
     },
+    async search(){
+      var serach = null 
+      this.busy = true
+      if (this.searchKeyword === '') {
+        serach = null
+        this.offset = 0
+      } else{
+        serach = this.searchKeyword
+      }
+      try {
+        var dataSet = []
+        if(!serach){
+          dataSet = (await TwitterService.homeTimeLine(serach, this.offset)).data;
+        }else{
+          dataSet = (await TwitterService.index(serach, this.offset)).data;  
+        }
+        this.twitters = dataSet.length === 0 ? null : dataSet
+        //this.count = dataSet.count.count
+        //this.offset = this.twitters.length
+      } catch (error) {
+        alert(error)
+      }
+      this.busy = false
+    },
     async loadMore() {
       this.busy = true
       try {
-        if(!this.songs){
+        if(!this.twitters){
           this.busy = false
           return;
         } 
@@ -197,10 +238,10 @@ export default {
         
         var dataSet = (await SongsService.index(null, this.offset)).data;
         var data = dataSet.data;
-        this.songs = this.songs.concat(data) 
-        this.offset = this.songs.length
+        this.twitters = this.twitters.concat(data) 
+        this.offset = this.twitters.length
         
-        //this.songs.push(data)
+        //this.twitters.push(data)
       } catch (error) {
         alert(error)
       }

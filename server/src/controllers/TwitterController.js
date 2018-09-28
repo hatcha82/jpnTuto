@@ -16,28 +16,49 @@ var client = new Twitter({
   access_token_key: '154533392-ERqhvCpOYDbjgGalpW18SMakNWXhxplXlMx7XDtC',
   access_token_secret: 'K2QjekGhokvzBbBLvvW7D2AmHLltVZWAUmB9DDfHHnofM'
 })
-
-module.exports = {
-  async index (req, res) {
-    function getData () {
-      return new Promise(function (resolve, reject) {
-        var params = {screen_name: 'ZIP_TV', count: 15, exclude_replies: false, include_entities: true}
-        client.get('statuses/user_timeline', params, function (error, tweets, response) {
-          if (!error) {
-            tweets.forEach(async function (element, index, array) {
+async function getData (screenName, endPoint) {
+  return new Promise(function (resolve, reject) {
+    var params = {screen_name: screenName, count: 15, exclude_replies: false, include_entities: true}
+    client.get(endPoint, params, function (error, tweets, response) {
+      if (!error) {
+        if (tweets.length === 0) {
+          resolve(tweets)
+        } else {
+          tweets.forEach(async function (element, index, array) {
+            if (element.lang === 'ja') {
               var result = await kuroshiro.convert(element.text, {mode: 'furigana', to: 'hiragana', romajiSystem: 'passport'})
               element.furigana = result
-              if (index + 1 === array.length) {
-                resolve(tweets)
-              }
-            })
-          } else {
-            reject(new Error('Request is failed'))
-          }
-        })
-      })
+            } else {
+              element.furigana = element.text
+            }
+            if (index + 1 === array.length) {
+              resolve(tweets)
+            }
+          })
+        }
+      } else {
+        reject(new Error(error))
+      }
+    })
+  })
+}
+
+module.exports = {
+  async userTimeLine (req, res) {
+    var search = req.query.search
+    if (!search) {
+      search = '_FURIGANA'
     }
-    getData().then(function (data) {
+    getData(search, 'statuses/user_timeline').then(function (data) {
+      res.send(data)
+      // res.send(data); // response 값 출력
+    }).catch(function (err) {
+      res.send(err)// Error 출력
+    })
+  },
+  async  homeTimeline (req, res) {
+    var search = '_FURIGANA'
+    getData(search, 'favorites/list').then(function (data) {
       res.send(data)
       // res.send(data); // response 값 출력
     }).catch(function (err) {

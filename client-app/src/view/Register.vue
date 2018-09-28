@@ -21,15 +21,17 @@
           <br>
           <div class="danger-alert" v-html="error" />
           <br>
-          <div class="text-xs-center">
+      </v-flex>
+    </v-layout>
+    <v-layout>
+      <v-flex>
             <v-btn
             large
+            block
               color="primary" 
-              round
               @click="register">
-              Sign Up
+              Create Account
             </v-btn>
-          </div>
       </v-flex>
     </v-layout>
   </v-container>
