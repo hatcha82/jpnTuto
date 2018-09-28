@@ -1,7 +1,5 @@
 <template>
-<!-- <div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="-37"> -->
-<div>
-  
+<div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="-37">
   <v-btn 
         v-if="isUserLoggedIn"
         class="mb-5 mr-2"
@@ -149,7 +147,8 @@ export default {
       twitters: null,
       busy : false,
       count: 0,
-      offset: 0
+      isLast : false,
+      offset: null
     }
   },
     computed: {
@@ -160,11 +159,11 @@ export default {
   },
   watch: {
     searchKeyword: _.debounce(async function (value) {
-      var serach = null 
-      
+      var serach = null       
+      this.isLast = false
       if (this.searchKeyword === '') {
         serach = null
-        this.offset = 0
+        this.offset = null
       } else{
         serach = this.searchKeyword
       }
@@ -200,15 +199,17 @@ export default {
         params: {  newSong : true}
       })
     },
-    async search(){
+    async search(isAppend){
       var serach = null 
       this.busy = true
+     
       if (this.searchKeyword === '') {
         serach = null
-        this.offset = 0
+        this.offset = null
       } else{
         serach = this.searchKeyword
       }
+          
       try {
         var dataSet = []
         if(!serach){
@@ -216,37 +217,29 @@ export default {
         }else{
           dataSet = (await TwitterService.index(serach, this.offset)).data;  
         }
-        this.twitters = dataSet.length === 0 ? null : dataSet
-        //this.count = dataSet.count.count
-        //this.offset = this.twitters.length
+        if(dataSet.length <= 1){
+          this.isLast = true
+        }
+        var twit = this.$_.min(dataSet, function(twit){
+          return twit.id
+        })
+
+        if( isAppend ){
+          this.twitters = this.twitters.concat(dataSet.length === 0 ? null : dataSet) 
+        }else{
+          this.twitters = dataSet.length === 0 ? null : dataSet
+        }
+        this.offset = twit.id
+       
       } catch (error) {
         alert(error)
       }
       this.busy = false
     },
     async loadMore() {
-      this.busy = true
-      try {
-        if(!this.twitters){
-          this.busy = false
-          return;
-        } 
-        if(this.offset >= this.count){
-          this.busy = false
-          return;
-        } 
-        
-        var dataSet = (await SongsService.index(null, this.offset)).data;
-        var data = dataSet.data;
-        this.twitters = this.twitters.concat(data) 
-        this.offset = this.twitters.length
-        
-        //this.twitters.push(data)
-      } catch (error) {
-        alert(error)
+      if(!this.isLast){
+        this.search(true)
       }
-      this.busy = false
-      
     }
   }
 }

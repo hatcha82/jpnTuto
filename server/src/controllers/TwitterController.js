@@ -16,9 +16,13 @@ var client = new Twitter({
   access_token_key: '154533392-ERqhvCpOYDbjgGalpW18SMakNWXhxplXlMx7XDtC',
   access_token_secret: 'K2QjekGhokvzBbBLvvW7D2AmHLltVZWAUmB9DDfHHnofM'
 })
-async function getData (screenName, endPoint) {
+async function getData (screenName, endPoint, maxId) {
   return new Promise(function (resolve, reject) {
-    var params = {screen_name: screenName, count: 15, exclude_replies: false, include_entities: true}
+    var params = {screen_name: screenName, count: 5, exclude_replies: false, include_entities: true}
+    if (maxId) {
+      params.max_id = maxId
+    }
+    console.log(params)
     client.get(endPoint, params, function (error, tweets, response) {
       if (!error) {
         if (tweets.length === 0) {
@@ -46,10 +50,11 @@ async function getData (screenName, endPoint) {
 module.exports = {
   async userTimeLine (req, res) {
     var search = req.query.search
+    var maxId = req.query.maxId
     if (!search) {
       search = '_FURIGANA'
     }
-    getData(search, 'statuses/user_timeline').then(function (data) {
+    getData(search, 'statuses/user_timeline', maxId).then(function (data) {
       res.send(data)
       // res.send(data); // response 값 출력
     }).catch(function (err) {
@@ -58,7 +63,8 @@ module.exports = {
   },
   async  homeTimeline (req, res) {
     var search = '_FURIGANA'
-    getData(search, 'favorites/list').then(function (data) {
+    var maxId = req.query.maxId
+    getData(search, 'favorites/list', maxId).then(function (data) {
       res.send(data)
       // res.send(data); // response 값 출력
     }).catch(function (err) {

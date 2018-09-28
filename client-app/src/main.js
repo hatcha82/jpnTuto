@@ -9,6 +9,7 @@ import { sync } from 'vuex-router-sync'
 import store from '@/store/store'
 import BackToTop from 'vue-backtotop'
 import moment from 'moment'
+import underscore from 'vue-underscore'
 
 Vue.config.productionTip = false
 Vue.use(VueHead)
@@ -16,6 +17,7 @@ moment.locale('ko')
 Vue.use(require('vue-moment'), {
   moment
 })
+Vue.use(underscore)
 Vue.use(BackToTop)
 Vue.use(infiniteScroll)
 sync(store, router)
