@@ -18,21 +18,26 @@ var client = new Twitter({
 })
 async function getData (screenName, endPoint, maxId) {
   return new Promise(function (resolve, reject) {
-    var params = {screen_name: screenName, count: 5, exclude_replies: true, include_rts: false, include_entities: true}
+    var params = {screen_name: screenName, count: 20, stringify_ids: true, exclude_replies: true, include_rts: false, include_entities: true}
     if (maxId) {
-      params.max_id = maxId
+      params.max_id = maxId.toString()
     }
     console.log(params)
     console.log(endPoint)
     client.get(endPoint, params, function (error, tweets, response) {
       if (!error) {
+        console.log('tweets:' + tweets.length) // response 값 출력
         if (tweets.length === 0) {
           resolve(tweets)
         } else {
           tweets.forEach(async function (element, index, array) {
             if (element.lang === 'ja') {
-              var result = await kuroshiro.convert(element.text, {mode: 'furigana', to: 'hiragana', romajiSystem: 'passport'})
-              element.furigana = result
+              try {
+                var result = await kuroshiro.convert(element.text, {mode: 'furigana', to: 'hiragana', romajiSystem: 'passport'})
+                element.furigana = result
+              } catch (error) {
+                element.furigana = element.text
+              }
             } else {
               element.furigana = element.text
             }
@@ -56,6 +61,7 @@ module.exports = {
       search = '_FURIGANA'
     }
     getData(search, 'statuses/user_timeline', maxId).then(function (data) {
+      console.log(data.length) // response 값 출력
       res.send(data)
       // res.send(data); // response 값 출력
     }).catch(function (err) {

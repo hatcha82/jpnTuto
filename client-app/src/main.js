@@ -10,6 +10,15 @@ import store from '@/store/store'
 import BackToTop from 'vue-backtotop'
 import moment from 'moment'
 import underscore from 'vue-underscore'
+import vueVideo from 'vue-video'
+import VueVideoPlayer from 'vue-video-player'
+// require videojs style
+import 'video.js/dist/video-js.css'
+// import 'vue-video-player/src/custom-theme.css'
+Vue.use(VueVideoPlayer, /* {
+  options: global default options,
+  events: global videojs events
+} */)
 
 Vue.config.productionTip = false
 Vue.use(VueHead)
@@ -20,6 +29,7 @@ Vue.use(require('vue-moment'), {
 Vue.use(underscore)
 Vue.use(BackToTop)
 Vue.use(infiniteScroll)
+Vue.use(vueVideo)
 sync(store, router)
 
 new Vue({
