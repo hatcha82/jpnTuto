@@ -1,7 +1,7 @@
 import Api from '@/services/Api'
 
 export default {
-  index (search,maxId) {
+  userTimeLine (search,maxId) {
     return Api().get('twitters/userTimeLine', {
       params: {
         search: search,

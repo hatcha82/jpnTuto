@@ -18,11 +18,12 @@ var client = new Twitter({
 })
 async function getData (screenName, endPoint, maxId) {
   return new Promise(function (resolve, reject) {
-    var params = {screen_name: screenName, count: 5, exclude_replies: false, include_entities: true}
+    var params = {screen_name: screenName, count: 5, exclude_replies: true, include_rts: false, include_entities: true}
     if (maxId) {
       params.max_id = maxId
     }
     console.log(params)
+    console.log(endPoint)
     client.get(endPoint, params, function (error, tweets, response) {
       if (!error) {
         if (tweets.length === 0) {
@@ -41,7 +42,7 @@ async function getData (screenName, endPoint, maxId) {
           })
         }
       } else {
-        reject(new Error(error))
+        reject(error[0])
       }
     })
   })
@@ -58,17 +59,20 @@ module.exports = {
       res.send(data)
       // res.send(data); // response 값 출력
     }).catch(function (err) {
+      console.log('eeror')
       res.send(err)// Error 출력
     })
   },
   async  homeTimeline (req, res) {
-    var search = '_FURIGANA'
+    var search = 'ZIP_TV'
     var maxId = req.query.maxId
-    getData(search, 'favorites/list', maxId).then(function (data) {
+    getData(search, 'statuses/user_timeline', maxId).then(function (data) {
       res.send(data)
       // res.send(data); // response 값 출력
     }).catch(function (err) {
-      res.send(err)// Error 출력
+      res.status(500).send({
+        error: err
+      })
     })
   },
   // async index (req, res) {
