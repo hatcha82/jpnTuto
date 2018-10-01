@@ -1,13 +1,12 @@
 <template>
-<div class="secondary lighten-5">
+<div class="">
 <transition name="fade" v-if="isLoading">
     <pulse-loader></pulse-loader>
   </transition>
   <transition name="fade" v-if="!isLoading">    
      <div id="page-wrapper">       
-      <v-container grid-list-lg>          
-        <v-layout  wrap>
-          <v-flex xs12>
+        <v-layout row justify-center >
+          <v-flex xs12 style="display:none">
             <v-select 
               @change="voiceChange"
               v-model="selectedVoice"             
@@ -20,17 +19,17 @@
               single-line
             ></v-select>
           </v-flex>
-          <v-flex xs6>
+          <v-flex xs6 style="display:none">
             <v-slider min="0" max="10" step="1" v-model="volume" label="Volume"></v-slider>
           </v-flex>
-          <v-flex xs6>
+          <v-flex xs6 style="display:none">
             <v-slider min="0" max="10" step="1" v-model="rate" label="Rate"></v-slider>
           </v-flex>           
           <!-- <v-flex xs4>
             <v-slider min="0" max="10" step="1" thumb-label="always" v-model="pitch" label="Pitch"></v-slider>
           </v-flex>            -->
         </v-layout>
-      </v-container>
+      
       <v-btn @click="play"><v-icon >play_arrow</v-icon></v-btn>
       <v-btn @click="pause"><v-icon >pause</v-icon></v-btn>
       <v-btn @click="stop"><v-icon >stop</v-icon></v-btn> 
@@ -108,6 +107,11 @@ export default {
     },
     play () {
       // it should be 'craic', but it doesn't sound right
+      
+      this.voiceList = this.synth.getVoices().filter(function (obj) {
+        if (obj.lang === 'ja-JP') return true
+      })
+      this.selectedVoice = this.voiceList[0]
       if (this.synth.paused) {
         this.synth.resume()
       } else {
@@ -139,8 +143,6 @@ export default {
 
 <style scope>
 #page-wrapper{
-
-  padding:10px;
   border-radius: 10px
 }
 </style>

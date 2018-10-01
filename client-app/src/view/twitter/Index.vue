@@ -25,8 +25,10 @@
      </v-flex>
      
    </v-layout>
-   <v-layout  align-center justify-center column fill-height>
+   <v-progress-linear  :indeterminate="busy"></v-progress-linear>    
+   <!-- <v-layout  align-center justify-center column fill-height>
      <v-flex pb-2>
+      
      <v-progress-circular
         :size="50"
         v-if="busy"
@@ -35,7 +37,7 @@
         class="mb-3"
       ></v-progress-circular >
      </v-flex>
-   </v-layout>
+   </v-layout> -->
    
   <v-layout column v-if="twitters">
       <v-flex xs12 sm12 lg12 md12 v-if="!twitters && searchKeyword !== '' ">
@@ -70,15 +72,17 @@
         </v-card-title>
         <v-slide-y-transition>
           <v-card-text>
-            <p class="furigana pl-3 pr-0" v-html="$options.filters.twiterLink(item.furigana, item)"></p>
+            <p class="furigana pl-3 pr-0" v-html="$options.filters.twiterOnlyText(item.furigana, item)"></p>
+            <!-- <p class="furigana pl-3 pr-0" v-html="item.furigana"></p> -->
+            <!-- <pre v-text="$options.filters.twiterOnlyText(item.full_text, item)"></pre> -->
+            <Synthesis :text="item.full_text" class="mt-3"/>
             <v-container grid-list-sm fluid v-if="item.extended_entities">
-              
               <v-layout row wrap>
                   <v-flex
                     v-for="(ent,index) in item.extended_entities.media"
                     :key="index"
                     xs12
-                    v-if="ent.type === 'video'"
+                    v-if="(ent.type === 'video' || ent.type === 'animated_gif')"
                   >
                 <video-player  class="video-player-box"
                  ref="videoPlayer"
@@ -97,8 +101,8 @@
                   :key="index"
                   xs12
                   d-flex
-                >
-                  <v-card flat tile class="d-flex">
+                > 
+                  <v-card flat tile class="d-flex" v-if="ent.type == 'photo'">
                     <v-img
                       :src="ent.media_url"
                       :lazy-src="ent.media_url"
@@ -150,7 +154,8 @@
           color="primary">
         <v-icon>keyboard_arrow_up</v-icon>
       </v-btn>
-  </back-to-top>    
+  </back-to-top>
+  <v-progress-linear  :indeterminate="busy"></v-progress-linear>    
 </div>    
 </template>
 <script>
@@ -160,12 +165,15 @@ import TwitterService from '@/services/TwitterService'
 import _ from 'lodash'
 import myVideo from 'vue-video'
 import 'video.js/dist/video-js.css'
+import Synthesis from '@/components/common/Synthesis'
 
 import { videoPlayer } from 'vue-video-player'
+
 export default {
   components: {
     myVideo,
-    videoPlayer
+    videoPlayer,
+    Synthesis
   },
   data () {
     return {
@@ -176,7 +184,6 @@ export default {
       isLast : false,
       offset: null,
       twitterMsg: '트위터 계정을 입력하세요',
-      
     }
   },
     computed: {
@@ -206,7 +213,7 @@ export default {
   },
   
   filters: {
-    twiterLink (value, item) {
+    async twiterLink (value, item) {
       var html = value
       if(html){
         if(item.entities.media){
@@ -221,9 +228,28 @@ export default {
         }
       }
      return html
+    },
+  twiterOnlyText (value, item) {
+      var html = value
+      if(html){
+        if(item.entities.media){
+          item.entities.media.forEach(mediaEle => {
+            html = html.replace(mediaEle.url, '')
+          })
+        }
+        if(item.entities.urls){
+          item.entities.urls.forEach(urlEle => {
+            html = html.replace(urlEle.url, '' )
+          })
+        }
+      }
+     return html
     }
   },
   methods: {
+    isVideoContains(media){
+
+    },
     videoParam (media) {
       var sources = []
       media.video_info.variants.forEach(variant => {
@@ -296,11 +322,15 @@ export default {
             }
             
             console.log('afeter: ' ,dataSet.length)
-            this.twitters = this.twitters.concat(appendDataSet)
-            this.offset = appendDataSet.reverse()[0].id_str;
             if(appendDataSet.length == 1){
               this.isLast = true;
+              this.twitters = appendDataSet
+            }else{
+              this.twitters = this.twitters.concat(appendDataSet)
             }
+            this.offset = appendDataSet.reverse()[0].id_str; 
+           
+            
 
           }else{
             this.twitters = dataSet.length === 0 ? null : dataSet
@@ -330,6 +360,8 @@ export default {
       this.busy = true
       if(!this.isLast){
         this.search(true)
+      }else{
+        this.busy = false
       }
     }
   }

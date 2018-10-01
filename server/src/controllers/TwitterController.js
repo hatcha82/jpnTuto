@@ -18,7 +18,7 @@ var client = new Twitter({
 })
 async function getData (screenName, endPoint, maxId) {
   return new Promise(function (resolve, reject) {
-    var params = {screen_name: screenName, count: 20, stringify_ids: true, exclude_replies: true, include_rts: false, include_entities: true}
+    var params = {screen_name: screenName, tweet_mode: 'extended', stringify_ids: true, exclude_replies: true, include_rts: false, include_entities: true}
     if (maxId) {
       params.max_id = maxId.toString()
     }
@@ -33,10 +33,10 @@ async function getData (screenName, endPoint, maxId) {
           tweets.forEach(async function (element, index, array) {
             if (element.lang === 'ja') {
               try {
-                var result = await kuroshiro.convert(element.text, {mode: 'furigana', to: 'hiragana', romajiSystem: 'passport'})
+                var result = await kuroshiro.convert(element.full_text, {mode: 'furigana', to: 'hiragana', romajiSystem: 'passport'})
                 element.furigana = result
               } catch (error) {
-                element.furigana = element.text
+                element.furigana = element.full_text
               }
             } else {
               element.furigana = element.text
