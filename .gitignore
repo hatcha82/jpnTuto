@@ -4,3 +4,14 @@ server/node_modules/
 server/src/config/config.js
 client/src/services/Api.js
 
+package-lock.json
+node_modules/client
+jpnTuto.code-workspace
+client/.env
+client/config/dev.env.js
+client/src/services/Api.js
+server/seed/users.json
+client/config/index.js
+client/build/dev-server.js
+client/package-lock.json
+server/package-lock.json
