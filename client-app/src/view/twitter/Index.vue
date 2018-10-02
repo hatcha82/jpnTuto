@@ -45,7 +45,7 @@
       </v-flex>
       <v-flex xs12 sm12 lg12 md12>
         <template v-for="(item, index) in twitters">
-      <v-card class="mb-3 ml-1 mr-1" v-if="item.user">
+      <v-card v-bind="index" class="mb-3 ml-1 mr-1" v-if="item.user">
         <v-img
           :src="item.user.profile_banner_url"
           height="100px"
@@ -248,7 +248,6 @@ export default {
   },
   methods: {
     isVideoContains(media){
-
     },
     videoParam (media) {
       var sources = []
@@ -297,7 +296,6 @@ export default {
       }   
       try {
         var dataSet = []
-        console.log('offset request', this.offset)
         if(!serach){
           dataSet = (await TwitterService.homeTimeLine(serach, this.offset)).data;
         }else{
@@ -309,7 +307,7 @@ export default {
         
         if(!dataSet.code){
           if( isAppend){
-            var lastOffset = this.offset
+            //var lastOffset = this.offset
             
             //dataSet =  this.$_.without(dataSet,{id_str : this.offset})
             var appendDataSet = []
@@ -317,11 +315,10 @@ export default {
               
               if(dataSet[i].id_str != this.offset){
                 appendDataSet.push(dataSet[i])
-                console.log(dataSet[i].id_str)
+                // console.log(dataSet[i].id_str)
               }
             }
-            
-            console.log('afeter: ' ,dataSet.length)
+            // console.log('afeter: ' ,dataSet.length)
             if(appendDataSet.length == 1){
               this.isLast = true;
               this.twitters = appendDataSet
@@ -339,10 +336,8 @@ export default {
               this.isLast = true;
             }
           }
-
-          
            //this.offset = twit.id_str
-           console.log('offset sett', this.offset)
+          //  console.log('offset sett', this.offset)
         }else{
           this.twitterMsg = dataSet.message
           this.twitters =null
@@ -351,8 +346,8 @@ export default {
         }
        
       } catch (error) {
-        console.log(error)
-        console.log(this.twitters)
+        // console.log(error)
+        // console.log(this.twitters)
       }
       this.busy = false
     },

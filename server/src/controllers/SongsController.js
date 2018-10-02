@@ -39,7 +39,12 @@ module.exports = {
                 $like: `%${search}%`
               }
             }))
-          }
+          },
+          order: [
+            ['updatedAt', 'DESC']
+          ],
+          limit: 100,
+          offset: offset
         })
       } else {
         count = await Song.findOne({
@@ -49,7 +54,7 @@ module.exports = {
         songs = await Song.findAll({
           attributes: {exclude: ['lyrics', 'tab']},
           order: [
-            ['createdAt', 'DESC']
+            ['updatedAt', 'DESC']
           ],
           limit: 100,
           offset: offset
