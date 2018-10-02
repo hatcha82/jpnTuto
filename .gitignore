@@ -15,3 +15,16 @@ client/config/index.js
 client/build/dev-server.js
 client/package-lock.json
 server/package-lock.json
+bot/YoubueTagBot/config/config.js
+bot/lyricsCrawBot/config/config.js
+client/src/App.vue
+bot/YoubueTagBot/config/config.js
+bot/lyricsCrawBot/config/config.js
+client/Dockerfile_back
+client/Dockerfile_nginxTest
+client/package-lock.json
+client/config/dev.env.js
+client/config/index.js
+client/src/components/Article/List/Index.vue
+server/package-lock.json
+server/seed/users.json
