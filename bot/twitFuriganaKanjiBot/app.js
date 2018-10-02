@@ -166,6 +166,6 @@ function getUserTimeLine(){
 }
 var internval = 60 * 20
 updateTwitStatus()
-setInterval(updateTwitStatus,1000 * internval)
+//setInterval(updateTwitStatus,1000 * internval)
 
 
