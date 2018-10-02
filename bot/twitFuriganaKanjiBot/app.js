@@ -11,8 +11,6 @@ const {Kanji} = require('./models')
 sequelize.sync({force: false})
 .then(() => {
   console.log(`DB is connected...`)
-  
-  
   botRun()
 })
 
@@ -25,7 +23,10 @@ async function botRun(){
       twitterUploaded: null
     },
     limit : 1,
-    order: sequelize.random()
+    order: [
+      [sequelize.random()],
+      ['createdAt', 'ASC']
+    ]
   })
   
   word = kanjis[0].kanji;
@@ -86,15 +87,24 @@ JLPT Levl :  ${result.jlptLevel}
     twitText =  twitText.replace('[[onyomiExamples]]',template)
     var media_ids = media_ids.join(',')
     //
-    console.log(twitText.length)
-    console.log(twitText)
+    
     var parseResult = twitterText.parseTweet(twitText);
     console.log(parseResult)
     var twitResult = await client.post('statuses/update', {status: twitText,media_ids:media_ids})
     console.log("Tweet!!")
-    console.log(twitResult.created_at)
-    console.log(twitResult.text)
-    
+    var updatedAt = new Date()
+    Kanji.update({
+      updatedAt : updatedAt
+    }, {
+      where: { id: kanjis[0].id }
+    })
+    .then(result =>{
+      console.log(`Db Id: ${kanjis[0].id} / ${kanjis[0].kanjis} UpdatedAt :${updatedAt}`)
+      console.log(result)
+    })
+    .catch(error =>{
+      console.log(error)
+    }) 
     
   } catch (error) {
     console.log(error)
@@ -154,9 +164,8 @@ function getUserTimeLine(){
     }
   });
 }
-var internval = 5
-//getUserTimeLine()
-//updateTwitStatus()
-//setInterval(getUserTimeLine,1000 * internval)
+var internval = 60 * 20
+updateTwitStatus()
+setInterval(updateTwitStatus,1000 * internval)
 
 

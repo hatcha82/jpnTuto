@@ -43,7 +43,7 @@ module.exports = {
           order: [
             ['updatedAt', 'DESC']
           ],
-          limit: 100,
+          limit: 30,
           offset: offset
         })
       } else {
@@ -56,7 +56,7 @@ module.exports = {
           order: [
             ['updatedAt', 'DESC']
           ],
-          limit: 100,
+          limit: 30,
           offset: offset
         })
       }

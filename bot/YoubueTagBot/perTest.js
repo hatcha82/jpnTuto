@@ -81,36 +81,9 @@ async function addQueue(){
       title : {[Op.notLike]: '%\\%%'},
       artist: {[Op.notLike]: '%\\%%'}
     },
-    limit: 1
-  })
-  
-  var paramEncoded = encodeURIComponent(`${song.artist} ${song.title} site:youtube.com`)
-  var youtube = `https://www.google.co.kr/search?q=`+paramEncoded;
-
-  
-    var crawlerparam = [{
-      uri: youtube,                        
-      callback: youTubeCrawlerCallBack,
-      param : song,
-      preRequest: function(options, done) {
-          var ranTime = Math.floor((Math.random() * 10) + 1)
-          console.log(`${ranTime}Sec 후에 진행...`)
-          setTimeout(function() {
-            done();
-          }, 1000)
-      }
-    }]  
-    if(song.title){
-      console.log(`유트브 아이디 요청 진행...`)
-      console.log(`${youtube}`)
-      await youTubeCrawler.queue(crawlerparam) 
-    }else{
-      tryCount++
-      if(tryCount > 100){
-        clearInterval(term)
-      }
-    } 
-    //console.log(`[${optionParam.rank}] ${optionParam.artist}+${optionParam.title} : ${youtube} added\n`)    
+    limit: 10
+  });
+  console.log(song)
   
 }
 console.log(console.log(`${new Date()} Queue Size: ${youTubeCrawler.queueSize}`) )
