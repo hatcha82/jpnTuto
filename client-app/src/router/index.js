@@ -22,6 +22,7 @@ import Register from '@/view/Register'
 Vue.use(Router)
 export default new Router({
   mode: 'history',
+  canReuse: false,
   scrollBehavior() {
     return { x: 0, y: 0 };
   },

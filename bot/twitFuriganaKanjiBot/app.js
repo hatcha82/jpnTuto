@@ -59,15 +59,15 @@ async function botRun(){
     console.log('3.Meida Upload To tweeter')
 
     var twitText = `
-한자 : ${result.query}
+漢字 : ${result.query}
 JLPT Levl :  ${result.jlptLevel}
-음독 :  ${result.onyomi}
-예) 
+音読 :  ${result.onyomi}
+例) 
 [[kunyomiExamples]]
-훈독 : ${result.kunyomi}
-예) 
+訓読 : ${result.kunyomi}
+例) 
 [[onyomiExamples]]
-뜻: ${result.meaning}
+意味: ${result.meaning}
 #Jisho
     `
     
