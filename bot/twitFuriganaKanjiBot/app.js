@@ -12,6 +12,8 @@ sequelize.sync({force: false})
 .then(() => {
   console.log(`DB is connected...`)
   botRun()
+  var internval = 60 * 20
+  setInterval(botRun,1000 * internval)
 })
 
 
@@ -164,8 +166,5 @@ function getUserTimeLine(){
     }
   });
 }
-var internval = 60 * 20
-updateTwitStatus()
-//setInterval(updateTwitStatus,1000 * internval)
 
 
