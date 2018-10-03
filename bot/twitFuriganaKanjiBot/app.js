@@ -12,7 +12,7 @@ sequelize.sync({force: false})
 .then(() => {
   console.log(`DB is connected...`)
   botRun()
-  var internval = 60 * 20
+  var internval = 60 * 60
   setInterval(botRun,1000 * internval)
 })
 
