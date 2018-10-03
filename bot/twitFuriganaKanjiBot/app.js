@@ -101,7 +101,7 @@ JLPT Levl :  ${result.jlptLevel}
       where: { id: kanjis[0].id }
     })
     .then(result =>{
-      console.log(`Db Id: ${kanjis[0].id} / ${kanjis[0].kanjis} UpdatedAt :${updatedAt}`)
+      console.log(`Db Id: ${kanjis[0].id} / ${kanjis[0].kanji} UpdatedAt :${new Date().toString()}`)
       console.log(result)
     })
     .catch(error =>{
