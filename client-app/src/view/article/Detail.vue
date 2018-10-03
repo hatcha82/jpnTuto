@@ -126,7 +126,7 @@
     <v-flex d-flex xs12 sm12 md6>
         <div>
         <v-card class="pa-2">
-        <Synthesis :text="article.furigana" class="mt-3"/>
+        <Synthesis :text="article.article" class="mt-3"/>
         </v-card>
       </div>
     </v-flex>

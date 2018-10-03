@@ -192,6 +192,9 @@ export default {
     ])
   },
   watch: {
+    '$route.params.search': function (search) {
+      this.searchKeyword = search
+    },
     searchKeyword: _.debounce(async function (value) {
       if(this.busy) return;
       var serach = null       

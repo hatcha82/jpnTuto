@@ -3,6 +3,8 @@ server/node_modules/
 bot/YoubueTagBot/node_modules/
 bot/twitFuriganaKanjiBot/node_modules/
 bot/lyricsCrawBot/node_modules/
+bot/papagoBot/node_modules/
+bot/papagoBot/.env
 
 server/src/config/config.js
 client/src/services/Api.js

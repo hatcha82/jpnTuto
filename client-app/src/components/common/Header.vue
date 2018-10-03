@@ -56,12 +56,12 @@
         <!-- <span class="title white--text">FuRIGana</span> -->
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-toolbar-title  v-if="$store.state.isUserLoggedIn"  @click="linkTo('music-list')" > 
+      <v-toolbar-title  v-if="$store.state.isUserLoggedIn"  @click="linkTo({linkTo:'music-list'})" > 
         <v-btn icon>
         <v-icon>music_note</v-icon>
         </v-btn>        
       </v-toolbar-title>
-      <v-toolbar-title  v-if="$store.state.isUserLoggedIn"  @click="linkTo('article-list')"> 
+      <v-toolbar-title  v-if="$store.state.isUserLoggedIn"  @click="linkTo({linkTo:'article-list'})"> 
         <v-btn icon>
         <v-icon>description</v-icon>
         </v-btn>
@@ -71,7 +71,7 @@
         <v-icon>translate</v-icon>
         </v-btn>
       </v-toolbar-title>     -->
-      <v-toolbar-title v-if="!$store.state.isUserLoggedIn"  class="mr-4"  @click="linkTo('login')">
+      <v-toolbar-title v-if="!$store.state.isUserLoggedIn"  class="mr-4"  @click="linkTo({linkTo:'login'})">
         <v-btn icon>
         <v-icon>fas fa-sign-in-alt</v-icon>
         </v-btn>
@@ -105,7 +105,7 @@
         { icon: 'music_note', text: 'Music', linkTo: 'music-list', params:{}},
         { icon: 'description', text: 'News', linkTo: 'article-list', params:{} },
         { icon: 'fab fa-twitter', text: 'Twitter', linkTo: 'twitter-list' , params:{}},
-        { icon: 'fab fa-twitter', text: 'Furigana', linkTo: 'twitter-list-search' , params:{search : '_FURIGANA'}},
+        { icon: 'translate', text: 'Kanji', linkTo: 'twitter-list-search' , params:{search : '_FURIGANA'}},
         // { icon: 'history', text: 'History', linkTo: 'history' },
         // { icon: 'featured_play_list', text: 'Playlists' },
         // { icon: 'watch_later', text: 'Watch Later' }
