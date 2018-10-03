@@ -96,7 +96,7 @@ JLPT Levl :  ${result.jlptLevel}
     console.log("Tweet!!")
     var updatedAt = new Date()
     Kanji.update({
-      updatedAt : updatedAt
+      twitterUploaded : 'Y'
     }, {
       where: { id: kanjis[0].id }
     })
