@@ -96,12 +96,12 @@ JLPT Levl :  ${result.jlptLevel}
     console.log("Tweet!!")
     var updatedAt = new Date()
     Kanji.update({
-      updatedAt : updatedAt
+      twitterUploaded : 'Y'
     }, {
       where: { id: kanjis[0].id }
     })
     .then(result =>{
-      console.log(`Db Id: ${kanjis[0].id} / ${kanjis[0].kanjis} UpdatedAt :${updatedAt}`)
+      console.log(`Db Id: ${kanjis[0].id} / ${kanjis[0].kanji} UpdatedAt :${new Date().toString()}`)
       console.log(result)
     })
     .catch(error =>{
