@@ -73,7 +73,7 @@ JLPT Levl :  ${result.jlptLevel}
     
     var template = ''
     result.kunyomiExamples.forEach( (examObj,index) =>{
-      if(index < 3){
+      if(index < 2){
         var example = `${index +1}. ${examObj.example} (${examObj.reading})\n`;
         template += example
       }
@@ -81,7 +81,7 @@ JLPT Levl :  ${result.jlptLevel}
     twitText =  twitText.replace('[[kunyomiExamples]]',template)
     template = ''
     result.onyomiExamples.forEach( (examObj,index) =>{
-      if(index < 3){
+      if(index < 2){
         var example = `${index +1}. ${examObj.example} (${examObj.reading})\n`;
         template += example
       }
@@ -92,6 +92,7 @@ JLPT Levl :  ${result.jlptLevel}
     
     var parseResult = twitterText.parseTweet(twitText);
     console.log(parseResult)
+    console.log(twitterText)
     var twitResult = await client.post('statuses/update', {status: twitText,media_ids:media_ids})
     console.log("Tweet!!")
     var updatedAt = new Date()
