@@ -3,11 +3,11 @@ var request = require('request');
 const {sequelize} = require('./models')
 const config = require('./config/config')
 const {Song} = require('./models')
-   
+var interval = 60 * 60 * 2; //2Hour
 init()
 function init(){
   run()
-  //setInterval(run, 1000)
+  setInterval(run, 1000 * interval)
 }
 async function run(param){
 
