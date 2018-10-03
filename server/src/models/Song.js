@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     youtubeId: DataTypes.STRING,
     lyrics: DataTypes.TEXT,
     tab: DataTypes.TEXT,
+    lyricsKor: DataTypes.TEXT,
     createdUserId: DataTypes.INTEGER,
     updatedUserId: DataTypes.INTEGER
   })

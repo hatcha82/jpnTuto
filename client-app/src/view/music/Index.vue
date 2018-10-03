@@ -42,7 +42,7 @@
                 avatar            
               >
                 <v-list-tile-avatar>
-                  <img :src="item.albumImageUrl">                   
+                  <img :src="item.albumImageUrl ? item.albumImageUrl : require('../../assets/noImage.png')">                   
                 </v-list-tile-avatar>
                 <v-list-tile-content>
                   <v-list-tile-title v-html="item.title">
@@ -122,6 +122,17 @@ export default {
       this.offset = this.songs.length
     } catch (error) {
       alert(error)
+    }
+  },
+  filters: {
+    imageInfo(item){
+      return `
+Title: ${item.title}
+Artist: ${item.artist}
+Album: ${item.album}
+Album Image Source:
+${item.albumImageUrl}
+      `
     }
   },
   methods: {

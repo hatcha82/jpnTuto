@@ -12,7 +12,7 @@ sequelize.sync({force: false})
 .then(() => {
   console.log(`DB is connected...`)
   botRun()
-  var internval = 60 * 20
+  var internval = 60 * 60
   setInterval(botRun,1000 * internval)
 })
 
@@ -59,30 +59,30 @@ async function botRun(){
     console.log('3.Meida Upload To tweeter')
 
     var twitText = `
-한자 : ${result.query}
+漢字 : ${result.query}
 JLPT Levl :  ${result.jlptLevel}
-음독 :  ${result.onyomi}
-예) 
+音読 :  ${result.onyomi}
+例) 
 [[kunyomiExamples]]
-훈독 : ${result.kunyomi}
-예) 
+訓読 : ${result.kunyomi}
+例) 
 [[onyomiExamples]]
-뜻: ${result.meaning}
+意味: ${result.meaning}
 #Jisho
     `
     
     var template = ''
     result.kunyomiExamples.forEach( (examObj,index) =>{
-      if(index < 3){
-        var example = `${index +1}. ${examObj.example} (${examObj.reading})\n`;
+      if(index < 1){
+        var example = `${examObj.example} (${examObj.reading})\n`;
         template += example
       }
     })
     twitText =  twitText.replace('[[kunyomiExamples]]',template)
     template = ''
     result.onyomiExamples.forEach( (examObj,index) =>{
-      if(index < 3){
-        var example = `${index +1}. ${examObj.example} (${examObj.reading})\n`;
+      if(index < 1){
+        var example = `${examObj.example} (${examObj.reading})\n`;
         template += example
       }
     })
@@ -91,7 +91,7 @@ JLPT Levl :  ${result.jlptLevel}
     //
     
     var parseResult = twitterText.parseTweet(twitText);
-    console.log(parseResult)
+    
     var twitResult = await client.post('statuses/update', {status: twitText,media_ids:media_ids})
     console.log("Tweet!!")
     var updatedAt = new Date()

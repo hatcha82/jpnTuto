@@ -39,7 +39,7 @@ async function getData (screenName, endPoint, maxId) {
                 element.furigana = element.full_text
               }
             } else {
-              element.furigana = element.text
+              element.furigana = element.full_text
             }
             if (index + 1 === array.length) {
               resolve(tweets)

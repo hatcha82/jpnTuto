@@ -74,8 +74,7 @@
           <v-card-text>
             <p class="furigana pl-3 pr-0" v-html="$options.filters.twiterOnlyText(item.furigana, item)"></p>
             <!-- <p class="furigana pl-3 pr-0" v-html="item.furigana"></p> -->
-            <!-- <pre v-text="$options.filters.twiterOnlyText(item.full_text, item)"></pre> -->
-            <Synthesis :text="item.full_text" class="mt-3"/>
+            <Synthesis :text="$options.filters.twiterOnlyText(item.full_text, item)" class="mt-3"/>
             <v-container grid-list-sm fluid v-if="item.extended_entities">
               <v-layout row wrap>
                   <v-flex
@@ -193,6 +192,9 @@ export default {
     ])
   },
   watch: {
+    '$route.params.search': function (search) {
+      this.searchKeyword = search
+    },
     searchKeyword: _.debounce(async function (value) {
       if(this.busy) return;
       var serach = null       
