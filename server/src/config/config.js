@@ -1,13 +1,13 @@
 // const path = require('path')
 module.exports = {
-  port: process.env.PORT || 8080,
+  port: process.env.PORT,
   db: {
-    database: process.env.DB_NAME || 'jpn_tuto',
-    user: process.env.DB_USER || 'jpn_tuto',
-    password: process.env.DB_PASS || 'jpn_tuto',
+    database: process.env.DB_NAME,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASS,
     options: {
-      dialect: process.env.DIALECT || 'mysql',
-      host: process.env.HOST || '211.174.239.137',
+      dialect: process.env.DIALECT,
+      host: process.env.HOST,
       pool: {
         max: 5,
         min: 0,

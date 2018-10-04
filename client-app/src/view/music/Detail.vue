@@ -117,6 +117,13 @@
         class="white--text">
         원본
         </v-tab>
+        <v-tab          
+          ripple
+          key="2"
+        class="white--text">
+        번역
+        </v-tab>
+        
         <v-tab-item  >
           <v-card flat>
             <v-card-text>
@@ -129,6 +136,14 @@
           <v-card flat>
             <v-card-text>
               <div  v-html="song.lyrics" class="furigana">
+              </div>
+            </v-card-text>  
+          </v-card>
+        </v-tab-item>
+        <v-tab-item>
+          <v-card flat>
+            <v-card-text>
+              <div  v-html="song.lyricsKor" class="furigana">
               </div>
             </v-card-text>  
           </v-card>
