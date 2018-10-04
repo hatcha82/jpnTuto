@@ -16,5 +16,6 @@ require('./routes')(app)
 sequelize.sync({force: false})
   .then(() => {
     app.listen(config.port)
-    console.log(`Server started on port ${config.port}`)
+    console.log(`Appl Server started on port ${config.port}`)
+    console.log(`DB Server started on port ${config.db.options.host}`)
   })
