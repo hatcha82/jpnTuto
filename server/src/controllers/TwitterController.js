@@ -22,11 +22,8 @@ async function getData (screenName, endPoint, maxId) {
     if (maxId) {
       params.max_id = maxId.toString()
     }
-    console.log(params)
-    console.log(endPoint)
     client.get(endPoint, params, function (error, tweets, response) {
       if (!error) {
-        console.log('tweets:' + tweets.length) // response 값 출력
         if (tweets.length === 0) {
           resolve(tweets)
         } else {
