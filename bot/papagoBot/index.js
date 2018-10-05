@@ -6,6 +6,7 @@ const {Song} = require('./models')
 var interval = 60 * 60 * 2; //2Hour
 init()
 function init(){
+  console.log(`Started...`)
   run()
   setInterval(run, 1000 * interval)
 }
@@ -18,9 +19,6 @@ async function run(param){
       title : {[Op.notLike]: '%\\%%'},
       artist: {[Op.notLike]: '%\\%%'}
     },
-    order: [
-      [sequelize.random()],
-    ],
     limit: 1
   })
   
@@ -32,18 +30,25 @@ async function run(param){
       console.log(`callback called`)
       lyricsKor = returnObj.message.result.translatedText 
      
-    }else{
+    } else if(returnObj.errorCode){
+      lyricsKor = null
+    } else {
       lyricsKor = ''
     }
     
     console.log(`
+      lyrics : 
+      ${song.lyrics}
+      
+      lyricsKor : 
+      ${lyricsKor}
+
       id : ${song.id}
       rank : ${song.rank}
       title : ${song.title}
       artist : ${song.artist}
-      ${lyricsKor}
+      
     `)
-
     Song.update({
       lyricsKor: lyricsKor,
     }, {
@@ -56,7 +61,6 @@ async function run(param){
     .catch(error =>{
       console.log(`result: ${error}  updated row song.id ${song.id} ,title ${song.title}` )
     })  
-    
   });
   
     
@@ -84,7 +88,7 @@ async function papago(query, callbac){
       var returnObj = JSON.parse(body)
       callbac(returnObj)
       // res.status(response.statusCode).end();
-      console.log('error = ' + response.statusCode);
+      console.log('error = ' + body);
     }
   });
 }
