@@ -101,6 +101,7 @@ export default {
         this.offset = 0
       }else{
         serach = this.searchKeyword
+        this.offset = 0
       }
 
       try {
