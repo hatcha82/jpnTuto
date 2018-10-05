@@ -33,7 +33,11 @@
           flat
           @click="linkTo('register')">
           Sign Up
-        </v-btn>    
+        </v-btn>
+        <a class="google btn" href="http://localhost:8081/auth/google">Google+</a>
+        <a class="naver btn" href="http://localhost:8081/auth/naver">Naver</a>
+        <a class="kakao btn" href="http://localhost:8081/auth/kakao">Kakao</a>
+        <a class="facebook btn" href="http://localhost:8081/auth/facebook">facebook</a>    
   </v-layout>
   </v-container>
 </template>

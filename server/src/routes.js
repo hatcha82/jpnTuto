@@ -13,10 +13,16 @@ const isAuthenticated = require('./policies/isAuthenticated')
 const passport = require('passport')
 
 module.exports = (app) => {
-  app.get('/google', passport.authenticate('google', {
+  app.get('/auth/google', passport.authenticate('google', {
     scope: ['profile']
   }))
-
+  app.get('/auth/google/redirect', passport.authenticate('google'), (req, res) => {
+    console.log('res return: ')
+    console.log(JSON.stringify(req))
+    console.log(JSON.stringify(res))
+    res.send('haha')
+    // res.redirect('http://localhost:8082')
+  })
   app.post('/register',
     AuthenticationControllerPolicy.register,
     AuthenticationController.register)

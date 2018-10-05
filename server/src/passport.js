@@ -1,5 +1,5 @@
 const passport = require('passport')
-const {User} = require('./models')
+// const {User} = require('./models')
 const GoogleStrategy = require('passport-google-oauth20')
 const NaverStrategy = require('passport-naver').Strategy
 const KakaoStrategy = require('passport-kakao').Strategy
@@ -16,29 +16,62 @@ passport.use(
     secretOrKey: config.authentication.jwtSecret
   }, async function (jwtPayload, done) {
     try {
-      const user = await User.findOne({
-        where: {
-          id: jwtPayload.id
-        }
-      })
-      if (!user) {
-        return done(new Error(), false)
-      }
-      return done(null, user)
+      // console.log(JSON.stringify(jwtPayload))
+      // const user = await User.findOne({
+      //   where: {
+      //     id: jwtPayload.id
+      //   }
+      // })
+      // if (!user) {
+      //   return done(new Error(), false)
+      // }
+      return done(null, 'user')
     } catch (err) {
       return done(new Error(), false)
     }
   })
 )
+passport.serializeUser((user, done) => {
+  done(null, 1)
+})
+passport.deserializeUser((id, done) => {
+  // User.findById(id).then((user) =>{
+  done(null, {})
+  // })
+})
+// const upsertUserInfo = (user,doneCallback)=>{
+
+//   User.findOne({providerId : user.providerId}).then((currentUser)=>{
+//     if(!currentUser){//if user is not exist create new user        
+//       new User(user).save().then((newUser) =>{
+//           console.log('User has been created ' , newUser);
+//           doneCallback(null,newUser);  
+//       }) ;
+//     }else{
+//         console.log('User already exists in datbase' , currentUser);
+//         doneCallback(null,currentUser);  
+//     }
+//   });
+// };
 passport.use(
   new GoogleStrategy(keys.google, // options for google strategy  end
     (accessToken, refreshTokken, profile, done) => { // passport callback function    
-    // upsertUserInfo({
-    //   name: profile.displayName,
-    //   provider:'GOOGLE',
-    //   providerId: profile.id,
-    //   profileImage: profile._json.image.url
-    // },done);              
+      var log = `
+        name: ${profile.displayName},
+        accessToken : ${accessToken},
+        refreshTokken : ${refreshTokken},
+        provider:'GOOGLE',
+        providerId: ${profile.id},
+        profileImage: ${profile._json.image.url}
+      `
+      // upsertUserInfo({
+      //   name: profile.displayName,
+      //   provider:'GOOGLE',
+      //   providerId: profile.id,
+      //   profileImage: profile._json.image.url
+      // },done); 
+      console.log(log)
+      done(null, profile)
     })
 )
 passport.use(
