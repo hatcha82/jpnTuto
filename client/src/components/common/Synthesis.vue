@@ -29,11 +29,12 @@
             <v-slider min="0" max="10" step="1" thumb-label="always" v-model="pitch" label="Pitch"></v-slider>
           </v-flex>            -->
         </v-layout>
-      
-      <v-btn @click="play"><v-icon >play_arrow</v-icon></v-btn>
+        
+      <v-btn @click="play"><v-icon >fas fa-headphones-alt</v-icon></v-btn>
+      <!-- <v-btn @click="play"><v-icon >play_arrow</v-icon></v-btn>
       <v-btn @click="pause"><v-icon >pause</v-icon></v-btn>
       <v-btn @click="stop"><v-icon >stop</v-icon></v-btn> 
-      <v-btn @click="reset"><v-icon ></v-icon>Reset</v-btn>    
+      <v-btn @click="reset"><v-icon ></v-icon>Reset</v-btn>     -->
     </div>
   </transition>
 </div>  
@@ -107,7 +108,7 @@ export default {
     },
     play () {
       // it should be 'craic', but it doesn't sound right
-      
+      this.synth.cancel()
       this.voiceList = this.synth.getVoices().filter(function (obj) {
         if (obj.lang === 'ja-JP') return true
       })

@@ -67,14 +67,16 @@
                 <span class="headline">{{item.user.screen_name}}@{{item.user.name}}</span>
               </v-flex>
             </v-layout>
-            <span class="grey--text">{{item.user.description}}</span>
+            <span class="grey--text pb-0">{{item.user.description}}</span>
           </div>
         </v-card-title>
         <v-slide-y-transition>
-          <v-card-text>
+          <v-card-text pt-0>
+            <Synthesis :text="$options.filters.twiterOnlyText(item.full_text, item)" class=""/>
+
             <p class="furigana pl-3 pr-0" v-html="$options.filters.twiterOnlyText(item.furigana, item)"></p>
             <!-- <p class="furigana pl-3 pr-0" v-html="item.furigana"></p> -->
-            <Synthesis :text="$options.filters.twiterOnlyText(item.full_text, item)" class="mt-3"/>
+           
             <v-container grid-list-sm fluid v-if="item.extended_entities">
               <v-layout row wrap>
                   <v-flex
@@ -83,25 +85,29 @@
                     xs12
                     v-if="(ent.type === 'video' || ent.type === 'animated_gif')"
                   >
+                <v-flex s12 sm12 md6 lg6>
                 <video-player  class="video-player-box"
+                  
                  ref="videoPlayer"
                  :options="videoParam(ent)"
                  :playsinline="true">
                   </video-player>
+                </v-flex>  
                   <!-- <my-video :sources="videoParam (ent).sources" :options="videoParam (ent).options"></my-video> -->
                 </v-flex>
               </v-layout>
             </v-container>
-             
-            <v-container grid-list-sm fluid >
+            
+            <v-container grid-list-sm fluid  v-if="item.extended_entities">
               <v-layout row wrap>
                 <v-flex
-                  v-for="(ent,index) in item.entities.media"
+                  v-for="(ent,index) in item.extended_entities.media"
                   :key="index"
-                  xs12
+                  s12 sm12 md4 lg3
                   d-flex
+                  v-if="ent.type == 'photo'"
                 > 
-                  <v-card flat tile class="d-flex" v-if="ent.type == 'photo'">
+                  <v-card flat tile class="d-flex" >
                     <v-img
                       :src="ent.media_url"
                       :lazy-src="ent.media_url"
@@ -124,14 +130,12 @@
             </v-container>
              <v-layout>
                <v-flex class="text-xs-right grey--text">
-                 {{item.id}}
-                 <br>
-                 {{item.created_at |moment("dddd, MMMM Do YYYY, h:mm:ss a")  }}
+                 {{item.created_at |moment("YYYY MMMM dddd Do h:mm:ss a")  }}
                </v-flex>
              </v-layout>
             <v-card-actions>
-            <v-btn flat>Share</v-btn>
-            <v-btn flat color="purple">Explore</v-btn>
+            <!-- <v-btn flat>Share</v-btn>
+            <v-btn flat color="purple">Explore</v-btn> -->
           <v-spacer></v-spacer>
         </v-card-actions>
 

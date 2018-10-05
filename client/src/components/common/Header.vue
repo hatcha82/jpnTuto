@@ -105,7 +105,7 @@
         { icon: 'music_note', text: 'Music', linkTo: 'music-list', params:{}},
         { icon: 'description', text: 'News', linkTo: 'article-list', params:{} },
         { icon: 'fab fa-twitter', text: 'Twitter', linkTo: 'twitter-list' , params:{}},
-        { icon: 'translate', text: 'Kanji', linkTo: 'twitter-list-search' , params:{search : '_FURIGANA'}},
+        { icon: 'fab fa-alipay', text: 'Kanji', linkTo: 'twitter-list-search' , params:{search : '_FURIGANA'}},
         // { icon: 'history', text: 'History', linkTo: 'history' },
         // { icon: 'featured_play_list', text: 'Playlists' },
         // { icon: 'watch_later', text: 'Watch Later' }
