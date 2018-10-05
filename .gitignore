@@ -35,4 +35,4 @@ server/package-lock.json
 server/seed/users.json
 bot/twitFuriganaKanjiBot/config/config.js
 bot/twitFuriganaKanjiBot/config/config.js
-bot/.DS_Store
+.DS_Store

@@ -4,6 +4,16 @@ const Sequelize = require('sequelize')
 const config = require('../config/config')
 const db = {}
 
+console.log(
+`
+  Db Config
+  database : ${config.db.database},
+  user : ${config.db.user},
+  password : ${config.db.password},
+  host : ${config.db.options.host}
+`  
+)
+
 const sequelize = new Sequelize(
   config.db.database,
   config.db.user,
