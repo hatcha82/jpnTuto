@@ -72,12 +72,14 @@
         </v-card-title>
         <v-slide-y-transition>
           <v-card-text pt-0>
-            <Synthesis :text="$options.filters.twiterOnlyText(item.full_text, item)" class=""/>
-
+            
             <p class="furigana pl-3 pr-0" v-html="$options.filters.twiterOnlyText(item.furigana, item)"></p>
             <!-- <p class="furigana pl-3 pr-0" v-html="item.furigana"></p> -->
-           
+            <div right absolute>
+            <Synthesis :text="$options.filters.twiterOnlyText(item.full_text, item)" class=""/>
+            </div>
             <v-container grid-list-sm fluid v-if="item.extended_entities">
+              
               <v-layout row wrap>
                   <v-flex
                     v-for="(ent,index) in item.extended_entities.media"

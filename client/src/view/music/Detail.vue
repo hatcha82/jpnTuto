@@ -28,6 +28,7 @@
           </v-container>
         </v-img>
         <v-card-title>
+          
           <div v-if="(!edit)" >
             <span  class="grey--text">{{song.artist}}</span><br>
             <span >Title : {{song.title}}</span><br>
@@ -36,10 +37,15 @@
             <br>
             <span class="grey--text">Image 출처: <a  class="grey--text" :href="song.albumImageUrl">{{song.albumImageUrl}}</a></span>
           </div>
+          
           <div style="float:right">
+            
           </div>
         </v-card-title>
         <v-card-actions>
+          <div>
+            <Synthesis :text="song.lyrics" class=""/>
+          </div>
           <div>
             <v-btn v-if="(isUserLoggedIn)" @click="newMusic" flat color="info">New</v-btn>
             <v-btn v-if="(edit)" @click="saveMusic" flat color="info">Save</v-btn>
@@ -60,6 +66,7 @@
             </v-card>
           </v-dialog>
           </div>
+          
 
         </v-card-actions>
         <div class="pa-3" v-if="(edit)" >
@@ -164,9 +171,9 @@
         저작권에 의한 플레이 불가능 할 경우 Youtube 이동 
               <a target="_blank" :href="'https://www.youtube.com/watch?v='+ song.youtubeId" > {{song.title}} - {{song.artist}}</a>
         </v-card>
-        <v-card class="pa-2">
-        <Synthesis :text="song.lyrics" class="mt-3"/>
-        </v-card>
+        <!-- <v-card class="pa-2">
+        
+        </v-card> -->
       </div>
     </v-flex>
   </v-layout>
