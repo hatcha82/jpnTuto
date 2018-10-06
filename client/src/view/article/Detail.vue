@@ -4,16 +4,16 @@
     <v-layout row wrap>
       <v-flex d-flex xs12 sm12 md12 >
       <v-card>
-        <v-btn class="mt-3 ml-2" absolute @click="back()" fab  color="primary">
+        <v-btn class="mt-3 ml-2" fixed absolute @click="back()" fab  color="primary">
         &nbsp;&nbsp;<v-icon>arrow_back_ios</v-icon>
         </v-btn>
         <v-img
           class="white--text ml-5 mt-3"
-          height="50px"
-          :src="article.newsImageUrl" 
           contain
+          
+          :src="article.newsPubllisherImageUrl ? article.newsPubllisherImageUrl : require('../../assets/noImage.png')"
+          :lazy-src="article.newsPubllisherImageUrl ? article.newsPubllisherImageUrl : require('../../assets/noImage.png')"
         >
-        
           <v-container fill-height fluid>
             <v-layout fill-height>
               <v-flex xs12 align-start flexbox>
@@ -26,15 +26,20 @@
         
         <v-card-title>
           <div v-if="(!edit)" >
-            <span  class="grey--text">{{article.artist}}</span><br>
-            <span >Title : {{article.title}}</span><br>
-            <span >Created : {{ article.createdAt | moment("dddd, MMMM Do YYYY, h:mm:ss a")}} </span><br>
+            
+            <a :href="article.newsUrl" class="headline"><span v-html="article.titleFurigana"></span></a><br>
+
+            <span class="caption">Created : {{ article.newsPublishedDate | moment("dddd, MMMM Do YYYY, h:mm:ss a")}} </span><br>
+            <span  class="caption">{{article.newsPublisher}}</span><br>
+            <a href="article.newsUrl"  class="caption grey--text lighten-1">원본 : {{ article.newsUrl }} </a><br>
           </div>
           <div style="float:right">
           </div>
         </v-card-title>
         <v-card-actions>
-          
+          <div>
+            <Synthesis :text="article.article" class=""/>
+          </div>
           <div>
             <v-btn v-if="(isUserLoggedIn)" @click="newArticle" flat color="info">New</v-btn>
             <v-btn v-if="(edit)" @click="saveArticle" flat color="info">Save</v-btn>
@@ -107,29 +112,49 @@
         <v-tab-item  >
           <v-card flat>
             <v-card-text>
+
+              <div class="furigana headline" v-html="article.titleFurigana"></div>
+              <v-img  :lazy-src="article.newsImageUr ? article.newsImageUrl : require('../../assets/noImage.png')"
+                        :src="article.newsImageUrl ? article.newsImageUrl : require('../../assets/noImage.png')"
+                        class="mr-3"
+                        />
               <div v-html="article.furigana" class="furigana">
               </div>
+              <v-img  :lazy-src="article.newsPubllisherImageUrl ? article.newsPubllisherImageUrl : require('../../assets/noImage.png')"
+              :src="article.newsPubllisherImageUrl ? article.newsPubllisherImageUrl : require('../../assets/noImage.png')"
+              height="30px"
+              contain
+                        />
+              <a href="article.newsPubllisherImageUrl"  class="ml-3 caption grey--text lighten-1">원본 : {{ article.newsUrl }} </a><br>              
             </v-card-text>
           </v-card>
         </v-tab-item>
         <v-tab-item>
           <v-card flat>
             <v-card-text>
+              <div class="furigana headline" v-html="article.title"></div>
               <div  v-html="article.article" class="furigana">
               </div>
+              <v-img  :lazy-src="article.newsPubllisherImageUrl ? article.newsPubllisherImageUrl : require('../../assets/noImage.png')"
+              :src="article.newsPubllisherImageUrl ? article.newsPubllisherImageUrl : require('../../assets/noImage.png')"
+              height="30px"
+              contain
+                        />
+              <a href="article.newsPubllisherImageUrl"  class="ml-3 caption grey--text lighten-1">원본 : {{ article.newsUrl }} </a><br>
             </v-card-text>  
           </v-card>
+          
         </v-tab-item>
       </v-tabs>
       </v-card>
+      
     </v-flex>
-    <v-flex d-flex xs12 sm12 md6>
-        <div>
-        <v-card class="pa-2">
-        <Synthesis :text="article.article" class="mt-3"/>
-        </v-card>
-      </div>
+    <v-flex d-flex xs12 sm12 md12 >
+      <v-card>
+      
+      </v-card>
     </v-flex>
+
   </v-layout>
   <back-to-top>
      <v-btn 

@@ -24,7 +24,10 @@ module.exports = {
                 $like: `%${search}%`
               }
             }))
-          }
+          },
+          order: [
+            ['newsPublishedDate', 'DESC']
+          ]
         })
       } else {
         var count = await Article.findOne({
@@ -33,7 +36,7 @@ module.exports = {
         articles = await Article.findAll({
           attributes: {exclude: ['lyrics', 'tab']},
           order: [
-            ['createdAt', 'DESC']
+            ['newsPublishedDate', 'DESC']
           ],
           limit: 100,
           offset: offset
