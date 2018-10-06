@@ -39,8 +39,6 @@
           </v-flex>            -->
         </v-layout>
         
-      
-      
       <!-- <v-btn @click="play"><v-icon >play_arrow</v-icon></v-btn>
       <v-btn @click="pause"><v-icon >pause</v-icon></v-btn>
       
