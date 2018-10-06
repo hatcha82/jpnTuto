@@ -22,15 +22,27 @@
                 :key="item.id"
                 avatar            
               >
-                <v-list-tile-avatar tile size=80>
-                <v-img contain :src="item.newsImageUrl" class="mr-3"/>
+                <v-list-tile-avatar tile size=60 >
+                <v-img  :lazy-src="item.newsImageUr ? item.newsImageUrl : require('../../assets/noImage.png')"
+                        :src="item.newsImageUrl ? item.newsImageUrl : require('../../assets/noImage.png')"
+                        aspect-ratio="1"
+                        class="mr-3"
+                        />
                 </v-list-tile-avatar>
-                <v-list-tile-content>
-                  <v-list-tile-title >
-                      <span :title="item.title">{{item.title}}</span>
+                <v-list-tile-content class="pl-2">
+                  <v-list-tile-title style="height:40px">
+                    {{item.title}}
                   </v-list-tile-title>
                    <v-list-tile-sub-title >
-{{ item.createdAt | moment("dddd, MMMM Do YYYY, h:mm:ss a")}}
+                     <img  :lazy-src="item.newsPubllisherImageUrl ? item.newsPubllisherImageUrl : require('../../assets/noImage.png')"
+                        :src="item.newsPubllisherImageUrl ? item.newsPubllisherImageUrl : require('../../assets/noImage.png')"
+                        style="postion:absolute;width:45px" 
+                        />
+                        {{item.newsPublisher}}
+                    <br>
+                    <span class="caption">
+                    {{ item.newsPublishedDate | moment("dddd, MMMM Do YYYY, h:mm:ss a")}}
+                    </span>
                    </v-list-tile-sub-title>
                 </v-list-tile-content>
               </v-list-tile>

@@ -42,7 +42,10 @@
                 avatar            
               >
                 <v-list-tile-avatar>
-                  <img :src="item.albumImageUrl ? item.albumImageUrl : require('../../assets/noImage.png')">                   
+                  
+                  <v-img
+                   :lazy-src="item.albumImageUrl ? item.albumImageUrl : require('../../assets/noImage.png')"  
+                    :src="item.albumImageUrl ? item.albumImageUrl : require('../../assets/noImage.png')"/>                   
                 </v-list-tile-avatar>
                 <v-list-tile-content>
                   <v-list-tile-title v-html="item.title">

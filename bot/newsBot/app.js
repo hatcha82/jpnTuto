@@ -122,15 +122,7 @@ async function start(){
   })
   
   console.log(`Article Count ${article.dataValues.count}`) 
-  var nnn = `https://headlines.yahoo.co.jp/videonews/nnn` //니테레
-  var ann = `https://headlines.yahoo.co.jp/videonews/ann` //Nippon NewsNetwork(ANN)
-  var jnn = `https://headlines.yahoo.co.jp/videonews/jnn` //TBS
-  var fnn = `https://headlines.yahoo.co.jp/videonews/fnn` //fnn
-  
-  addQueue(nnn)
-  addQueue(ann)
-  addQueue(jnn)
-  addQueue(fnn)
+ 
 }
 async function addQueue(page, param){   
   
@@ -158,8 +150,20 @@ async function addQueue(page, param){
 // }
 start()
 var lasctCalledDate = new Date()
-setInterval(function() {
-  start()
+var nnn = `https://headlines.yahoo.co.jp/videonews/nnn` //니테레
+var ann = `https://headlines.yahoo.co.jp/videonews/ann` //Nippon NewsNetwork(ANN)
+var jnn = `https://headlines.yahoo.co.jp/videonews/jnn` //TBS
+var fnn = `https://headlines.yahoo.co.jp/videonews/fnn` //fnn
+addQueue(nnn)
+addQueue(ann)
+addQueue(jnn)
+addQueue(fnn)
+
+setInterval(function() {  
+  addQueue(nnn)
+  addQueue(ann)
+  addQueue(jnn)
+  addQueue(fnn)
   lasctCalledDate = new Date()
   console.log(`Now : ${new Date().toDateString()} Queue Size: ${listCrawler.queueSize}`) 
 },60 * 60 * 1000)
