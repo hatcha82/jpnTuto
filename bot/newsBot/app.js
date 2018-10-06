@@ -122,6 +122,11 @@ async function start(){
   })
   
   console.log(`Article Count ${article.dataValues.count}`) 
+  addQueue(nnn)
+  addQueue(ann)
+  addQueue(jnn)
+  addQueue(fnn)
+
  
 }
 async function addQueue(page, param){   
@@ -154,10 +159,6 @@ var nnn = `https://headlines.yahoo.co.jp/videonews/nnn` //니테레
 var ann = `https://headlines.yahoo.co.jp/videonews/ann` //Nippon NewsNetwork(ANN)
 var jnn = `https://headlines.yahoo.co.jp/videonews/jnn` //TBS
 var fnn = `https://headlines.yahoo.co.jp/videonews/fnn` //fnn
-addQueue(nnn)
-addQueue(ann)
-addQueue(jnn)
-addQueue(fnn)
 
 setInterval(function() {  
   addQueue(nnn)
@@ -173,5 +174,11 @@ setInterval(function() {
   var duration = ((new Date() - lasctCalledDate)  ) /100 /6 /60
   var nextCall =  60 - duration
   nextCall = Math.floor(nextCall)
-  console.log(`Now : ${new Date().toString()} NextCall : ${nextCall}Min Left  Queue Size: ${listCrawler.queueSize}`) 
+  console.log(`
+  Now : ${new Date().toString()} 
+  NextCall : ${nextCall}Min Left  
+  List Queue Size: ${listCrawler.queueSize}
+  detailCrawler
+  Detail Queue Size: ${listCrawler.queueSize}`
+  ) 
 },60 * 1000)
