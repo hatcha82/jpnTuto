@@ -1,9 +1,18 @@
 <template>
 <div class="">
 <transition name="fade" v-if="isLoading">
-    <pulse-loader></pulse-loader>
+  
+    <v-btn @click="stop"  color="primary">
+  <scale-loader :loading="isLoading" :size="loadingSize" :color="this.$vuetify.theme.accent"></scale-loader>
+      </v-btn> 
+    
+    <!-- <pulse-loader :loading="isLoading" :color="color" :size="size"></pulse-loader> -->
   </transition>
-  <transition name="fade" v-if="!isLoading">    
+  <transition name="fade" v-if="!isLoading">
+    <v-btn @click="play" color="primary"  >
+        <v-icon v-if="!isLoading">fas fa-volume-up </v-icon>
+        <v-icon v-if="isLoading">fas fa-headphones-alt</v-icon>
+      </v-btn>    
      <div id="page-wrapper">       
         <v-layout row justify-center >
           <v-flex xs12 style="display:none">
@@ -30,10 +39,9 @@
           </v-flex>            -->
         </v-layout>
         
-      <v-btn @click="play"><v-icon >fas fa-headphones-alt</v-icon></v-btn>
       <!-- <v-btn @click="play"><v-icon >play_arrow</v-icon></v-btn>
       <v-btn @click="pause"><v-icon >pause</v-icon></v-btn>
-      <v-btn @click="stop"><v-icon >stop</v-icon></v-btn> 
+      
       <v-btn @click="reset"><v-icon ></v-icon>Reset</v-btn>     -->
     </div>
   </transition>
@@ -42,6 +50,7 @@
 
 <script>
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
+import ScaleLoader from 'vue-spinner/src/ScaleLoader.vue'
 export default {
   props: [
     'text'
@@ -50,6 +59,7 @@ export default {
     return {
       select: {name: 'Microsoft Haruka Desktop - Japanese'},
       isLoading: false,
+      loadingSize : '20px',
       name: '',
       selectedVoice: null,
       rate: 5,
@@ -62,7 +72,8 @@ export default {
   },
 
   components: {
-    PulseLoader
+    PulseLoader,
+    ScaleLoader
   },
   mounted () {
     // wait for voices to load
@@ -95,10 +106,10 @@ export default {
      */
     listenForSpeechEvents () {
       this.greetingSpeech.onstart = () => {
-       // this.isLoading = true
+       this.isLoading = true
       }
       this.greetingSpeech.onend = () => {
-       // this.isLoading = false
+       this.isLoading = false
       }
     },
     /**
@@ -108,7 +119,9 @@ export default {
     },
     play () {
       // it should be 'craic', but it doesn't sound right
+      
       this.synth.cancel()
+      
       this.voiceList = this.synth.getVoices().filter(function (obj) {
         if (obj.lang === 'ja-JP') return true
       })
