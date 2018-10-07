@@ -38,3 +38,6 @@ bot/twitFuriganaKanjiBot/config/config.js
 bot/twitFuriganaKanjiBot/config/config.js
 .DS_Store
 
+server/.env
+bot/YoubueTagBot/.env
+
