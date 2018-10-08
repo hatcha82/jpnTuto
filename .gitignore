@@ -22,7 +22,6 @@ client/package-lock.json
 server/package-lock.json
 bot/YoubueTagBot/config/config.js
 bot/lyricsCrawBot/config/config.js
-client/src/App.vue
 bot/YoubueTagBot/config/config.js
 bot/lyricsCrawBot/config/config.js
 client/Dockerfile_back
