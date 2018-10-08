@@ -59,19 +59,7 @@
           </v-list>
         </v-card>
       </v-flex>
-    </v-layout>
-    <back-to-top>
-     <v-btn 
-          class="mb-5 mr-2"    
-          absolute
-          bottom
-          right
-          fixed
-          fab
-          color="primary">
-        <v-icon>keyboard_arrow_up</v-icon>
-      </v-btn>
-  </back-to-top>  
+    </v-layout> 
 </div>    
 </template>
 <script>
