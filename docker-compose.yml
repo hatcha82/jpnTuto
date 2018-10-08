@@ -2,11 +2,11 @@ version: '3'
 services:
   furigana-web-app-client:
     build: client
-    image: "hatcha82/furiganahub-vuejs-app"
+    image: "hatcha82/furiganahub-vuejs-app:latest"
     ports:
-     - "80:8080"
+     - "80:80"
   furigana-web-api-server:
     build: server
-    image: "hatcha82/furiganahub-api"
+    image: "hatcha82/furiganahub-api:latest"
     ports:
      - "8080:8080"
