@@ -1,0 +1,17 @@
+docker build --no-cache -t hatcha82/furiganahub-vuejs-app:latest .
+docker build --no-cache -t hatcha82/furiganahub-api:latest .
+
+docker run -d -p 80:8080 --rm --name furiganahub-vuejs-app hatcha82/furiganahub-vuejs-app
+docker run -it -p 8080:8080 --rm --name furiganahub-vuejs-app hatcha82/furiganahub-vuejs-app
+
+docker run -d -p 8080:8080 --rm --name furiganahub-api hatcha82/furiganahub-api
+
+docker run -it -p 8080:8080 --rm --name furiganahub-api hatcha82/furiganahub-api
+
+docker tag hatcha82/furiganahub-vuejs-app:latest hatcha82/furiganahub-vuejs-app:latest
+docker tag hatcha82/furiganahub-api:latest hatcha82/furiganahub-api:latest
+
+docker push hatcha82/furiganahub-vuejs-app:latest
+docker push hatcha82/furiganahub-api:latest
+
+
