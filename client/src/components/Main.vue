@@ -1,7 +1,7 @@
 <template>
 <div class="pt-0">
     <section>
-      <v-parallax :src="require('../assets/hero.jpeg')" height="600">
+      <v-parallax :src="require('../assets/bg/bg002.jpg')" height="600">
         <v-layout
           column
           align-center
@@ -9,8 +9,8 @@
           class="white--text"
         >
           <img src="../assets/logoBlue.jpg" alt="Vuetify.js" height="200" style="border-radius:100px">
-          <h1 class="white--text mb-2 display-1 text-xs-center">FuRigana Hub</h1>
-          <div class="subheading mb-3 text-xs-center">일본어를 쉽게 읽어 봅시다.</div>
+          <h1 class="white--text mb-2 display-1 text-xs-center font-weight-black">FuRigana Hub</h1>
+          <div class="subheading mb-3 text-xs-center " >일본어를 쉽게 읽어 봅시다.</div>
           <v-btn
             class="blue lighten-2 mt-5"
             dark
@@ -92,7 +92,7 @@
       </v-layout>
     </section>
     <section>
-      <v-parallax :src="require('../assets/section.jpg')" height="380">
+      <v-parallax :src="require('../assets/bg/bg008.jpg')" height="380">
         <v-layout column align-center justify-center>
           <div class="headline white--text mb-3 text-xs-center">Web development has never been easier</div>
           <em>Kick-start your application today</em>
