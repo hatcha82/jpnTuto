@@ -52,7 +52,9 @@
       <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
       <!-- <v-toolbar-title  @click="linkTo('home')" ></v-toolbar-title> -->
       <v-toolbar-title class="mr- align-center" @click="linkTo({linkTo:'Main'})">
+        <router-link to="/Main">
         <img style="height:25px;margin-top:5px" src="../../assets/logoWhiteWide.svg"/>
+        </router-link>
         <!-- <span class="title white--text">FuRIGana</span> -->
       </v-toolbar-title>
       <v-spacer></v-spacer>

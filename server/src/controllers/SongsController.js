@@ -20,7 +20,7 @@ module.exports = {
           attributes: [[Song.sequelize.fn('COUNT', Song.sequelize.col('id')), 'count']],
           where: {
             $or: [
-              'title', 'artist', 'genre', 'album'
+              'title', 'artist'
             ].map(key => ({
               [key]: {
                 $like: `%${search}%`
@@ -33,7 +33,7 @@ module.exports = {
           attributes: {exclude: ['lyrics', 'tab']},
           where: {
             $or: [
-              'title', 'artist', 'genre', 'album'
+              'title', 'artist'
             ].map(key => ({
               [key]: {
                 $like: `%${search}%`
@@ -41,6 +41,7 @@ module.exports = {
             }))
           },
           order: [
+            ['rank', 'ASC'],
             ['updatedAt', 'DESC']
           ],
           limit: 30,
@@ -54,6 +55,7 @@ module.exports = {
         songs = await Song.findAll({
           attributes: {exclude: ['lyrics', 'tab']},
           order: [
+            ['rank', 'ASC'],
             ['updatedAt', 'DESC']
           ],
           limit: 30,

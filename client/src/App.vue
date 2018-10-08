@@ -4,6 +4,7 @@
   >
     <Header/>
     <v-content>
+        
       <!-- <v-container fill-height> -->
          <router-view class=""></router-view>
          
@@ -13,8 +14,22 @@
           </v-flex>
         </v-layout> -->
       <!-- </v-container> -->
-       
     </v-content>
+    <v-btn class="" style="bottom:20px;left:20px" fixed absolute bottom  @click="back()" fab  color="primary">
+    &nbsp;&nbsp;<v-icon>arrow_back_ios</v-icon>
+    </v-btn>
+    <back-to-top>
+     <v-btn 
+          class="mb-5 mr-2"    
+          absolute
+          bottom
+          right
+          fixed
+          fab
+          color="primary">
+        <v-icon>keyboard_arrow_up</v-icon>
+      </v-btn>
+  </back-to-top> 
     <Footer/>
   </v-app>
 </template>
@@ -44,7 +59,12 @@
     }),
     props: {
       source: String
+    },
+    methods: {
+      back() {
+        this.$router.back()
     }
+  }
     
   }
 </script>
