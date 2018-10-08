@@ -10,7 +10,6 @@
         <v-img
           class="white--text ml-5 mt-3"
           contain
-          
           :src="article.newsPubllisherImageUrl ? article.newsPubllisherImageUrl : require('../../assets/noImage.png')"
           :lazy-src="article.newsPubllisherImageUrl ? article.newsPubllisherImageUrl : require('../../assets/noImage.png')"
         >
@@ -90,7 +89,7 @@
       </v-card>
     </v-flex>
     
-    <v-flex d-flex xs12 sm12 md6 child-flex v-if="(!edit)">
+    <v-flex d-flex xs12 sm12 md12 child-flex v-if="(!edit)">
       <v-card>
       <v-tabs
         v-model="activeTab"
@@ -143,18 +142,10 @@
               <a href="article.newsPubllisherImageUrl"  class="ml-3 caption grey--text lighten-1">원본 : {{ article.newsUrl }} </a><br>
             </v-card-text>  
           </v-card>
-          
         </v-tab-item>
       </v-tabs>
       </v-card>
-      
     </v-flex>
-    <v-flex d-flex xs12 sm12 md12 >
-      <v-card>
-      
-      </v-card>
-    </v-flex>
-
   </v-layout>
   <back-to-top>
      <v-btn 
@@ -292,10 +283,8 @@ export default {
       }
     },
     async search () {
-      
       const articleId = this.$route.params.articleId
       this.article = (await ArticlesService.show(articleId)).data
-      
       // if (this.isUserLoggedIn) {
       //   articleHistoryService.post({
       //     articleId: articleId

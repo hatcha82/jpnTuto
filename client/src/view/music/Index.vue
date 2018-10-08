@@ -20,7 +20,7 @@
           append-icon="search"
           placeholder="Search"
           v-model="searchKeyword"
-         hint="검색어: 제목, 아티스트, 앨범, 장르"
+         hint="검색어: 제목, 아티스트"
         ></v-text-field>
      </v-flex>
    </v-layout>
@@ -98,17 +98,17 @@ export default {
   },
   watch: {
     searchKeyword: _.debounce(async function (value) {
-      var serach = null 
+      var search = null 
       if (this.searchKeyword === '') {
-        serach = null
+        search = null
         this.offset = 0
       }else{
-        serach = this.searchKeyword
+        search = this.searchKeyword
         this.offset = 0
       }
 
       try {
-        var dataSet = (await SongsService.index(serach, this.offset)).data;
+        var dataSet = (await SongsService.index(search, this.offset)).data;
         this.songs = dataSet.data;
         this.count = dataSet.count.count
         this.offset = this.songs.length
@@ -157,8 +157,14 @@ ${item.albumImageUrl}
           this.busy = false
           return;
         } 
-        
-        var dataSet = (await SongsService.index(null, this.offset)).data;
+        var search
+        if (this.searchKeyword === '') {
+          search = null
+        }else{
+          search = this.searchKeyword
+        }
+
+        var dataSet = (await SongsService.index(search, this.offset)).data;
         var data = dataSet.data;
         this.songs = this.songs.concat(data) 
         this.offset = this.songs.length
