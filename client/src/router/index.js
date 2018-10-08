@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '@/view/Login'
-import HelloWorld from '@/components/HelloWorld'
+import Main from '@/components/Main'
 import Music from '@/view/music/Index'
 import ViewMusic from '@/view/music/Detail'
 import Articles from '@/view/article/Index'
@@ -28,9 +28,9 @@ export default new Router({
   },
   routes: [
     {
-      path: '/HelloWorld',
-      name: 'HelloWorld',
-      component: HelloWorld
+      path: '/Main',
+      name: 'Main',
+      component: Main
     },
     {
       path: '/login',
@@ -109,7 +109,7 @@ export default new Router({
     // },
     {
       path: '*',
-      redirect: 'HelloWorld'
+      redirect: 'Main'
     }
   ]
 })
