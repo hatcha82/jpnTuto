@@ -23,9 +23,10 @@
         large
           color="primary" 
           Block
-          @click="login">
+          @click="login()">
           Login
         </v-btn>
+        <button @click="authenticate('google')">auth Google</button>
         <v-btn
           large
           color="primary" 
@@ -59,21 +60,36 @@ export default {
           name: name
         })
     },
-    async login () {
-      try {
-        const response = await AuthenticationService.login({
-          email: this.email,
-          password: this.password
-        })
-        this.$store.dispatch('setToken', response.data.token)
-        this.$store.dispatch('setUser', response.data.user)
-        this.$router.push({
-          name: 'music-list'
-        })
-      } catch (error) {
-        this.error = error.response.data.error
-      }
+    
+    login: function () {
+      var email =this.email;
+      var password = this.password
+      
+      this.$auth.login({ email, password }).then(function (res) {
+        console.log(res.data.login)
+      })
     },
+    authenticate: function (provider) {
+      this.$auth.authenticate(provider).then(function (res) {
+        // Execute application logic after successful social authentication
+        console.log(res)
+      })
+    },
+    // async login () {
+    //   try {
+    //     const response = await AuthenticationService.login({
+    //       email: this.email,
+    //       password: this.password
+    //     })
+    //     this.$store.dispatch('setToken', response.data.token)
+    //     this.$store.dispatch('setUser', response.data.user)
+    //     this.$router.push({
+    //       name: 'music-list'
+    //     })
+    //   } catch (error) {
+    //     this.error = error.response.data.error
+    //   }
+    // },
     async google () {
       try {
         const response = await AuthenticationService.login({

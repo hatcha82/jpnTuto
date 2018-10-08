@@ -4,9 +4,6 @@
     <v-layout row wrap>
       <v-flex d-flex xs12 sm12 md12 >
       <v-card>
-        <v-btn class="mt-3 ml-2" fixed absolute @click="back()" fab  color="primary">
-        &nbsp;&nbsp;<v-icon>arrow_back_ios</v-icon>
-        </v-btn>
         <v-img
           class="white--text ml-5 mt-3"
           contain
@@ -190,9 +187,7 @@ export default {
     toTop () {
       $('#app').scrollTop(200);
     },
-    back() {
-      this.$router.back()
-    },
+    
     newArticle () {
       this.article = {}
       this.article.type = 'NEWS'

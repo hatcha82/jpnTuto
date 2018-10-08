@@ -4,9 +4,6 @@
     <v-layout row wrap>
       <v-flex d-flex xs12 sm12 md12 >
       <v-card>
-        <v-btn class="mt-3 ml-2" fixed @click="back()" fab  color="primary">
-        &nbsp;&nbsp;<v-icon>arrow_back_ios</v-icon>
-        </v-btn>
         <v-img
           class="white--text"
           height="200px"
