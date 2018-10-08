@@ -8,7 +8,6 @@ bot/papagoBot/.env
 bot/newsBot/node_modules/
 bot/newsBot/.env
 server/src/config/config.js
-client/src/services/Api.js
 
 package-lock.json
 node_modules/client
