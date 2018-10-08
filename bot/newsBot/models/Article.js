@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     newsUrl: DataTypes.STRING,
     newsImageUrl: DataTypes.STRING,
     newsPublisher: DataTypes.STRING,
-    newsPubllisherImageUrl: DataTypes.STRING,
+    newsPubllisherImageUrl :DataTypes.STRING,
     newsPublishedDate: DataTypes.DATE,
     article: DataTypes.TEXT,
     furigana: DataTypes.TEXT,

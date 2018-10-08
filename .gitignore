@@ -5,7 +5,8 @@ bot/twitFuriganaKanjiBot/node_modules/
 bot/lyricsCrawBot/node_modules/
 bot/papagoBot/node_modules/
 bot/papagoBot/.env
-
+bot/newsBot/node_modules/
+bot/newsBot/.env
 server/src/config/config.js
 client/src/services/Api.js
 
@@ -35,4 +36,8 @@ server/package-lock.json
 server/seed/users.json
 bot/twitFuriganaKanjiBot/config/config.js
 bot/twitFuriganaKanjiBot/config/config.js
-bot/.DS_Store
+.DS_Store
+
+server/.env
+bot/YoubueTagBot/.env
+

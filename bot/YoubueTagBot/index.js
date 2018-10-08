@@ -1,3 +1,4 @@
+require('dotenv').config()
 var Crawler = require("crawler")
 const {sequelize} = require('./models')
 const config = require('./config/config')
