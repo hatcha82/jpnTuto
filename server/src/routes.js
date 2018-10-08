@@ -11,23 +11,48 @@ const FuriganaController = require('./controllers/FuriganaController')
 
 const isAuthenticated = require('./policies/isAuthenticated')
 const passport = require('passport')
+var Request = require('request')
 
 module.exports = (app) => {
   app.get('/auth/google', passport.authenticate('google', {
     scope: ['profile']
   }))
-  app.get('/auth/google/redirect', passport.authenticate('google'), (req, res) => {
-    console.log('res return: ')
-    console.log(JSON.stringify(req))
-    console.log(JSON.stringify(res))
-    res.send('haha')
-    // res.redirect('http://localhost:8082')
+  app.post('/auth/google', (req, res) => {
+    Request({
+      method: 'post',
+      url: 'https://accounts.google.com/o/oauth2/token',
+      form: {
+        code: req.body.code,
+        client_id: '101271609028-qt8p60ktp498m87ectb1arhsq1pbvj7f.apps.googleusercontent.com',
+        client_secret: 'mmTCA9ZdlC2I6RDw0_mzC79d',
+        redirect_uri: req.body.redirectUri,
+        grant_type: 'authorization_code'
+      },
+      headers: {
+        'content-type': 'application/x-www-form-urlencoded'
+      }
+    }, function (err, response, body) {
+      try {
+        if (!err && response.statusCode === 200) {
+          var responseJson = JSON.parse(body)
+          res.json(responseJson)
+        } else {
+          res.status(response.statusCode).json(err)
+        }
+      } catch (e) {
+        res.status(500).json(err || e)
+      }
+    })
+    // res.redirect('http://localhost:8081')
   })
   app.post('/register',
     AuthenticationControllerPolicy.register,
     AuthenticationController.register)
-  app.post('/login',
-    AuthenticationController.login)
+  // app.post('/login',
+  //   AuthenticationController.login)
+  app.post('/auth/login', (req, res) => {
+    res.json({login:'ok'})
+  })
   app.post('/furigana',
     FuriganaController.convert)
 

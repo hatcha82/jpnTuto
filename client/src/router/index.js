@@ -8,6 +8,7 @@ import Articles from '@/view/article/Index'
 import ViewArticle from '@/view/article/Detail'
 import Twitter from '@/view/twitter/Index'
 import Register from '@/view/Register'
+import AuthRedirect from '@/view/AuthRedirect'
 
 // import ConvertFurigana from '@/components/Converter/ConvertFurigana'
 
@@ -107,6 +108,11 @@ export default new Router({
     //   name: 'home',
     //   component: Home
     // },
+    {
+      path: '/auth/google/redirect',
+      name: 'google-redirect',
+      component: AuthRedirect
+    },
     {
       path: '*',
       redirect: 'Main'
