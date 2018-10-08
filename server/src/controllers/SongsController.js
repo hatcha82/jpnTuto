@@ -41,6 +41,7 @@ module.exports = {
             }))
           },
           order: [
+            ['rank', 'ASC'],
             ['updatedAt', 'DESC']
           ],
           limit: 30,
@@ -54,6 +55,7 @@ module.exports = {
         songs = await Song.findAll({
           attributes: {exclude: ['lyrics', 'tab']},
           order: [
+            ['rank', 'ASC'],
             ['updatedAt', 'DESC']
           ],
           limit: 30,
