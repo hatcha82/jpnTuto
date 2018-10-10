@@ -15,5 +15,8 @@ docker tag hatcha82/furiganahub-api:latest hatcha82/furiganahub-api:latest
 docker push hatcha82/furiganahub-vuejs-app:latest
 docker push hatcha82/furiganahub-api:latest
 
+docker run --name mariadb2 -v mariadb -p 3308:3306 -e MYSQL_ROOT_PASSWORD=g8ckdqja1013 -d mariadb
+
+
 
 
