@@ -1,12 +1,26 @@
 version: '3'
 services:
+  db:
+    image: mariadb
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: g8ckdqja1013
+    volume:
+     - "mariadb:/var/lib/postgresql/data"
+    ports:
+     - "3308:3306"
+
   furigana-web-app-client:
     build: client
     image: "hatcha82/furiganahub-vuejs-app:latest"
     ports:
      - "80:80"
+    depends_on:
+     - furigana-web-api-server
   furigana-web-api-server:
     build: server
     image: "hatcha82/furiganahub-api:latest"
     ports:
      - "8080:8080"
+    depends_on:
+     - db
