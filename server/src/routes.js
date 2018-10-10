@@ -51,7 +51,7 @@ module.exports = (app) => {
   // app.post('/login',
   //   AuthenticationController.login)
   app.post('/auth/login', (req, res) => {
-    res.json({login:'ok'})
+    res.json({login: 'ok'})
   })
   app.post('/furigana',
     FuriganaController.convert)
