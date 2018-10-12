@@ -1,5 +1,5 @@
 const passport = require('passport')
-// const {User} = require('./models')
+const {User} = require('./models')
 const GoogleStrategy = require('passport-google-oauth20')
 const NaverStrategy = require('passport-naver').Strategy
 const KakaoStrategy = require('passport-kakao').Strategy
@@ -7,15 +7,25 @@ const FacebookStrategy = require('passport-facebook').Strategy
 
 const JwtStrategy = require('passport-jwt').Strategy
 const ExtractJwt = require('passport-jwt').ExtractJwt
-
 const config = require('./config/config')
 const keys = require('./config/keys')
+
 passport.use(
   new JwtStrategy({
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: config.authentication.jwtSecret
   }, async function (jwtPayload, done) {
     try {
+      const user = await User.findOne({
+        where: {
+          id: jwtPayload.id
+        }
+      })
+      if (!user) {
+        return done(new Error(), false)
+      } else {
+        return done(null, 'user')
+      }
       // console.log(JSON.stringify(jwtPayload))
       // const user = await User.findOne({
       //   where: {
@@ -25,22 +35,41 @@ passport.use(
       // if (!user) {
       //   return done(new Error(), false)
       // }
-      return done(null, 'user')
     } catch (err) {
       return done(new Error(), false)
     }
   })
 )
 passport.serializeUser((user, done) => {
-  done(null, 1)
+  done(null, user.id)
 })
-passport.deserializeUser((id, done) => {
-  // User.findById(id).then((user) =>{
-  done(null, {})
-  // })
+passport.deserializeUser(async (id, done) => {
+  const user = await User.findOne({
+    where: {
+      id: id
+    }
+  })
+  if (!user) {
+    return done(new Error(), false)
+  } else {
+    return done(null, user)
+  }
 })
-// const upsertUserInfo = (user,doneCallback)=>{
-
+const upsertUserInfo = (user, doneCallback) => {
+  User
+    .findOrCreate({where: {providerId: user.providerId}})
+    .spread((user, created) => {
+      console.log(user.get({
+        plain: true
+      }))
+      console.log(created)
+      if (user) {
+        doneCallback(null, user[0])
+      } else {
+        doneCallback(null, created)
+      }
+    })
+}
 //   User.findOne({providerId : user.providerId}).then((currentUser)=>{
 //     if(!currentUser){//if user is not exist create new user        
 //       new User(user).save().then((newUser) =>{
@@ -52,7 +81,6 @@ passport.deserializeUser((id, done) => {
 //         doneCallback(null,currentUser);  
 //     }
 //   });
-// };
 passport.use(
   new GoogleStrategy(keys.google, // options for google strategy  end
     (accessToken, refreshTokken, profile, done) => { // passport callback function
@@ -65,12 +93,12 @@ passport.use(
         providerId: ${profile.id},
         profileImage: ${profile._json.image.url}
       `
-      // upsertUserInfo({
-      //   name: profile.displayName,
-      //   provider:'GOOGLE',
-      //   providerId: profile.id,
-      //   profileImage: profile._json.image.url
-      // },done); 
+      upsertUserInfo({
+        name: profile.displayName,
+        provider: 'GOOGLE',
+        providerId: profile.id,
+        profileImage: profile._json.image.url
+      }, done)
       console.log(log)
       done(null, profile)
     })

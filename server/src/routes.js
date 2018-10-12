@@ -16,7 +16,7 @@ module.exports = (app) => {
   app.use(passport.initialize())
   app.use(passport.session())
   app.get('/auth/google/redirect', passport.authenticate('google'), (req, res) => {
-    res.redirect('http://localhost:8083')
+    res.redirect('http://localhost:8082')
   })
   app.get('/auth/google', passport.authenticate('google', {
     scope: ['profile']
