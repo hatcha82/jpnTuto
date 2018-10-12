@@ -184,10 +184,6 @@ export default {
     }
   }, 
   methods: {
-    toTop () {
-      $('#app').scrollTop(200);
-    },
-    
     newArticle () {
       this.article = {}
       this.article.type = 'NEWS'
@@ -297,7 +293,7 @@ export default {
     
   },
   watch: {
-    '$route' (to, from) {
+    '$route' () { // (to, from) EsLint warning
       this.search()
     }
   },

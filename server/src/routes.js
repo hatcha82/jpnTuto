@@ -11,7 +11,6 @@ const FuriganaController = require('./controllers/FuriganaController')
 
 const isAuthenticated = require('./policies/isAuthenticated')
 const passport = require('passport')
-var Request = require('request')
 
 module.exports = (app) => {
   app.use(passport.initialize())

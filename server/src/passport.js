@@ -71,7 +71,7 @@ passport.use(
       //   providerId: profile.id,
       //   profileImage: profile._json.image.url
       // },done); 
-      console.log(profile)
+      console.log(log)
       done(null, profile)
     })
 )

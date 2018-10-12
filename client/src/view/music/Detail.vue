@@ -219,14 +219,11 @@ export default {
       if(value){
         return value
       }else{
-        return imgNotFound
+        return this.imgNotFound
       }
     }
   },
   methods: {
-    toTop () {
-      $('#app').scrollTop(200);
-    },
     back() {
       this.$router.back()
     },
@@ -319,13 +316,12 @@ export default {
       }
     },
     async search () {
-      
       const songId = this.$route.params.songId
       this.song = (await SongsService.show(songId)).data
       if (this.isUserLoggedIn) {
-        SongHistoryService.post({
-          songId: songId
-        })
+        // SongHistoryService.post({
+        //   songId: songId
+        // })
       }
     }
   },
@@ -339,7 +335,7 @@ export default {
     
   },
   watch: {
-    '$route' (to, from) {
+    '$route' () {
       this.search()
     }
   },

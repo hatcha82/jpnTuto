@@ -60,15 +60,14 @@ export default {
           name: name
         })
     },
-    
-    login: function () {
-      var email =this.email;
-      var password = this.password
+    // login: function () {
+    //   var email =this.email;
+    //   var password = this.password
       
-      this.$auth.login({ email, password }).then(function (res) {
-        console.log(res.data.login)
-      })
-    },
+    //   this.$auth.login({ email, password }).then(function (res) {
+    //     // console.log(res.data.login)
+    //   })
+    // },
     async login () {
       try {
         const response = await AuthenticationService.login({
