@@ -55,7 +55,8 @@ passport.deserializeUser((id, done) => {
 // };
 passport.use(
   new GoogleStrategy(keys.google, // options for google strategy  end
-    (accessToken, refreshTokken, profile, done) => { // passport callback function    
+    (accessToken, refreshTokken, profile, done) => { // passport callback function
+      console.log(accessToken)
       var log = `
         name: ${profile.displayName},
         accessToken : ${accessToken},
@@ -70,7 +71,7 @@ passport.use(
       //   providerId: profile.id,
       //   profileImage: profile._json.image.url
       // },done); 
-      console.log(log)
+      console.log(profile)
       done(null, profile)
     })
 )

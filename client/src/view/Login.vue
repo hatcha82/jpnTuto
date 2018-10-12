@@ -26,7 +26,7 @@
           @click="login()">
           Login
         </v-btn>
-        <button @click="authenticate('google')">auth Google</button>
+       
         <v-btn
           large
           color="primary" 
@@ -35,7 +35,7 @@
           @click="linkTo('register')">
           Sign Up
         </v-btn>
-        <a class="google btn" href="http://localhost:8081/auth/google">Google+</a>
+        <a class="google btn" href="http://localhost:8080/auth/google">Google+</a>
         <a class="naver btn" href="http://localhost:8081/auth/naver">Naver</a>
         <a class="kakao btn" href="http://localhost:8081/auth/kakao">Kakao</a>
         <a class="facebook btn" href="http://localhost:8081/auth/facebook">facebook</a>    
@@ -69,27 +69,21 @@ export default {
         console.log(res.data.login)
       })
     },
-    authenticate: function (provider) {
-      this.$auth.authenticate(provider).then(function (res) {
-        // Execute application logic after successful social authentication
-        console.log(res)
-      })
+    async login () {
+      try {
+        const response = await AuthenticationService.login({
+          email: this.email,
+          password: this.password
+        })
+        this.$store.dispatch('setToken', response.data.token)
+        this.$store.dispatch('setUser', response.data.user)
+        this.$router.push({
+          name: 'music-list'
+        })
+      } catch (error) {
+        this.error = error.response.data.error
+      }
     },
-    // async login () {
-    //   try {
-    //     const response = await AuthenticationService.login({
-    //       email: this.email,
-    //       password: this.password
-    //     })
-    //     this.$store.dispatch('setToken', response.data.token)
-    //     this.$store.dispatch('setUser', response.data.user)
-    //     this.$router.push({
-    //       name: 'music-list'
-    //     })
-    //   } catch (error) {
-    //     this.error = error.response.data.error
-    //   }
-    // },
     async google () {
       try {
         const response = await AuthenticationService.login({
