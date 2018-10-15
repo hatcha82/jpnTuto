@@ -36,7 +36,7 @@
           Sign Up
         </v-btn>
         <a class="google btn" href="http://localhost:8080/auth/google">Google+</a>
-        <a class="naver btn" href="http://localhost:8081/auth/naver">Naver</a>
+        <a class="naver btn" href="http://localhost:8080/auth/naver">Naver</a>
         <a class="kakao btn" href="http://localhost:8081/auth/kakao">Kakao</a>
         <a class="facebook btn" href="http://localhost:8081/auth/facebook">facebook</a>    
   </v-layout>
@@ -52,6 +52,26 @@ export default {
       email: '',
       password: '',
       error: null
+    }
+  },
+  async mounted () {
+    const providerId = this.$route.params.providerId
+    if(providerId){
+      try {
+        const response = await AuthenticationService.oAuthLogin({
+          providerId: providerId
+        })
+        console.log(response.data)
+        this.$store.dispatch('setToken', response.data.token)
+        this.$store.dispatch('setUser', response.data.user)
+        this.$router.push({
+          name: 'Main'
+        })
+      } catch (error) {
+        this.error = error.response.data.error
+      }
+    }else{
+
     }
   },
   methods: {
@@ -77,7 +97,7 @@ export default {
         this.$store.dispatch('setToken', response.data.token)
         this.$store.dispatch('setUser', response.data.user)
         this.$router.push({
-          name: 'music-list'
+          name: 'Main'
         })
       } catch (error) {
         this.error = error.response.data.error

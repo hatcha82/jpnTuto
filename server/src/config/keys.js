@@ -10,8 +10,8 @@ module.exports = {
   },
   naver: {
     callbackURL: '/auth/naver/redirect',
-    clientID: '23',
-    clientSecret: '3232'
+    clientID: 'H7ywV465eutZ9S93jlBg',
+    clientSecret: 'RFkzUQgIWs'
   },
   kakao: {
     callbackURL: '/auth/kakao/redirect',

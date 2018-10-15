@@ -6,5 +6,11 @@ export default {
   },
   login (credentials) {
     return Api().post('login', credentials)
+  },
+  logout(credentials){
+    return Api().post('logout', credentials)
+  },
+  oAuthLogin (credentials) {
+    return Api().post('oAuthLogin', credentials)
   }
 }

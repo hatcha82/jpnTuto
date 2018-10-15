@@ -16,17 +16,30 @@ module.exports = (app) => {
   app.use(passport.initialize())
   app.use(passport.session())
   app.get('/auth/google/redirect', passport.authenticate('google'), (req, res) => {
-    res.redirect('http://localhost:8082')
+    res.redirect('http://localhost:8083/login/' + req.session.passport.user)
   })
   app.get('/auth/google', passport.authenticate('google', {
-    scope: ['profile']
+    scope: ['profile', 'email']
+  }))
+  app.get('/auth/naver/redirect', passport.authenticate('naver'), (req, res) => {
+    res.redirect('http://localhost:8083/login/' + req.session.passport.user)
+  })
+  app.get('/auth/naver', passport.authenticate('naver', {
+    scope: ['profile', 'email', 'nickname']
   }))
   app.post('/register',
     AuthenticationControllerPolicy.register,
     AuthenticationController.register)
-
+  app.post('/oAuthLogin',
+    AuthenticationController.oAuthLogin)
   app.post('/login',
     AuthenticationController.login)
+  app.post('/logout', function (req, res) {
+    req.logout()
+    res.send({
+      logout: 'ok'
+    })
+  })
   app.post('/furigana',
     FuriganaController.convert)
 

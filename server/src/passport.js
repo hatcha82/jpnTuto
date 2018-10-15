@@ -57,12 +57,8 @@ passport.deserializeUser(async (id, done) => {
 })
 const upsertUserInfo = (user, doneCallback) => {
   User
-    .findOrCreate({where: {providerId: user.providerId}})
+    .findOrCreate({where: {providerId: user.providerId}, defaults: user})
     .spread((user, created) => {
-      console.log(user.get({
-        plain: true
-      }))
-      console.log(created)
       if (user) {
         doneCallback(null, user[0])
       } else {
@@ -84,35 +80,37 @@ const upsertUserInfo = (user, doneCallback) => {
 passport.use(
   new GoogleStrategy(keys.google, // options for google strategy  end
     (accessToken, refreshTokken, profile, done) => { // passport callback function
-      console.log(accessToken)
-      var log = `
-        name: ${profile.displayName},
-        accessToken : ${accessToken},
-        refreshTokken : ${refreshTokken},
-        provider:'GOOGLE',
-        providerId: ${profile.id},
-        profileImage: ${profile._json.image.url}
-      `
+      // var log = `
+      //   name: ${profile.displayName},
+      //   accessToken : ${accessToken},
+      //   refreshTokken : ${refreshTokken},
+      //   provider:'GOOGLE',
+      //   providerId: ${profile.id},
+      //   profileImage: ${profile._json.image.url}
+      // `
       upsertUserInfo({
+        email: profile.emails[0].value,
         name: profile.displayName,
-        provider: 'GOOGLE',
+        provider: profile.provider,
         providerId: profile.id,
         profileImage: profile._json.image.url
       }, done)
-      console.log(log)
+      // console.log(log)
       done(null, profile)
     })
 )
 passport.use(
   new NaverStrategy(keys.naver, // options for naver strategy  end
     (accessToken, refreshTokken, profile, done) => { // passport callback function
-
-    // upsertUserInfo({
-    //   name: profile.displayName,
-    //   provider:'NAVER',
-    //   providerId: profile.id,
-    //   profileImage: profile._json.profile_image
-    // },done);   
+      console.log(profile)
+      upsertUserInfo({
+        email: profile.emails[0].value,
+        name: profile.displayName,
+        provider: profile.provider,
+        providerId: profile.id,
+        profileImage: profile._json.profile_image
+      }, done)
+      done(null, profile)
     })
 )
 passport.use(

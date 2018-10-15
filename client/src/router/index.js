@@ -39,6 +39,11 @@ export default new Router({
       component: Login
     },
     {
+      path: '/login/:providerId',
+      name: 'login',
+      component: Login
+    },
+    {
       path: '/register',
       name: 'register',
       component: Register
