@@ -82,7 +82,9 @@
         Sign Up
       </v-toolbar-title> -->
       <v-toolbar-title v-if="$store.state.isUserLoggedIn"  class="mr-4"  @click="logout">
+        <v-btn icon>
         <v-icon>fas fa-sign-out-alt</v-icon>
+        </v-btn>
       </v-toolbar-title>
       <!-- <v-layout row align-center style="max-width: 650px">
         <v-text-field
@@ -98,6 +100,7 @@
   
 </template>
 <script>
+  import AuthenticationService from '@/services/AuthenticationService'
   export default {
     data: () => ({
       drawer: false,
@@ -130,12 +133,17 @@
           params: item.params
         })
       },
-      logout () {
-        this.$store.dispatch('setToken', null)
-        this.$store.dispatch('setUser', null)
-        this.$router.push({
-          name: 'music-list'
-        })
+      async logout () {
+        try {
+          const response = await AuthenticationService.logout({})
+          this.$store.dispatch('setToken', null)
+          this.$store.dispatch('setUser', null)
+          this.$router.push({
+            name: 'Main'
+          })
+        } catch (error) {
+          // this.error = error.response.data.error
+        }
       }
     }
   }

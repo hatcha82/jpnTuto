@@ -24,6 +24,31 @@ module.exports = {
       })
     }
   },
+  async oAuthLogin (req, res) {
+    try {
+      const {providerId} = req.body
+      const user = await User.findOne({
+        where: {
+          providerId: providerId
+        }
+      })
+      if (!user) {
+        console.log('User Not exist')
+        return res.status(403).send({
+          error: 'The login information was incorrect'
+        })
+      }
+      const userJson = user.toJSON()
+      res.send({
+        user: userJson,
+        token: jwtSignUser(userJson)
+      })
+    } catch (err) {
+      res.status(500).send({
+        error: 'An error has occured trying to log in'
+      })
+    }
+  },
   async login (req, res) {
     try {
       const {email, password} = req.body
