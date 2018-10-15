@@ -6,7 +6,8 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: g8ckdqja1013
     volumes:
-     - "mariadb:/var/lib/mysql"
+     - "jpntuto_mariadb_data:/var/lib/mysql"
+     - "jpntuto_mariadb_config:/etc/mysql/conf.d"
     ports:
      - "3306:3306"
 
@@ -25,4 +26,5 @@ services:
     depends_on:
      - db
 volumes:
-  mariadb:
+    jpntuto_mariadb_data:
+    jpntuto_mariadb_config:

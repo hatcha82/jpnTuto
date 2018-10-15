@@ -17,7 +17,7 @@
         <v-card>          
           <v-list two-line>
             <template v-for="(item, index) in articles">
-              <router-link  :to="{ name: 'article-detail', params: {  articleId: item.id}}" tag="div">
+              <router-link v-bind:key="item.id" :to="{ name: 'article-detail', params: {  articleId: item.id}}" tag="div">
               <v-list-tile
                 :key="item.id"
                 avatar            

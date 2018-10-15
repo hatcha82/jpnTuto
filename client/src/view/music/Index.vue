@@ -28,8 +28,8 @@
       <v-flex xs12 sm12 lg12 md12>
         <v-card>          
           <v-list two-line>
-            <template v-for="(item, index) in songs">
-              <router-link  :to="{ name: 'music-detail', params: {  songId: item.id}}" tag="div">
+            <template  v-for="(item, index) in songs">
+              <router-link  v-bind:key="item.id" :to="{ name: 'music-detail', params: {  songId: item.id}}" tag="div">
               <v-subheader
                 v-if="item.header"
                 :key="item.header"
@@ -85,7 +85,7 @@ export default {
     ])
   },
   watch: {
-    searchKeyword: _.debounce(async function (value) {
+    searchKeyword: _.debounce(async function () {
       var search = null 
       if (this.searchKeyword === '') {
         search = null

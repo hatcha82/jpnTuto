@@ -11,13 +11,12 @@ const FuriganaController = require('./controllers/FuriganaController')
 
 const isAuthenticated = require('./policies/isAuthenticated')
 const passport = require('passport')
-var Request = require('request')
 
 module.exports = (app) => {
   app.use(passport.initialize())
   app.use(passport.session())
   app.get('/auth/google/redirect', passport.authenticate('google'), (req, res) => {
-    res.redirect('http://localhost:8083')
+    res.redirect('http://localhost:8082')
   })
   app.get('/auth/google', passport.authenticate('google', {
     scope: ['profile']
