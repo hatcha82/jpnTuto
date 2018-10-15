@@ -38,7 +38,7 @@ function youTubeCrawlerCallBack(error, res, done){
             Song.update({
               youtubeId: youTubuId,
               updatedUserId : 3,
-			  updatedAt : new Date()
+			        updatedAt : new Date()
             }, {
               where: { id: song.id }
             })
@@ -57,12 +57,43 @@ function youTubeCrawlerCallBack(error, res, done){
             .catch(error =>{
               console.log(error)
             })                      
-            
-            one = false           
+            one = false
           }
         }
       })
-         
+      if(!youTubuId){
+        var song = optionParam
+           
+            song.createdUserId=3
+            song.updatedUserId=3 
+            
+            Song.update({
+              youtubeId: 'error',
+              updatedUserId : 3,
+			        updatedAt : new Date()
+            }, {
+              where: { id: song.id }
+            })
+            .then(result =>{
+              console.log(result)
+              console.log(`
+              id : ${song.id}
+              rank : ${song.rank}
+              title : ${song.title}
+              artist : ${song.artist}
+              album : ${song.album}
+              albumImageUrl : ${song.albumImageUrl}
+              youtubeId : ${song.youtubeId}
+            `)
+            })
+            .catch(error =>{
+              console.log(error)
+            })                      
+      }
+
+
+      
+
   }
   done();
 }
@@ -107,8 +138,29 @@ async function addQueue(){
       await youTubeCrawler.queue(crawlerparam) 
     }else{
       tryCount++
-      if(tryCount > 100){
-        clearInterval(term)
+      if(tryCount > 3){
+        Song.update({
+          youtubeId: 'error',
+          updatedUserId : 3,
+          updatedAt : new Date()
+        }, {
+          where: { id: song.id }
+        })
+        .then(result =>{
+          console.log(result)
+          console.log(`
+          id : ${song.id}
+          rank : ${song.rank}
+          title : ${song.title}
+          artist : ${song.artist}
+          album : ${song.album}
+          albumImageUrl : ${song.albumImageUrl}
+          youtubeId : ${song.youtubeId}
+        `)
+        })
+        .catch(error =>{
+          console.log(error)
+        })                      
       }
     } 
     //console.log(`[${optionParam.rank}] ${optionParam.artist}+${optionParam.title} : ${youtube} added\n`)    
