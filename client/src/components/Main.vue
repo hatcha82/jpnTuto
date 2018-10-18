@@ -1,14 +1,14 @@
 <template>
 <div class="pt-0">
     <section>
-      <v-parallax :src="require('../assets/bg/bg002.jpg')" height="600">
+      <v-parallax :src="require('../assets/bg/bg002.jpg')" height="400">
         <v-layout
           column
           align-center
           justify-center
           class="white--text"
         >
-          <img src="../assets/logoBlue.jpg" alt="Vuetify.js" height="200" style="border-radius:100px">
+          <img src="../assets/logoBlue.jpg" alt="Vuetify.js" height="150" style="border-radius:100px">
           <h1 class="white--text mb-2 display-1 text-xs-center font-weight-black">FuRigana Hub</h1>
           <div class="subheading mb-3 text-xs-center " >일본어를 쉽게 읽어 봅시다.</div>
           <router-link to="/login">
@@ -33,59 +33,84 @@
       >
         <v-flex xs12 sm4 class="my-3">
           <div class="text-xs-center">
-            <h2 class="headline">The best way to start developing</h2>
+            <h2 class="headline">히라가나는 읽을 줄 아는데.. 한자가 어렵다면.. </h2>
             <span class="subheading">
-              Cras facilisis mi vitae nunc 
+              후리가나를 보면서 계속 읽어보세요.
             </span>
           </div>
         </v-flex>
         <v-flex xs12>
           <v-container grid-list-xl>
             <v-layout row wrap align-center>
-              <v-flex xs12 md4>
+              <v-flex xs12 md3>
+                <router-link to="/music/list" style="text-decoration:none">
                 <v-card class="elevation-0 transparent">
                   <v-card-text class="text-xs-center">
-                    <v-icon x-large class="blue--text text--lighten-2">color_lens</v-icon>
+                    <v-icon x-large class="blue--text text--lighten-2">fas fa-music</i></v-icon>
                   </v-card-text>
                   <v-card-title primary-title class="layout justify-center">
-                    <div class="headline text-xs-center">Material Design</div>
+                    <div class="headline text-xs-center">J-pop과 후리가나 가사</div>
                   </v-card-title>
                   <v-card-text>
-                    Cras facilisis mi vitae nunc lobortis pharetra. Nulla volutpat tincidunt ornare. 
-                    Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. 
-                    Nullam in aliquet odio. Aliquam eu est vitae tellus bibendum tincidunt. Suspendisse potenti. 
+                    80년도에서 최신 J-pop 7000여곡의 노래를 후리가나를 읽으면서 일본어를 배울 수있습니다. 후리가나, 원곡가사, 번역 그리고 관련 유튜브 동영상을 보면서 노래와 일본어 읽기를 시작하세요.<br><br>
                   </v-card-text>
                 </v-card>
+                </router-link>
               </v-flex>
-              <v-flex xs12 md4>
+              <v-flex xs12 md3>
+                <router-link to="/article/list" style="text-decoration:none">
                 <v-card class="elevation-0 transparent">
                   <v-card-text class="text-xs-center">
-                    <v-icon x-large class="blue--text text--lighten-2">flash_on</v-icon>
+                    <v-icon x-large class="blue--text text--lighten-2">far fa-newspaper</v-icon>
                   </v-card-text>
                   <v-card-title primary-title class="layout justify-center">
-                    <div class="headline">Fast development</div>
+                    <div class="headline">일본 4대 뉴스와 후리가나</div>
                   </v-card-title>
                   <v-card-text>
-                    Cras facilisis mi vitae nunc lobortis pharetra. Nulla volutpat tincidunt ornare. 
-                    Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. 
-                    Nullam in aliquet odio. Aliquam eu est vitae tellus bibendum tincidunt. Suspendisse potenti. 
+                    <img class="newsIcon" src="https://s.yimg.jp/images/news/cobranding/nnn.png"/>
+                    <img class="newsIcon" src="https://s.yimg.jp/images/news/cobranding/ann.png"/>
+                    <img class="newsIcon" src="https://s.yimg.jp/images/news/cobranding/jnn.png"/>
+                    <img class="newsIcon" src="https://s.yimg.jp/images/news/cobranding/fnn.png"/>
+                    <br>
+                    매일 1시간에 한번씩 업데이트 되는 일본의 4대 메인 뉴스인 일본 TV(NNN), 아사히(ANN), TBS(JNN), 후지 TV(FNN)의 기사를 후리가나와 함께 읽을 수 있습니다. 
+                    <br><br>
                   </v-card-text>
                 </v-card>
+                </router-link>
               </v-flex>
-              <v-flex xs12 md4>
+              <v-flex xs12 md3>
+                <router-link to="/twitter/list" style="text-decoration:none">
                 <v-card class="elevation-0 transparent">
                   <v-card-text class="text-xs-center">
-                    <v-icon x-large class="blue--text text--lighten-2">build</v-icon>
+                    <v-icon x-large class="blue--text text--lighten-2">fab fa-twitter</v-icon>
                   </v-card-text>
                   <v-card-title primary-title class="layout justify-center">
-                    <div class="headline text-xs-center">Completely Open Sourced</div>
+                    <div class="headline text-xs-center">일본 트위터와 후리가나와</div>
                   </v-card-title>
                   <v-card-text>
-                    Cras facilisis mi vitae nunc lobortis pharetra. Nulla volutpat tincidunt ornare. 
-                    Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. 
-                    Nullam in aliquet odio. Aliquam eu est vitae tellus bibendum tincidunt. Suspendisse potenti. 
+                    좋아하는 일본 연예인 또는 친구의 트위터계정을 조회해보세요. 한자가 포함된 트윗을 후리가나로 보실 수 있습니다.<br><br>
+                    <i>좋아하는 트윗 추가 기능이 추가 될 예정입니다.</i>
                   </v-card-text>
                 </v-card>
+                </router-link>
+              </v-flex>
+              <v-flex xs12 md3>
+                <router-link to="/twitter/list/_FURIGANA" style="text-decoration:none">
+                <v-card class="elevation-0 transparent">
+                  <v-card-text class="text-xs-center">
+                    <v-icon x-large class="blue--text text--lighten-2">translate</v-icon>
+                    <!-- <img :src="require('../assets/kanji-character.svg')" style="width:40px"/> -->
+                    <!-- <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+                  </v-card-text>
+                  <v-card-title primary-title class="layout justify-center">
+                    <div class="headline text-xs-center">매일매일 한자 후리가나</div>
+                  </v-card-title>
+                  <v-card-text>
+                    JLPT모든 레벨(1 ~ 5)의 한자를 배울 수 있습니다. 그림과 획수 음독 훈독을 보면서 배워봅시다.<br><br>
+                    <i>한국어 번역이 추가 될 예정입니다.</i><br><br>
+                  </v-card-text>
+                </v-card>
+                </router-link>
               </v-flex>
             </v-layout>
           </v-container>
@@ -95,8 +120,10 @@
     <section>
       <v-parallax :src="require('../assets/bg/bg008.jpg')" height="380">
         <v-layout column align-center justify-center>
-          <div class="headline white--text mb-3 text-xs-center">일본어 한자를 히라가나를 읽어면서 배울 수 있습니다.</div>
-          <em>Kick-start your application today</em>
+          <div class="headline white--text mb-3 text-xs-center parallax-dark">
+            일본어 한자를 히라가나와 함께 읽으면서 배울 수 있습니다.
+          </div>
+          <em class="parallax-dark">Furigana Hub로 시작하세요.</em>
           <router-link to="/login">
           <v-btn
             class="blue lighten-2 mt-5"
@@ -111,7 +138,7 @@
     </section>
 
     <section>
-      <v-container grid-list-xl>
+      <!-- <v-container grid-list-xl>
         <v-layout row wrap justify-center class="my-5">
           <v-flex xs12 sm4>
             <v-card class="elevation-0 transparent">
@@ -162,7 +189,7 @@
             </v-card>
           </v-flex>
         </v-layout>
-      </v-container>
+      </v-container> -->
     </section>
 
     <!-- <v-footer class="blue darken-2">
@@ -192,6 +219,15 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.newsIcon {
+  width:50px
+}
+.parallax-dark{
+  background:#222;
+  opacity: 0.7;
+  padding:10px;
+  border-radius: 5px
+}
 h3 {
   margin: 40px 0 0;
 }
