@@ -8,7 +8,7 @@ bot/papagoBot/.env
 bot/newsBot/node_modules/
 bot/newsBot/.env
 server/src/config/config.js
-
+bot/blogbot/node_modules/
 package-lock.json
 node_modules/client
 jpnTuto.code-workspace
