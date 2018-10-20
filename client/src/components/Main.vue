@@ -90,7 +90,30 @@
               </v-flex>
             </v-layout>
             <v-layout row wrap align-center>
-              <v-flex xs12 md6>
+              
+              <v-flex xs12 md12>
+                <router-link to="/twitter/list/_FURIGANA" style="text-decoration:none">
+                <v-card class="elevation-0 transparent">
+                  <v-card-text class="text-xs-center">
+                    <v-icon x-large class="blue--text text--lighten-2">translate</v-icon>
+                    <!-- <img :src="require('../assets/kanji-character.svg')" style="width:40px"/> -->
+                    <!-- <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
+                  </v-card-text>
+                  <v-card-title primary-title class="layout justify-center">
+                    <div class="headline text-xs-center">매일 한자 후리가나</div>
+                  </v-card-title>
+                  <EveryDayKanji/>
+                  <v-card-text>
+                    JLPT모든 레벨(1 ~ 5)의 한자를 배울 수 있습니다. 그림과 획수 음독 훈독을 보면서 배워봅시다.<br><br>
+                    <i>한국어 번역이 추가 될 예정입니다.</i><br><br>
+                  </v-card-text>
+                  
+                </v-card>
+                </router-link>
+                
+                
+              </v-flex>
+              <v-flex xs12 md12>
                 <router-link to="/twitter/list" style="text-decoration:none">
                 <v-card class="elevation-0 transparent">
                   <v-card-text class="text-xs-center">
@@ -102,24 +125,6 @@
                   <v-card-text>
                     좋아하는 일본 연예인 또는 친구의 트위터계정을 조회해보세요. 한자가 포함된 트윗을 후리가나로 보실 수 있습니다.<br><br>
                     <i>좋아하는 트윗 추가 기능이 추가 될 예정입니다.</i>
-                  </v-card-text>
-                </v-card>
-                </router-link>
-              </v-flex>
-              <v-flex xs12 md6>
-                <router-link to="/twitter/list/_FURIGANA" style="text-decoration:none">
-                <v-card class="elevation-0 transparent">
-                  <v-card-text class="text-xs-center">
-                    <v-icon x-large class="blue--text text--lighten-2">translate</v-icon>
-                    <!-- <img :src="require('../assets/kanji-character.svg')" style="width:40px"/> -->
-                    <!-- <div>Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div> -->
-                  </v-card-text>
-                  <v-card-title primary-title class="layout justify-center">
-                    <div class="headline text-xs-center">매일 한자<br>후리가나</div>
-                  </v-card-title>
-                  <v-card-text>
-                    JLPT모든 레벨(1 ~ 5)의 한자를 배울 수 있습니다. 그림과 획수 음독 훈독을 보면서 배워봅시다.<br><br>
-                    <i>한국어 번역이 추가 될 예정입니다.</i><br><br>
                   </v-card-text>
                 </v-card>
                 </router-link>
@@ -222,10 +227,13 @@
 <script>
 import RandomMusicList from '@/components/music/RandomMusicList'
 import RecentNews from '@/components/article/RecentNews'
+import EveryDayKanji from '@/components/kanji/EveryDayKanji'
+
 export default {
   components: {
     RandomMusicList,
-    RecentNews
+    RecentNews,
+    EveryDayKanji
   },
   name: 'HelloWorld',
   props: {

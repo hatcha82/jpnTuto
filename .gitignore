@@ -1,6 +1,7 @@
 client/node_modules/
 server/node_modules/
 bot/YoubueTagBot/node_modules/
+bot/ImageGifFuriganaKanjiBot/node_modules/
 bot/twitFuriganaKanjiBot/node_modules/
 bot/lyricsCrawBot/node_modules/
 bot/papagoBot/node_modules/

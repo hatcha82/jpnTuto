@@ -4,7 +4,7 @@ const AuthenticationControllerPolicy = require('./policies/AuthenticationControl
 const ArticleController = require('./controllers/ArticleController')
 const SongsController = require('./controllers/SongsController')
 const TwitterController = require('./controllers/TwitterController')
-
+const KanjisController = require('./controllers/KanjisController')
 const BookmarksController = require('./controllers/BookmarksController')
 const HistoriesController = require('./controllers/HistoriesController')
 const FuriganaController = require('./controllers/FuriganaController')
@@ -72,6 +72,9 @@ module.exports = (app) => {
   app.delete('/song/:songId',
     isAuthenticated,
     SongsController.remove)
+
+  app.get('/kanjis/randomKanjis',
+    KanjisController.randomKanjis)
 
   app.get('/bookmarks',
     isAuthenticated,
