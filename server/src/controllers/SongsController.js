@@ -1,4 +1,4 @@
-const {Song} = require('../models')
+const {Song, sequelize} = require('../models')
 // import YahooWebAnalyzer from "kuroshiro-analyzer-yahoo-webapi";
 const Kuroshiro = require('kuroshiro')
 const KuromojiAnalyzer = require('kuroshiro-analyzer-kuromoji')
@@ -63,6 +63,28 @@ module.exports = {
         })
       }
       res.send({data: songs, count: count})
+    } catch (err) {
+      res.status(500).send({
+        error: err
+      })
+    }
+  },
+  async randomeSong (req, res) {
+    try {
+      const Op = sequelize.Op
+      const songs = await Song.findAll({
+        attributes: {exclude: ['lyrics', 'tab']},
+        where: {
+          albumImageUrl: {
+            [Op.ne]: null
+          }
+        },
+        order: [
+          [sequelize.random()]
+        ],
+        limit: 10
+      })
+      res.send({data: songs})
     } catch (err) {
       res.status(500).send({
         error: err

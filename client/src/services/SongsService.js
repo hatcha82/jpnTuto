@@ -9,16 +9,22 @@ export default {
       }
     })
   },
+  randomFiveSong () {
+    return Api().get('songs/randomeSong', {
+      params: {
+      }
+    })
+  },
   show (songId) {
-    return Api().get(`songs/${songId}`)
+    return Api().get(`song/${songId}`)
   },
   post (song) {
-    return Api().post('songs', song)
+    return Api().post('song', song)
   },
   put (song) {
-    return Api().put(`songs/${song.id}`, song)
+    return Api().put(`song/${song.id}`, song)
   },
   delete (song) {
-    return Api().delete(`songs/${song.id}`, song)
+    return Api().delete(`song/${song.id}`, song)
   }
 }

@@ -9,16 +9,22 @@ export default {
       }
     })
   },
+  rencentNews () {
+    return Api().get('articles/recentNews', {
+      params: {
+      }
+    })
+  },
   show (articleId) {
-    return Api().get(`articles/${articleId}`)
+    return Api().get(`article/${articleId}`)
   },
   post (article) {
-    return Api().post('articles', article)
+    return Api().post('article', article)
   },
   put (article) {
-    return Api().put(`articles/${article.id}`, article)
+    return Api().put(`article/${article.id}`, article)
   },
   delete (article) {
-    return Api().delete(`articles/${article.id}`, article)
+    return Api().delete(`article/${article.id}`, article)
   }
 }

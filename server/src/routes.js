@@ -42,16 +42,17 @@ module.exports = (app) => {
   })
   app.post('/furigana',
     FuriganaController.convert)
-
   app.get('/articles',
     ArticleController.index)
-  app.get('/articles/:articleId',
+  app.get('/articles/recentNews',
+    ArticleController.recentNews)
+  app.get('/article/:articleId',
     ArticleController.show)
-  app.put('/articles/:articleId',
+  app.put('/article/:articleId',
     ArticleController.put)
-  app.post('/articles',
+  app.post('/article',
     ArticleController.post)
-  app.delete('/articles/:articleId',
+  app.delete('/article/:articleId',
     isAuthenticated,
     ArticleController.remove)
 
@@ -60,13 +61,15 @@ module.exports = (app) => {
 
   app.get('/songs',
     SongsController.index)
-  app.get('/songs/:songId',
+  app.get('/songs/randomeSong',
+    SongsController.randomeSong)
+  app.get('/song/:songId',
     SongsController.show)
-  app.put('/songs/:songId',
+  app.put('/song/:songId',
     SongsController.put)
-  app.post('/songs',
+  app.post('/song',
     SongsController.post)
-  app.delete('/songs/:songId',
+  app.delete('/song/:songId',
     isAuthenticated,
     SongsController.remove)
 

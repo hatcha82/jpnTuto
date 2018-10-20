@@ -136,11 +136,13 @@
       async logout () {
         try {
           const response = await AuthenticationService.logout({})
-          this.$store.dispatch('setToken', null)
-          this.$store.dispatch('setUser', null)
-          this.$router.push({
-            name: 'Main'
-          })
+          if(response.data.logout === 'ok'){
+            this.$store.dispatch('setToken', null)
+            this.$store.dispatch('setUser', null)
+            this.$router.push({
+              name: 'Main'
+            })
+          }
         } catch (error) {
           // this.error = error.response.data.error
         }
