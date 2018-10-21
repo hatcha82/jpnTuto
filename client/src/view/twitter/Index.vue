@@ -1,17 +1,17 @@
 <template>
 <div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="00">
   <v-btn 
-        v-if="isUserLoggedIn"
-        class="mb-5 mr-2"
-        absolute
-        bottom
-        right
-        fixed
-        fab
-        @click="createNewSong()"
-        color="primary">
-        <v-icon>add</v-icon>
-      </v-btn>
+    v-if="isUserLoggedIn"
+    class="mb-5 mr-2"
+    absolute
+    bottom
+    right
+    fixed
+    fab
+    @click="addNewTwitter()"
+    color="primary">
+    <v-icon>add</v-icon>
+  </v-btn>
    <v-layout row>   
      <v-flex pa-3 pb-0>
         <v-text-field
@@ -203,7 +203,7 @@ export default {
     },
     searchKeyword: _.debounce(async function (value) {
       if(this.busy) return;
-      var serach = null       
+      var serach = null
       this.isLast = false
       this.offset = null
       if (!this.searchKeyword || this.searchKeyword === '') {
@@ -214,7 +214,7 @@ export default {
       this.search()
     }, 1000)
   },
-  async mounted () {
+  mounted () {
      const search = this.$route.params.search
      this.searchKeyword = search;
      this.search()
@@ -287,10 +287,10 @@ export default {
       //           }
       //         }
     },
-    createNewSong () {
+    addNewTwitter () {
       this.$router.push({
-        name: 'music-detail',
-        params: {  newSong : true}
+        name: 'twitter-detail',
+        params: {  newTwitter : true}
       })
     },
     async search(isAppend){
@@ -309,11 +309,8 @@ export default {
         }else{
           dataSet = (await TwitterService.userTimeLine(serach, this.offset)).data;  
         }
-
         
-       
-        
-        if(!dataSet.code){
+        if(dataSet.length > 0){
           if( isAppend){
             //var lastOffset = this.offset
             
@@ -338,8 +335,10 @@ export default {
             
 
           }else{
+            
             this.twitters = dataSet.length === 0 ? null : dataSet
-            this.offset = appendDataSet.reverse()[0].id_str;
+            this.offset = dataSet[dataSet.length].id_str;
+            alert()
             if(this.twitters.length == 1){
               this.isLast = true;
             }
@@ -360,6 +359,8 @@ export default {
       this.busy = false
     },
     async loadMore() {
+
+      if(this.busy) return;
       this.busy = true
       if(!this.isLast){
         this.search(true)

@@ -7,6 +7,8 @@ import ViewMusic from '@/view/music/Detail'
 import Articles from '@/view/article/Index'
 import ViewArticle from '@/view/article/Detail'
 import Twitter from '@/view/twitter/Index'
+import ViewTwitter from '@/view/twitter/Detail'
+import TwitterUserList from '@/view/twitter/TwitterUsersList'
 import Register from '@/view/Register'
 import AuthRedirect from '@/view/AuthRedirect'
 
@@ -69,10 +71,22 @@ export default new Router({
       component: Twitter
     },
     {
+      path: '/twitter/userList/',
+      name: 'twitter-userList',
+      component: TwitterUserList
+    },
+    
+    {
+      path: '/twitter/detail/:songId',
+      name: 'twitter-detail',
+      component: ViewTwitter
+    },
+    {
       path: '/twitter/list/:search',
       name: 'twitter-list-search',
       component: Twitter
     },
+
     // {
     //   path: '/articles/create',
     //   name: 'articles-create',

@@ -1,17 +1,17 @@
 module.exports = {
   twitter : {
-    consumer_key: 'u68GbxObuBeq8IHy4BCOV0E92',
-    consumer_secret: 'WjZnAX4hfYMqvvBmJluJiSfz5E8Gq2vWwJ8Md8ePLb35pPvIGH',
-    access_token_key: '1045274717471485953-39o9BhBv52X7sJ0zFZZEXQA36SWkZr',
-    access_token_secret: 'Ukt28QRMBhBlasFvTgEshtEUXn4akkMAEAVp5Zs7XKuip'
+    consumer_key: '',
+    consumer_secret: '',
+    access_token_key: '',
+    access_token_secret: ''
   },
   db: {
-    database: process.env.DB_NAME || 'jpn_tuto',
-    user: process.env.DB_USER || 'jpn_tuto',
-    password: process.env.DB_PASS || 'jpn_tuto',
+    database: process.env.DB_NAME || '',
+    user: process.env.DB_USER || '',
+    password: process.env.DB_PASS || '',
     options: {
-      dialect: process.env.DIALECT || 'mysql',
-      host: process.env.HOST || 'db.furiganahub.com',
+      dialect: process.env.DIALECT || '',
+      host: process.env.HOST || '',
       pool: {
         max: 5,
         min: 0,

@@ -1,17 +1,17 @@
 <template>
 <div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="-37">  
   <v-btn 
-        v-if="isUserLoggedIn"
-        class="mb-5 mr-2"
-        absolute
-        bottom
-        right
-        fixed
-        fab
-        @click="createNewSong()"
-        color="primary">
-        <v-icon>add</v-icon>
-      </v-btn>
+    v-if="isUserLoggedIn"
+    class="mb-5 mr-2"
+    absolute
+    bottom
+    right
+    fixed
+    fab
+    @click="createNewSong()"
+    color="primary">
+    <v-icon>add</v-icon>
+  </v-btn>
    <v-layout row>   
      <v-flex pa-3 pb-0>
        <v-text-field
