@@ -1,3 +1,5 @@
+require('dotenv').config()
+var fs = require('fs');
 var express = require('express');
 var app = express();
 var client_id = 'w7FsuKKmd0_0nh3h_yIb';
@@ -8,7 +10,87 @@ var api_url = `https://nid.naver.com/oauth2.0/authorize?response_type=code&clien
 var request = require('request');
 var access_token ='';
 var refresh_token = '';
+var {Song} = require('./models')
+const {sequelize} = require('./models')
 
+
+
+var template = fs.readFileSync('blogtemplate.html', 'utf-8');
+
+async function uploadBlog(){
+  console.log("Upload Started...")
+  const Op = sequelize.Op
+  var song = await Song.findOne({
+    where :{
+      naverBlogUpload : 'N',
+      albumImageUrl : {[Op.ne]: null}
+    },
+    limit: 1
+  })
+  if(!song){
+    return;
+  }
+  var newTemplate = template.replace('[[title]]', song.title)
+  newTemplate = newTemplate.replace('[[artist]]',song.artist)
+  newTemplate = newTemplate.replace('[[id]]',song.id)
+  newTemplate = newTemplate.replace('[[albumImageUrl]]',song.albumImageUrl)
+  newTemplate = newTemplate.replace('[[youtubeId]]',song.youtubeId)
+
+  var furigana = song.tab;
+  furigana =  furigana.replace(/\n/g,'<br>')
+  newTemplate = newTemplate.replace('[[furigana]]',furigana)
+  
+  var lyricsKor = song.lyricsKor;
+  if(lyricsKor){
+    lyricsKor =  lyricsKor.replace(/\n/g,'<br>')
+    newTemplate = newTemplate.replace('[[lyricsKor]]',lyricsKor)
+  }
+  
+  var title = `[J-pop : ${song.artist}] ${song.title}`;
+  var contents = newTemplate;
+
+  var api_url = 'https://openapi.naver.com/blog/writePost.json';
+  var request = require('request');
+  var header = "Bearer " + access_token; // Bearer 다음에 공백 추가
+  var options = {
+      url: api_url,
+      form: {'title':title, 'contents':contents, categoryNo : 10},
+      headers: {'Authorization': header}
+   };
+  request.post(options, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      console.log('Blog Uploaded')
+      Song.update({
+        naverBlogUpload: 'Y',
+      }, {
+        where: { id: song.id }
+      })
+      .then(result =>{
+        console.log(`result: ${result}  updated row song.id ${song.id} ,title ${song.title}` )
+        
+      })
+      .catch(error =>{
+        console.log(`result: ${error}  updated row song.id ${song.id} ,title ${song.title}` )
+      })  
+    } else {
+      Song.update({
+        naverBlogUpload: 'E',
+      }, {
+        where: { id: song.id }
+      })
+      .then(result =>{
+        console.log(`result: ${result}  updated row song.id ${song.id} ,title ${song.title}` )
+        
+      })
+      .catch(error =>{
+        console.log(`result: ${error}  updated row song.id ${song.id} ,title ${song.title}` )
+      })  
+      if(response != null) {
+        
+      }
+    }
+  });
+}
 
 function refreshToken(){
   var api_url = `https://nid.naver.com/oauth2.0/token?grant_type=refresh_token&client_id=${client_id}&&client_secret=${client_secret}&refresh_token=${refresh_token}`
@@ -30,6 +112,7 @@ function refreshToken(){
 }
 
 setInterval(refreshToken, 1000 * 60 * 30)
+setInterval(uploadBlog, 1000 * 60 * 10)
 app.get('/naverlogin', function (req, res) {
    res.writeHead(200, {'Content-Type': 'text/html;charset=utf-8'});
    res.end("<a href='"+ api_url + "'><img height='50' src='http://static.nid.naver.com/oauth/small_g_in.PNG'/></a>");
@@ -52,7 +135,7 @@ app.get('/naverlogin', function (req, res) {
         jsonBody = JSON.parse(body);
         access_token = jsonBody.access_token
         refresh_token = jsonBody.refresh_token        
-      
+        uploadBlog()
         res.end(body);
       } else {
         res.status(response.statusCode).end();
