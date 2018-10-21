@@ -1,4 +1,4 @@
-const {Song} = require('../models')
+const {TwitterUsers} = require('../models')
 var Twitter = require('twitter')
 // import YahooWebAnalyzer from "kuroshiro-analyzer-yahoo-webapi";
 
@@ -17,6 +17,27 @@ var client = new Twitter({
   access_token_secret: 'K2QjekGhokvzBbBLvvW7D2AmHLltVZWAUmB9DDfHHnofM'
 })
 async function getData (screenName, endPoint, maxId) {
+  return new Promise(function (resolve, reject) {
+    var params = {
+      screen_name: screenName,
+      tweet_mode: 'extended',
+      stringify_ids: true,
+      exclude_replies: true,
+      include_rts: false,
+      include_entities: true}
+    if (maxId) {
+      params.max_id = maxId.toString()
+    }
+    client.get(endPoint, params, function (error, tweets, response) {
+      if (!error) {
+        resolve(tweets)
+      } else {
+        reject(error[0])
+      }
+    })
+  })
+}
+async function getDataWithFurigana (screenName, endPoint, maxId) {
   return new Promise(function (resolve, reject) {
     var params = {screen_name: screenName, tweet_mode: 'extended', stringify_ids: true, exclude_replies: true, include_rts: false, include_entities: true}
     if (maxId) {
@@ -57,19 +78,17 @@ module.exports = {
     if (!search) {
       search = '_FURIGANA'
     }
-    getData(search, 'statuses/user_timeline', maxId).then(function (data) {
-      console.log(data.length) // response 값 출력
+    getDataWithFurigana(search, 'statuses/user_timeline', maxId).then(function (data) {
       res.send(data)
       // res.send(data); // response 값 출력
     }).catch(function (err) {
-      console.log('eeror')
       res.send(err)// Error 출력
     })
   },
   async  homeTimeline (req, res) {
     var search = 'ZIP_TV'
     var maxId = req.query.maxId
-    getData(search, 'statuses/user_timeline', maxId).then(function (data) {
+    getDataWithFurigana(search, 'statuses/user_timeline', maxId).then(function (data) {
       res.send(data)
       // res.send(data); // response 값 출력
     }).catch(function (err) {
@@ -78,18 +97,30 @@ module.exports = {
       })
     })
   },
-  // async index (req, res) {
+  async twitterUserList (req, res) {
+    var search = req.query.search || 'hatcha82'
+    var maxId = req.query.maxId
+    getData(search, 'friends/list', maxId).then(function (data) {
+      res.send(data)
+      // res.send(data); // response 값 출력
+    }).catch(function (err) {
+      res.status(500).send({
+        error: err
+      })
+    })
+  },
+  // async twitterUserList (req, res) {
   //   try {
-  //     let songs = null
+  //     let twitterUsers = null
   //     const search = req.query.search
   //     const offset = parseInt(req.query.offset)
   //     var count = 0
   //     if (search) {
-  //       count = await Song.findOne({
-  //         attributes: [[Song.sequelize.fn('COUNT', Song.sequelize.col('id')), 'count']],
+  //       count = await TwitterUsers.findOne({
+  //         attributes: [[TwitterUsers.sequelize.fn('COUNT', TwitterUsers.sequelize.col('id')), 'count']],
   //         where: {
   //           $or: [
-  //             'title', 'artist', 'genre', 'album'
+  //             'twitterId'
   //           ].map(key => ({
   //             [key]: {
   //               $like: `%${search}%`
@@ -98,52 +129,54 @@ module.exports = {
   //         }
   //       })
 
-  //       songs = await Song.findAll({
-  //         attributes: {exclude: ['lyrics', 'tab']},
+  //       twitterUsers = await TwitterUsers.findAll({
   //         where: {
   //           $or: [
-  //             'title', 'artist', 'genre', 'album'
+  //             'twitterId'
   //           ].map(key => ({
   //             [key]: {
   //               $like: `%${search}%`
   //             }
   //           }))
-  //         }
+  //         },
+  //         order: [
+  //           ['updatedAt', 'DESC']
+  //         ],
+  //         limit: 30,
+  //         offset: offset
   //       })
   //     } else {
-  //       count = await Song.findOne({
-  //         attributes: [[Song.sequelize.fn('COUNT', Song.sequelize.col('id')), 'count']]
+  //       count = await TwitterUsers.findOne({
+  //         attributes: [[TwitterUsers.sequelize.fn('COUNT', TwitterUsers.sequelize.col('id')), 'count']]
   //       })
-
-  //       songs = await Song.findAll({
-  //         attributes: {exclude: ['lyrics', 'tab']},
+  //       twitterUsers = await TwitterUsers.findAll({
   //         order: [
-  //           ['createdAt', 'DESC']
+  //           ['updatedAt', 'DESC']
   //         ],
-  //         limit: 100,
+  //         limit: 30,
   //         offset: offset
   //       })
   //     }
-  //     res.send({data: songs, count: count})
+  //     res.send({data: twitterUsers, count: count})
   //   } catch (err) {
   //     res.status(500).send({
-  //       error: err
+  //       error: err.toString()
   //     })
   //   }
   // },
   async show (req, res) {
     try {
-      const song = await Song.findById(req.params.songId)
+      const song = await TwitterUsers.findById(req.params.songId)
       res.send(song)
     } catch (err) {
       res.status(500).send({
-        error: 'an error has occured trying to show the songs'
+        error: 'an error has occured trying to show the twitterUsers'
       })
     }
   },
   async post (req, res) {
     try {
-      const song = await Song.create(req.body)
+      const song = await TwitterUsers.create(req.body)
       res.send(song)
     } catch (err) {
       res.status(500).send({
@@ -153,7 +186,7 @@ module.exports = {
   },
   async put (req, res) {
     try {
-      await Song.update(req.body, {
+      await TwitterUsers.update(req.body, {
         where: {
           id: req.params.songId
         }
@@ -170,7 +203,7 @@ module.exports = {
       const songId = req.params.songId
       console.log('param:')
       console.log(req.params)
-      const song = await Song.findOne({
+      const song = await TwitterUsers.findOne({
         where: {
           id: songId
         }
@@ -188,7 +221,7 @@ module.exports = {
       })
     }
     // try {
-    //   await Song.destroy(req.body, {
+    //   await twitterUsers.destroy(req.body, {
     //     where: {
     //       id: req.params.songId
     //     }

@@ -122,6 +122,7 @@
                   <v-card-title primary-title class="layout justify-center">
                     <div class="headline text-xs-center">일본 트위터<br>후리가나와</div>
                   </v-card-title>
+                  <!-- <TwitterUsersList  :twitterId="user.twitterId"/> -->
                   <v-card-text>
                     좋아하는 일본 연예인 또는 친구의 트위터계정을 조회해보세요. 한자가 포함된 트윗을 후리가나로 보실 수 있습니다.<br><br>
                     <i>좋아하는 트윗 추가 기능이 추가 될 예정입니다.</i>
@@ -228,14 +229,22 @@
 import RandomMusicList from '@/components/music/RandomMusicList'
 import RecentNews from '@/components/article/RecentNews'
 import EveryDayKanji from '@/components/kanji/EveryDayKanji'
-
+import TwitterUsersList from '@/components/twitter/TwitterUsersList'
+import {mapState} from 'vuex'
+  
 export default {
   components: {
     RandomMusicList,
     RecentNews,
-    EveryDayKanji
+    EveryDayKanji,
+    TwitterUsersList
   },
-  name: 'HelloWorld',
+  computed: {
+    ...mapState([
+      'isUserLoggedIn',
+      'user'
+    ])
+  },
   props: {
     msg: String
   }
