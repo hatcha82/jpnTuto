@@ -32,7 +32,7 @@ async function uploadBlog(){
   }
   var newTemplate = template.replace('[[title]]', song.title)
   newTemplate = newTemplate.replace('[[artist]]',song.artist)
-  newTemplate = newTemplate.replace('[[id]]',song.id)
+  newTemplate = newTemplate.split("[[id]]").join(song.id);
   newTemplate = newTemplate.replace('[[albumImageUrl]]',song.albumImageUrl)
   newTemplate = newTemplate.replace('[[youtubeId]]',song.youtubeId)
 

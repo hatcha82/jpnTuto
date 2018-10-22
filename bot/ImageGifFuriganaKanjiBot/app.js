@@ -1,3 +1,4 @@
+require('dotenv').config()
 var Twitter = require('twitter');
 var twitterText = require('twitter-text')
 var config = require('./config/config')
