@@ -4,7 +4,7 @@ const AuthenticationControllerPolicy = require('./policies/AuthenticationControl
 const ArticleController = require('./controllers/ArticleController')
 const SongsController = require('./controllers/SongsController')
 const TwitterController = require('./controllers/TwitterController')
-
+const KanjisController = require('./controllers/KanjisController')
 const BookmarksController = require('./controllers/BookmarksController')
 const HistoriesController = require('./controllers/HistoriesController')
 const FuriganaController = require('./controllers/FuriganaController')
@@ -42,33 +42,40 @@ module.exports = (app) => {
   })
   app.post('/furigana',
     FuriganaController.convert)
-
   app.get('/articles',
     ArticleController.index)
-  app.get('/articles/:articleId',
+  app.get('/articles/recentNews',
+    ArticleController.recentNews)
+  app.get('/article/:articleId',
     ArticleController.show)
-  app.put('/articles/:articleId',
+  app.put('/article/:articleId',
     ArticleController.put)
-  app.post('/articles',
+  app.post('/article',
     ArticleController.post)
-  app.delete('/articles/:articleId',
+  app.delete('/article/:articleId',
     isAuthenticated,
     ArticleController.remove)
 
   app.get('/twitters/userTimeLine', TwitterController.userTimeLine)
   app.get('/twitters/homeTimeline', TwitterController.homeTimeline)
-
+  app.get('/twitters/twitterUserList', TwitterController.twitterUserList)
+  
   app.get('/songs',
     SongsController.index)
-  app.get('/songs/:songId',
+  app.get('/songs/randomeSong',
+    SongsController.randomeSong)
+  app.get('/song/:songId',
     SongsController.show)
-  app.put('/songs/:songId',
+  app.put('/song/:songId',
     SongsController.put)
-  app.post('/songs',
+  app.post('/song',
     SongsController.post)
-  app.delete('/songs/:songId',
+  app.delete('/song/:songId',
     isAuthenticated,
     SongsController.remove)
+
+  app.get('/kanjis/randomKanjis',
+    KanjisController.randomKanjis)
 
   app.get('/bookmarks',
     isAuthenticated,

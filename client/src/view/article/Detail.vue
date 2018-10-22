@@ -27,7 +27,7 @@
 
             <span class="caption">Created : {{ article.newsPublishedDate | moment("dddd, MMMM Do YYYY, h:mm:ss a")}} </span><br>
             <span  class="caption">{{article.newsPublisher}}</span><br>
-            <a href="article.newsUrl"  class="caption grey--text lighten-1">원본 : {{ article.newsUrl }} </a><br>
+            <a :href="article.newsUrl" class="caption grey--text lighten-1">원본 : {{ article.newsUrl }} </a><br>
           </div>
           <div style="float:right">
           </div>
@@ -121,7 +121,7 @@
               height="30px"
               contain
                         />
-              <a href="article.newsPubllisherImageUrl"  class="ml-3 caption grey--text lighten-1">원본 : {{ article.newsUrl }} </a><br>              
+              <a :href="article.newsUrl" class="ml-3 caption grey--text lighten-1">원본 : {{ article.newsUrl }} </a><br>              
             </v-card-text>
           </v-card>
         </v-tab-item>
@@ -136,7 +136,7 @@
               height="30px"
               contain
                         />
-              <a href="article.newsPubllisherImageUrl"  class="ml-3 caption grey--text lighten-1">원본 : {{ article.newsUrl }} </a><br>
+              <a :href="article.newsUrl"  class="ml-3 caption grey--text lighten-1">원본 : {{ article.newsUrl }} </a><br>
             </v-card-text>  
           </v-card>
         </v-tab-item>

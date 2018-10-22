@@ -1,0 +1,22 @@
+{
+  "name": "twit_furigana_bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "image-to-base64": "^2.0.1",
+    "kuroshiro": "^1.1.1",
+    "kuroshiro-analyzer-kuromoji": "^1.1.0",
+    "mysql2": "^1.6.1",
+    "papago": "^1.1.1",
+    "sequelize": "^4.39.0",
+    "twitter": "^1.7.1",
+    "twitter-text": "^2.0.5",
+    "unofficial-jisho-api": "^1.1.1"
+  }
+}

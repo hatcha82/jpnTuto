@@ -49,6 +49,22 @@ module.exports = {
       })
     }
   },
+  async recentNews (req, res) {
+    try {
+      const articles = await Article.findAll({
+        attributes: {exclude: ['lyrics', 'tab']},
+        order: [
+          ['newsPublishedDate', 'DESC']
+        ],
+        limit: 6
+      })
+      res.send({data: articles})
+    } catch (err) {
+      res.status(500).send({
+        error: 'an error has occured trying to fetch the articles'
+      })
+    }
+  },
   async show (req, res) {
     try {
       const article = await Article.findById(req.params.articleId)

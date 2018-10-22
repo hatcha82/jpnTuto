@@ -17,6 +17,14 @@ export default {
       }
     })
   },
+  twitterUserList (search, offset) {
+    return Api().get('twitters/twitterUserList', {
+      params: {
+        search: search,
+        offset: offset
+      }
+    })
+  },
   show (songId) {
     return Api().get(`songs/${songId}`)
   },
