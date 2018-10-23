@@ -69,6 +69,76 @@ module.exports = {
       })
     }
   },
+  async indexImageTracker (req, res) {
+    try {
+      const Op = sequelize.Op
+      let songs = null
+      const search = req.query.search
+      const offset = parseInt(req.query.offset)
+      var count = 0
+      if (search) {
+        count = await Song.findOne({
+          attributes: [[Song.sequelize.fn('COUNT', Song.sequelize.col('id')), 'count']],
+          where: {
+            albumImageUrl: {[Op.eq]: null},
+            $or: [
+              'title', 'artist'
+            ].map(key => ({
+              [key]: {
+                $like: `%${search}%`
+              }
+            }))
+          }
+        })
+
+        songs = await Song.findAll({
+          attributes: {exclude: ['lyrics', 'tab']},
+          where: {
+            albumImageUrl: {[Op.eq]: null},
+            $or: [
+              'title', 'artist'
+            ].map(key => ({
+              [key]: {
+                $like: `%${search}%`
+              }
+            }))
+          },
+          order: [
+            ['rank', 'ASC'],
+            ['updatedAt', 'DESC']
+          ],
+          limit: 30,
+          offset: offset
+        })
+      } else {
+        count = await Song.findOne({
+          attributes: [[Song.sequelize.fn('COUNT', Song.sequelize.col('id')), 'count']],
+          where: {
+            albumImageUrl: {[Op.eq]: null}
+          }
+        })
+
+        songs = await Song.findAll({
+          attributes: {exclude: ['lyrics', 'tab']},
+          where: {
+            albumImageUrl: {[Op.eq]: null}
+          },
+          order: [
+            ['rank', 'ASC'],
+            ['updatedAt', 'DESC']
+          ],
+          limit: 30,
+          offset: offset
+        })
+      }
+      console.log(count)
+      res.send({data: songs, count: count})
+    } catch (err) {
+      res.status(500).send({
+        error: err
+      })
+    }
+  },
   async randomeSong (req, res) {
     try {
       const Op = sequelize.Op

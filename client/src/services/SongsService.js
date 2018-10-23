@@ -9,6 +9,14 @@ export default {
       }
     })
   },
+  indexImageTracker (search,offset) {
+    return Api().get('songs/indexImageTracker', {
+      params: {
+        search: search,
+        offset: offset
+      }
+    })
+  },
   randomFiveSong () {
     return Api().get('songs/randomeSong', {
       params: {
