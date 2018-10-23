@@ -17,9 +17,21 @@
             </v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
+
         <v-subheader v-if="user && user.twitterId" class="mt-3 grey--text text--darken-1">Twitter Friends</v-subheader>
         <!-- <TwitterUsersList  twitterId="hatcha82"/> -->
         <TwitterUsersList v-if="user && user.twitterId"  :twitterId="user.twitterId"/>
+        <v-subheader v-if="user && user.adminFlag" class="mt-3 grey--text text--darken-1">Admin</v-subheader>
+        <v-list-tile v-for="item in adminItems" :key="item.text" @click="linkTo(item)">
+          <v-list-tile-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>
+            {{ item.text }}
+            </v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
         <!-- <v-list-tile class="mt-3" @click="">
           <v-list-tile-action>
             <v-icon color="grey darken-1">add_circle_outline</v-icon>
@@ -119,6 +131,9 @@
         // { icon: 'history', text: 'History', linkTo: 'history' },
         // { icon: 'featured_play_list', text: 'Playlists' },
         // { icon: 'watch_later', text: 'Watch Later' }
+      ],
+      adminItems: [      
+        { icon: 'fas fa-music', text: 'Music Image Tracker', linkTo: 'music-image-tracker-list', params:{}},                  
       ],
       items2: [
         { picture: 28, text: 'Joseph' },

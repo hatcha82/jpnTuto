@@ -3,6 +3,8 @@ import Router from 'vue-router'
 import Login from '@/view/Login'
 import Main from '@/components/Main'
 import Music from '@/view/music/Index'
+import MusicImageTracker from '@/view/music/IndexImageTracker' 
+
 import ViewMusic from '@/view/music/Detail'
 import Articles from '@/view/article/Index'
 import ViewArticle from '@/view/article/Detail'
@@ -106,6 +108,11 @@ export default new Router({
       path: '/music/list',
       name: 'music-list',
       component: Music
+    },
+    {
+      path: '/music/imageTrackerList',
+      name: 'music-image-tracker-list',
+      component: MusicImageTracker
     },
     // {
     //   path: '/songs/create',
