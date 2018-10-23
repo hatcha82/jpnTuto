@@ -51,12 +51,12 @@
         <!-- <span class="title white--text">FuRIGana</span> -->
       </v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-toolbar-title  v-if="isUserLoggedIn"  @click="linkTo({linkTo:'music-list'})" > 
+      <v-toolbar-title  @click="linkTo({linkTo:'music-list'})" > 
         <v-btn icon>
         <v-icon>music_note</v-icon>
         </v-btn>        
       </v-toolbar-title>
-      <v-toolbar-title  v-if="isUserLoggedIn"  @click="linkTo({linkTo:'article-list'})"> 
+      <v-toolbar-title  @click="linkTo({linkTo:'article-list'})"> 
         <v-btn icon>
         <v-icon>description</v-icon>
         </v-btn>

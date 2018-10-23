@@ -2,7 +2,7 @@
 <div id="top">
 <v-container fluid grid-list-md >
     <v-layout row wrap>
-      <v-flex d-flex xs12 sm12 md12 >
+      <v-flex d-flex xs12 sm12 md12 lg6 >
       <v-card>
         <v-img
           class="white--text ml-5 mt-3"
@@ -86,7 +86,7 @@
       </v-card>
     </v-flex>
     
-    <v-flex d-flex xs12 sm12 md12 child-flex v-if="(!edit)">
+    <v-flex d-flex xs12 sm12 md12 lg6 child-flex v-if="(!edit)">
       <v-card>
       <v-tabs
         v-model="activeTab"
