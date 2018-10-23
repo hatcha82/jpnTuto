@@ -47,8 +47,8 @@
             <v-btn v-if="(isUserLoggedIn)" @click="newMusic" flat color="info">New</v-btn>
             <v-btn v-if="(edit)" @click="saveMusic" flat color="info">Save</v-btn>
           </div>          
-          <div v-if="(isUserLoggedIn && user.id === song.createdUserId)" >
           
+          <div v-if="(isUserLoggedIn && user.id === song.createdUserId ) || user.adminFlag === 'Y'" >
           <v-btn v-if="(!edit)" @click="editMusic" flat color="info">Edit</v-btn>
           <v-dialog v-model="deleteDialog" persistent max-width="290">
             <v-btn slot="activator" flat color="info" dark>Delete</v-btn>
