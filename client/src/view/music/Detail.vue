@@ -25,10 +25,9 @@
           </v-container>
         </v-img>
         <v-card-title>
-          
           <div v-if="(!edit)" >
-            <span  class="grey--text">{{song.artist}}</span><br>
-            <span >Title : {{song.title}}</span><br>
+            <span class="headline primary--text">{{song.title}}</span><br>
+            <span >Aritst : {{song.artist}}</span><br>
             <span >Album : {{song.album}}</span><br>
             <span >Genre : {{song.genre}}</span><br>
             <br>
@@ -48,7 +47,7 @@
             <v-btn v-if="(edit)" @click="saveMusic" flat color="info">Save</v-btn>
           </div>          
           
-          <div v-if="(isUserLoggedIn && user.id === song.createdUserId ) || user.adminFlag === 'Y'" >
+          <div v-if="(isUserLoggedIn && user.id === song.createdUserId ) || (isUserLoggedIn && user.adminFlag === 'Y')" >
           <v-btn v-if="(!edit)" @click="editMusic" flat color="info">Edit</v-btn>
           <v-dialog v-model="deleteDialog" persistent max-width="290">
             <v-btn slot="activator" flat color="info" dark>Delete</v-btn>
@@ -63,8 +62,6 @@
             </v-card>
           </v-dialog>
           </div>
-          
-
         </v-card-actions>
         <div class="pa-3" v-if="(edit)" >
             <v-text-field
@@ -147,6 +144,7 @@
         <v-tab-item>
           <v-card flat>
             <v-card-text>
+              
               <div  v-html="song.lyricsKor" class="furigana">
               </div>
             </v-card-text>  
