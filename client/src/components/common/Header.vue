@@ -21,8 +21,8 @@
         <v-subheader v-if="user && user.twitterId" class="mt-3 grey--text text--darken-1">Twitter Friends</v-subheader>
         <!-- <TwitterUsersList  twitterId="hatcha82"/> -->
         <TwitterUsersList v-if="user && user.twitterId"  :twitterId="user.twitterId"/>
-        <v-subheader v-if="user && user.adminFlag" class="mt-3 grey--text text--darken-1">Admin</v-subheader>
-        <v-list-tile v-for="item in adminItems" :key="item.text" @click="linkTo(item)">
+        <v-subheader v-if="user && (user.adminFlag == 'Y')" class="mt-3 grey--text text--darken-1">Admin</v-subheader>
+        <v-list-tile v-if="user && (user.adminFlag == 'Y')" v-for="item in adminItems" :key="item.text" @click="linkTo(item)">
           <v-list-tile-action>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-tile-action>
