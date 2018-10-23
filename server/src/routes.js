@@ -59,9 +59,11 @@ module.exports = (app) => {
   app.get('/twitters/userTimeLine', TwitterController.userTimeLine)
   app.get('/twitters/homeTimeline', TwitterController.homeTimeline)
   app.get('/twitters/twitterUserList', TwitterController.twitterUserList)
-  
+
   app.get('/songs',
     SongsController.index)
+  app.get('/songs/indexImageTracker',
+    SongsController.indexImageTracker)
   app.get('/songs/randomeSong',
     SongsController.randomeSong)
   app.get('/song/:songId',
