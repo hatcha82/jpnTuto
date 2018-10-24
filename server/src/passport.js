@@ -24,7 +24,7 @@ passport.use(
       if (!user) {
         return done(new Error(), false)
       } else {
-        return done(null, 'user')
+        return done(null, user)
       }
       // console.log(JSON.stringify(jwtPayload))
       // const user = await User.findOne({

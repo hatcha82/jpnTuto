@@ -105,19 +105,40 @@
   
 </template>
 <script>
+  import SiteService from '@/services/SiteService'
   import AuthenticationService from '@/services/AuthenticationService'
   import TwitterUsersList from '@/components/twitter/TwitterUsersList'
   import {mapState} from 'vuex'
+  import Ipify from 'ipify'
   export default {
     components: {
     TwitterUsersList
   },
-    computed: {
+  async mounted (){   
+      var visitorRoute = window.location.pathname
+      var userAgent = window.clientInformation.userAgent
+      var userLanguage = window.clientInformation.userLanguage
+      var ip = 'NO_ACCESS'
+      try {
+        ip = await Ipify()
+      } catch (error) {}
+
+      try {
+        var visitor = {
+          visitorIp: ip , 
+          visitorRoute: visitorRoute,
+          userAgent: userAgent,
+          userLanguage: userAgent
+        }
+        SiteService.visiterIncrease(visitor)
+      } catch (error) {}
+  },
+  computed: {
     ...mapState([
       'isUserLoggedIn',
       'user'
     ])
-  },
+  },   
   data: () => ({
       drawer: false,
       items: [
