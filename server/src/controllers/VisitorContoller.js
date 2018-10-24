@@ -3,16 +3,20 @@ const {Visitor} = require('../models')
 
 module.exports = {
   async increase (req, res) {
-    console.log(req.body.visitorIp)
-    console.log(Visitor)
+    var body = req.body
     Visitor
       .findOrCreate({
         where: {
           visitedDate: new Date().toISOString().substring(0, 10),
-          visitorIp: req.body.visitorIp,
-          visitorRoute: req.body.visitorRoute
+          visitorIp: body.visitorIp,
+          visitorRoute: body.visitorRoute
         },
-        defaults: {vistedCount: 1}})
+        defaults: {
+          vistedCount: 1,
+          userAgent: body.userAgent,
+          userLanguage: body.userLanguage
+        }
+      })
       .spread((visitor, created) => {
         if (created) {
           console.log(created)

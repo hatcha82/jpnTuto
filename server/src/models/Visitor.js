@@ -3,7 +3,9 @@ module.exports = (sequelize, DataTypes) => {
     visitedDate: DataTypes.STRING,
     visitorIp: DataTypes.STRING,
     visitorRoute: DataTypes.STRING(2000),
-    vistedCount: DataTypes.INTEGER
+    vistedCount: DataTypes.INTEGER,
+    userAgent: DataTypes.STRING(2000),
+    userLanguage: DataTypes.STRING
   })
   Visitor.associate = function (models) {
   }

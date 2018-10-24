@@ -115,14 +115,23 @@
     TwitterUsersList
   },
   async mounted (){   
-     try {
-       var visitorRoute = window.location.pathname
-       var ip = await Ipify()
-       var visitor = {visitorIp : ip , visitorRoute : visitorRoute}
+      var visitorRoute = window.location.pathname
+      var userAgent = window.clientInformation.userAgent
+      var userLanguage = window.clientInformation.userLanguage
+      var ip = 'NO_ACCESS'
+      try {
+        ip = await Ipify()
+      } catch (error) {}
+
+      try {
+        var visitor = {
+          visitorIp: ip , 
+          visitorRoute: visitorRoute,
+          userAgent: userAgent,
+          userLanguage: userAgent
+        }
         SiteService.visiterIncrease(visitor)
-     } catch (error) {
-       alert(error.toString())
-     }
+      } catch (error) {}
   },
   computed: {
     ...mapState([
