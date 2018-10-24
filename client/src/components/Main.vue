@@ -16,6 +16,7 @@
             class="blue lighten-2 mt-5"
             dark
             large
+            v-if="!isUserLoggedIn"
           >
             시작하기
           </v-btn>
@@ -147,6 +148,7 @@
             class="blue lighten-2 mt-5"
             dark
             large
+             v-if="!isUserLoggedIn"
           >
             시작하기
           </v-btn>
