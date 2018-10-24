@@ -43,6 +43,9 @@
           <div>
             <Synthesis :text="song.lyrics" class=""/>
           </div>
+          <div class="ml-2">
+            <BookmarkBtn :bookmarkObject="song"/>
+          </div>
           <div>
             <v-btn v-if="(isUserLoggedIn)" @click="newMusic" flat color="info">New</v-btn>
             <v-btn v-if="(edit)" @click="saveMusic" flat color="info">Save</v-btn>
@@ -177,8 +180,6 @@
       </v-card>
       </div>
       </v-flex>
-    </v-flex>
-   
   </v-layout>
   <back-to-top>
      <v-btn 
@@ -201,11 +202,13 @@ import RandomMusicList from '@/components/music/RandomMusicList'
 import SongsService from '@/services/SongsService'
 import FuriganaService from '@/services/FuriganaService'
 import Synthesis from '@/components/common/Synthesis'
+import BookmarkBtn from '@/components/common/BookmarkBtn'
 
 export default {
   components: {
     Synthesis,
-    RandomMusicList
+    RandomMusicList,
+    BookmarkBtn
   },
   computed: {
     ...mapState([
