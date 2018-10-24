@@ -17,7 +17,8 @@ async function run(param){
     where :{
       lyricsKor : null,
       title : {[Op.notLike]: '%\\%%'},
-      artist: {[Op.notLike]: '%\\%%'}
+      artist: {[Op.notLike]: '%\\%%'},
+      albumImageUrl: {[Op.ne]: null}
     },
     limit: 1
   })
