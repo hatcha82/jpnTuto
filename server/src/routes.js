@@ -1,6 +1,7 @@
 const AuthenticationController = require('./controllers/AuthenticationController')
 const AuthenticationControllerPolicy = require('./policies/AuthenticationControllerPolicy')
 
+const VisitorContoller = require('./controllers/VisitorContoller')
 const ArticleController = require('./controllers/ArticleController')
 const SongsController = require('./controllers/SongsController')
 const TwitterController = require('./controllers/TwitterController')
@@ -27,6 +28,7 @@ module.exports = (app) => {
   app.get('/auth/naver', passport.authenticate('naver', {
     scope: ['profile', 'email', 'nickname']
   }))
+  app.post('/visitor/increase', VisitorContoller.increase)
   app.post('/register',
     AuthenticationControllerPolicy.register,
     AuthenticationController.register)

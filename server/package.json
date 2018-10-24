@@ -26,6 +26,7 @@
     "kuroshiro-analyzer-yahoo-webapi": "^1.1.0",
     "morgan": "^1.9.0",
     "mysql2": "^1.6.1",
+    "nodemon": "^1.18.4",
     "papago": "^1.1.1",
     "passport": "^0.4.0",
     "passport-facebook": "^2.1.1",
@@ -33,9 +34,9 @@
     "passport-jwt": "^3.0.0",
     "passport-kakao": "0.0.5",
     "passport-naver": "^1.0.6",
+    "request-ip": "^2.1.1",
     "sequelize": "^4.38.0",
-    "twitter": "^1.7.1",
-    "nodemon": "^1.18.4"
+    "twitter": "^1.7.1"
   },
   "devDependencies": {
     "eslint": "^4.6.0",

@@ -12,6 +12,7 @@
     "axios": "^0.18.0",
     "dotenv": "^6.0.0",
     "eslint-plugin-vue": "^4.7.1",
+    "ipify": "^2.0.0",
     "kuroshiro": "^1.1.1",
     "kuroshiro-analyzer-kuromoji": "^1.1.0",
     "moment": "^2.22.2",
