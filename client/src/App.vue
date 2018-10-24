@@ -36,6 +36,7 @@
 <script>
   import Header from '@/components/common/Header.vue'
   import Footer from '@/components/common/Footer.vue'
+ 
   export default {
     name: 'app',
     components: {
@@ -55,7 +56,7 @@
       ]
     },
     data: () => ({
-      title: 'Furigana'
+      title: 'FuriganaHub'
     }),
     props: {
       source: String
@@ -63,7 +64,8 @@
     methods: {
       back() {
         this.$router.back()
-    }
+    },
+   
   }
     
   }
