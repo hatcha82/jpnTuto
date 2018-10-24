@@ -33,8 +33,8 @@ async function uploadBlog(){
   }
   var newTemplate = template.replace('[[title]]', song.title)
   newTemplate = newTemplate.replace('[[artist]]',song.artist)
-  newTemplate = newTemplate.split("[[id]]").join(song.id);
-  newTemplate = newTemplate.replace('[[albumImageUrl]]',song.albumImageUrl)
+  newTemplate = newTemplate.split("[[id]]").join(song.id)
+  newTemplate = newTemplate.split("[[albumImageUrl]]").join(song.albumImageUrl)  
   newTemplate = newTemplate.replace('[[youtubeId]]',song.youtubeId)
 
   var furigana = song.tab;
