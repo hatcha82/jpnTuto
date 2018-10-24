@@ -31,6 +31,7 @@
             <span >Album : {{song.album}}</span><br>
             <span >Genre : {{song.genre}}</span><br>
             <br>
+            <a target="_blank" :href="('https://www.google.co.kr/search?q='+ song.title + ' ' + song.artist)" v-if="!song.albumImageUrl">{{song.title}} {{song.artist}}<br></a>
             <span class="grey--text">Image 출처: <a  class="grey--text" :href="song.albumImageUrl">{{song.albumImageUrl}}</a></span>
           </div>
           
