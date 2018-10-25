@@ -65,11 +65,13 @@ async function uploadBlog(){
     if (!error && response.statusCode == 200) {
       console.log('Blog Uploaded')
       var jsonBody
-      var refNo
+      var naverBlogRefNo
       var naverBlogUpload = 'Y'
       try {
         jsonBody= JSON.parse(body);
+        console.log(jsonBody.message)
         naverBlogRefNo = jsonBody.message.result.logNo;
+        console.log(`naverBlogRefNo : ${naverBlogRefNo}`)
       } catch (error) {
         console.log(error)
         naverBlogUpload = 'E'
