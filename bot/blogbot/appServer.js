@@ -55,14 +55,29 @@ async function uploadBlog(){
   var header = "Bearer " + access_token; // Bearer 다음에 공백 추가
   var options = {
       url: api_url,
-      form: {'title':title, 'contents':contents, categoryNo : 10},
+      form: {'title':title, 'contents':contents, categoryNo : 10}, // CATEGORY 10가사  : 13 test boad
       headers: {'Authorization': header}
    };
   request.post(options, function (error, response, body) {
+    
+   
+
     if (!error && response.statusCode == 200) {
       console.log('Blog Uploaded')
+      var jsonBody
+      var refNo
+      var naverBlogUpload = 'Y'
+      try {
+        jsonBody= JSON.parse(body);
+        naverBlogRefNo = jsonBody.message.result.logNo;
+      } catch (error) {
+        console.log(error)
+        naverBlogUpload = 'E'
+      }
+      console.log(naverBlogRefNo)
       Song.update({
-        naverBlogUpload: 'Y',
+        naverBlogUpload: naverBlogUpload,
+        naverBlogRefNo: naverBlogRefNo
       }, {
         where: { id: song.id }
       })
