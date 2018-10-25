@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
     lyricsKor: DataTypes.TEXT,
     rank: DataTypes.STRING,
     naverBlogUpload: DataTypes.STRING,
+    naverBlogRefNo: DataTypes.STRING,
     createdUserId: DataTypes.INTEGER,
     updatedUserId: DataTypes.INTEGER
   })
