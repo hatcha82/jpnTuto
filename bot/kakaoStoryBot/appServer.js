@@ -103,8 +103,8 @@ async function uploadBlog(){
       filename: filename
   }
 
-  var filedownResult = await downloadFile(url,options)
-  console.log(filedownResult)
+  //var filedownResult = await downloadFile(url,options)
+  //console.log(filedownResult)
 
   const uploadOption = {
     url: "https://kapi.kakao.com/v1/api/story/upload/multi",    
@@ -139,6 +139,17 @@ console.log('return '  + JSON.stringify(imagUploadResult))
   var linkPostingOption = {
     url: api_url,
     form: {link_info:link_info, content:template ,permission : 'M'}, // 'M' 비공개 / A 전체 F 친:
+    headers: {'Authorization': header}
+  };
+
+  //result = await requestPost(linkPostingOption);
+  var image_url_list = JSON.parse(imagUploadResult.body);
+  console.log('이미지 리스트')
+  console.log(image_url_list)
+  api_url = `https://kapi.kakao.com//v1/api/story/post/photo`
+  var linkPostingOption = {
+    url: api_url,
+    form: {image_url_list: imagUploadResult.body, content:template ,permission : 'M'}, // 'M' 비공개 / A 전체 F 친:
     headers: {'Authorization': header}
   };
 
