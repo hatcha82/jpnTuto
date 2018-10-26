@@ -169,7 +169,7 @@ module.exports = {
       const song = await Song.findById(req.params.songId)
       template = template.replace(/\[\[title\]\]/g, song.title)
       template = template.replace(/\[\[artist\]\]/g, song.artist)
-      template = template.replace(/\[\[lyrics\]\]/g, song.lyrics)
+      template = template.replace(/\[\[lyrics\]\]/g, song.lyrics.substring(0, 200) + '...')
       template = template.replace(/\[\[albumImageUrl\]\]/g, song.albumImageUrl)
       res.send(template)
     } catch (err) {
