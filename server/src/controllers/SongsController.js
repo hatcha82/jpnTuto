@@ -1,3 +1,5 @@
+var path = require('path')
+var fs = require('fs')
 const {Song, sequelize} = require('../models')
 // import YahooWebAnalyzer from "kuroshiro-analyzer-yahoo-webapi";
 const Kuroshiro = require('kuroshiro')
@@ -158,6 +160,21 @@ module.exports = {
     } catch (err) {
       res.status(500).send({
         error: err
+      })
+    }
+  },
+  async meta (req, res) {
+    var template = fs.readFileSync(path.join(__dirname, '../metaTemplate', 'metaSong.html'), 'utf-8')
+    try {
+      const song = await Song.findById(req.params.songId)
+      template = template.replace(/\[\[title\]\]/g, song.title)
+      template = template.replace(/\[\[artist\]\]/g, song.artist)
+      template = template.replace(/\[\[lyrics\]\]/g, song.lyrics)
+      template = template.replace(/\[\[albumImageUrl\]\]/g, song.albumImageUrl)
+      res.send(template)
+    } catch (err) {
+      res.status(500).send({
+        error: 'an error has occured trying to show the songs'
       })
     }
   },
