@@ -49,7 +49,7 @@
         return {
           inner: this.title,
           separator: '-',
-          complement: 'Leaning Japanese'
+          complement: 'Learning Japanese'
         }
       },
       meta: [      
