@@ -129,7 +129,7 @@ function refreshToken(){
   });
 }
 
-setInterval(refreshToken, 1000 * 60 * 30)
+setInterval(refreshToken, 1000 * 60 * 10)
 setInterval(uploadBlog, 1000 * 60 * 30)
 app.get('/naverlogin', function (req, res) {
    res.writeHead(200, {'Content-Type': 'text/html;charset=utf-8'});
