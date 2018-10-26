@@ -129,8 +129,13 @@ function refreshToken(){
   });
 }
 
-setInterval(refreshToken, 1000 * 60 * 30)
-setInterval(uploadBlog, 1000 * 60 * 20)
+setInterval(refreshToken, 1000 * 60 * 10)
+setInterval(function(){
+  var ranTime = Math.floor((Math.random() * 10) + 1)
+  setTimeout(() => {
+    uploadBlog()
+  }, ranTime) 
+}, 1000 * 60 * 60)
 app.get('/naverlogin', function (req, res) {
    res.writeHead(200, {'Content-Type': 'text/html;charset=utf-8'});
    res.end("<a href='"+ api_url + "'><img height='50' src='http://static.nid.naver.com/oauth/small_g_in.PNG'/></a>");
