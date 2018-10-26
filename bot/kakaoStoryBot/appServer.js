@@ -84,7 +84,7 @@ async function uploadBlog(){
 
   console.log("1.Upload Started..")
   var header = "Bearer " + access_token; // Bearer 다음에 공백 추가
-  var linkUrl  =`http://www.furiganahub.com/music/detail/176`
+  var linkUrl  =`http://www.furiganahub.com:8080/song/meta/176`
   var api_url = `https://kapi.kakao.com/v1/api/story/linkinfo?url=${linkUrl}`
   var linkORequesToptions = {
     url: api_url,    
@@ -128,8 +128,11 @@ console.log('return '  + JSON.stringify(imagUploadResult))
   template = template.split("[[artist]]").join(song.artist)
   var result = await requestGet(linkORequesToptions);  
   var link_info = JSON.parse(result.body)
-  link_info.title = "FuriganaHub"  
-  link_info.description = `80년도에서 최신 J-pop 7000여곡의 노래를 후리가나를 읽으면서 일본어를 배울 수있습니다. 후리가나, 원곡가사, 번역 그리고 관련 유튜브 동영상을 보면서 노래와 일본어 읽기를 시작하세요.`;
+  link_info.url = 'http://www.furiganahub.com/music/detail/176'
+  link_info.requested_url = 'http://www.furiganahub.com/music/detail/176'
+  link_info.host = 'http://www.furiganahub.com'
+  //link_info.title = "FuriganaHub"  
+  //link_info.description = `80년도에서 최신 J-pop 7000여곡의 노래를 후리가나를 읽으면서 일본어를 배울 수있습니다. 후리가나, 원곡가사, 번역 그리고 관련 유튜브 동영상을 보면서 노래와 일본어 읽기를 시작하세요.`;
   //link_info.image = JSON.parse(imagUploadResult.body) 
   link_info = JSON.stringify(link_info)
   console.log(link_info)
