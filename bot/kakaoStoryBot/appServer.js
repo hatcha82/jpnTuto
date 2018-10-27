@@ -67,7 +67,7 @@ function downloadFile(url, options){
 var template = fs.readFileSync('blogtemplate.html', 'utf-8');
 
 
-async function uploadKakaoStroyWithLink(){
+async function uploadKakaoStroyWithLink() {
   const Op = sequelize.Op
   var song = await Song.findOne({
     where :{     
@@ -95,15 +95,14 @@ async function uploadKakaoStroyWithLink(){
 http://www.furiganahub.com 
 가수 : ${song.artist}
 노래 : ${song.title}
-
-${song.lyrics}
+${song.lyrics.length > 1800 ? song.lyrics.substring(0,1800) + '...더 보기' : song.lyrics}
 
 https://blog.naver.com/hatcha82
-
   `
   template = template.split("[[title]]").join(song.title)
   template = template.split("[[artist]]").join(song.artist)
   var result = await requestGet(linkORequesToptions);  
+  
   var link_info = JSON.parse(result.body)
   link_info.host = 'http://www.furiganahub.com'
   link_info.requested_url = `http://www.furiganahub.com/music/detail/${song.id}`
@@ -119,11 +118,13 @@ https://blog.naver.com/hatcha82
   };
 
   result = await requestPost(linkPostingOption);
+  console.log(JSON.parse(result.body))
   var jsonError= JSON.parse(result.error);
   var jsonBody= JSON.parse(result.body);
   // console.log(!jsonError && jsonBody.id)
   // console.log(jsonError)
   // console.log(jsonBody)
+  
   var kakaoUpload = 'Y'
   if(!jsonError && jsonBody.id){
     try {
@@ -150,20 +151,17 @@ https://blog.naver.com/hatcha82
     })  
   } else {
     Song.update({
-      kakaoRefId: 'E',
+      kakaoUpload: 'E',
     }, {
       where: { id: song.id }
     })
     .then(result =>{
-      console.log(`result: ${result}  updated row song.id ${song.id} ,title ${song.title}` )
+      console.log(`Error result: ${result}  updated row song.id ${song.id} ,title ${song.title}` )
       
     })
     .catch(error =>{
-      console.log(`result: ${error}  updated row song.id ${song.id} ,title ${song.title}` )
+      console.log(`Db Error result: ${error}  updated row song.id ${song.id} ,title ${song.title}` )
     })  
-    if(response != null) {
-      
-    }
   }
 }
 async function uploadBlog(){
