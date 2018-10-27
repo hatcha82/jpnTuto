@@ -70,7 +70,8 @@ var template = fs.readFileSync('blogtemplate.html', 'utf-8');
 async function uploadKakaoStroyWithLink(){
   const Op = sequelize.Op
   var song = await Song.findOne({
-    where :{      
+    where :{     
+      kakaoUpload : 'N', 
       albumImageUrl : {[Op.ne]: null},
       lyricsKor : {[Op.ne]: null}
     },
@@ -113,7 +114,7 @@ https://blog.naver.com/hatcha82
   api_url = `https://kapi.kakao.com//v1/api/story/post/link`
   var linkPostingOption = {
     url: api_url,
-    form: {link_info:link_info, content:template ,permission : 'M'}, // 'M' 비공개 / A 전체 F 친:
+    form: {link_info:link_info, content:template ,permission : 'A'}, // 'M' 비공개 / A 전체 F 친:
     headers: {'Authorization': header}
   };
 
@@ -133,7 +134,7 @@ https://blog.naver.com/hatcha82
       console.log(error)
       kakaoUpload = 'E'
     }
-    console.log(naverBlogRefNo)
+    console.log(kakaoRefId)
     Song.update({
       kakaoUpload: kakaoUpload,
       kakaoRefId: kakaoRefId
