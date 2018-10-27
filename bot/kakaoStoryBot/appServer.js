@@ -126,7 +126,7 @@ https://blog.naver.com/hatcha82
   // console.log(jsonBody)
   
   var kakaoUpload = 'Y'
-  if(!jsonError && jsonBody.id){
+  if(jsonBody.id){
     try {
       kakaoRefId = jsonBody.id;
       console.log(`kakaoRefId : ${kakaoRefId}`)
