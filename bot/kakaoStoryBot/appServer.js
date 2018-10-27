@@ -67,7 +67,104 @@ function downloadFile(url, options){
 var template = fs.readFileSync('blogtemplate.html', 'utf-8');
 
 
+async function uploadKakaoStroyWithLink(){
+  const Op = sequelize.Op
+  var song = await Song.findOne({
+    where :{      
+      albumImageUrl : {[Op.ne]: null},
+      lyricsKor : {[Op.ne]: null}
+    },
+    limit: 1,
+  })
+  if(!song){
+    return;
+  }
 
+  console.log("1.Upload Started..")
+  var header = "Bearer " + access_token; // Bearer 다음에 공백 추가
+
+  var linkUrl  =`http://www.furiganahub.com:8080/song/meta/${song.id}`
+  var api_url = `https://kapi.kakao.com/v1/api/story/linkinfo?url=${linkUrl}`
+  var linkORequesToptions = {
+    url: api_url,    
+    headers: {'Authorization': header}
+  };
+  var template = 
+  `
+http://www.furiganahub.com 
+가수 : ${song.artist}
+노래 : ${song.title}
+
+${song.lyrics}
+
+https://blog.naver.com/hatcha82
+
+  `
+  template = template.split("[[title]]").join(song.title)
+  template = template.split("[[artist]]").join(song.artist)
+  var result = await requestGet(linkORequesToptions);  
+  var link_info = JSON.parse(result.body)
+  link_info.host = 'http://www.furiganahub.com'
+  link_info.requested_url = `http://www.furiganahub.com/music/detail/${song.id}`
+  link_info.url = `http://www.furiganahub.com/music/detail/${song.id}`
+  link_info.description = `지금 [${song.artist}] ${song.title}을 Furigana Hub에서 한자와 히라가나와 함께 읽으면서 일본어를 배워보세요.`
+  link_info = JSON.stringify(link_info)
+  
+  api_url = `https://kapi.kakao.com//v1/api/story/post/link`
+  var linkPostingOption = {
+    url: api_url,
+    form: {link_info:link_info, content:template ,permission : 'M'}, // 'M' 비공개 / A 전체 F 친:
+    headers: {'Authorization': header}
+  };
+
+  result = await requestPost(linkPostingOption);
+  var jsonError= JSON.parse(result.error);
+  var jsonBody= JSON.parse(result.body);
+  // console.log(!jsonError && jsonBody.id)
+  // console.log(jsonError)
+  // console.log(jsonBody)
+  var kakaoUpload = 'Y'
+  if(!jsonError && jsonBody.id){
+    try {
+      kakaoRefId = jsonBody.id;
+      console.log(`kakaoRefId : ${kakaoRefId}`)
+      kakaoUpload = 'Y'
+    } catch (error) {
+      console.log(error)
+      kakaoUpload = 'E'
+    }
+    console.log(naverBlogRefNo)
+    Song.update({
+      kakaoUpload: kakaoUpload,
+      kakaoRefId: kakaoRefId
+    }, {
+      where: { id: song.id }
+    })
+    .then(result =>{
+      console.log(`result: ${result}  updated row song.id ${song.id} ,title ${song.title}` )
+      
+    })
+    .catch(error =>{
+      console.log(`result: ${error}  updated row song.id ${song.id} ,title ${song.title}` )
+    })  
+  } else {
+    Song.update({
+      kakaoRefId: 'E',
+    }, {
+      where: { id: song.id }
+    })
+    .then(result =>{
+      console.log(`result: ${result}  updated row song.id ${song.id} ,title ${song.title}` )
+      
+    })
+    .catch(error =>{
+      console.log(`result: ${error}  updated row song.id ${song.id} ,title ${song.title}` )
+    })  
+    if(response != null) {
+      
+    }
+  }
+}
 async function uploadBlog(){
       
   const Op = sequelize.Op
@@ -84,14 +181,14 @@ async function uploadBlog(){
 
   console.log("1.Upload Started..")
   var header = "Bearer " + access_token; // Bearer 다음에 공백 추가
-  var linkUrl  =`http://www.furiganahub.com:8080/song/meta/176`
 
+  var linkUrl  =`http://www.furiganahub.com:8080/song/meta/${song.id}`
   var api_url = `https://kapi.kakao.com/v1/api/story/linkinfo?url=${linkUrl}`
   var linkORequesToptions = {
     url: api_url,    
     headers: {'Authorization': header}
   };
-
+/*
   var url = song.albumImageUrl
   var filename = ''
   if(song.albumImageUrl.toUpperCase().indexOf('JPG') != -1){
@@ -119,11 +216,17 @@ async function uploadBlog(){
 };
 var imagUploadResult = await requestPost(uploadOption);
 console.log('return '  + JSON.stringify(imagUploadResult))
-
+  */
   var template = 
   `
-가수 : [[artist]]
-노래 : [[title]]
+http://www.furiganahub.com 
+가수 : ${song.artist}
+노래 : ${song.title}
+
+${song.lyrics}
+
+https://blog.naver.com/hatcha82
+
   `
   template = template.split("[[title]]").join(song.title)
   template = template.split("[[artist]]").join(song.artist)
@@ -132,12 +235,12 @@ console.log('return '  + JSON.stringify(imagUploadResult))
   link_info.host = 'http://www.furiganahub.com'
   link_info.requested_url = `http://www.furiganahub.com/music/detail/${song.id}`
   link_info.url = `http://www.furiganahub.com/music/detail/${song.id}`
-
+  link_info.description = `지금 [${song.artist}] ${song.title}을 Furigana Hub에서 한자와 히라가나와 함께 읽으면서 일본어를 배워보세요.`
   //link_info.title = "FuriganaHub"  
   //link_info.description = `80년도에서 최신 J-pop 7000여곡의 노래를 후리가나를 읽으면서 일본어를 배울 수있습니다. 후리가나, 원곡가사, 번역 그리고 관련 유튜브 동영상을 보면서 노래와 일본어 읽기를 시작하세요.`;
   //link_info.image = JSON.parse(imagUploadResult.body) 
   link_info = JSON.stringify(link_info)
-  console.log(link_info)
+  
   api_url = `https://kapi.kakao.com//v1/api/story/post/link`
   var linkPostingOption = {
     url: api_url,
@@ -145,18 +248,18 @@ console.log('return '  + JSON.stringify(imagUploadResult))
     headers: {'Authorization': header}
   };
 
-  //result = await requestPost(linkPostingOption);
-  var image_url_list = JSON.parse(imagUploadResult.body);
-  console.log('이미지 리스트')
-  console.log(image_url_list)
-  api_url = `https://kapi.kakao.com//v1/api/story/post/photo`
-  var linkPostingOption = {
-    url: api_url,
-    form: {image_url_list: imagUploadResult.body, content:template ,permission : 'M'}, // 'M' 비공개 / A 전체 F 친:
-    headers: {'Authorization': header}
-  };
-
   result = await requestPost(linkPostingOption);
+  //var image_url_list = JSON.parse(imagUploadResult.body);
+  // console.log('이미지 리스트')
+  //console.log(image_url_list)
+  // api_url = `https://kapi.kakao.com//v1/api/story/post/photo`
+  // var linkPostingOption = {
+  //   url: api_url,
+  //   form: {image_url_list: imagUploadResult.body, content:template ,permission : 'M'}, // 'M' 비공개 / A 전체 F 친:
+  //   headers: {'Authorization': header}
+  // };
+
+  // result = await requestPost(linkPostingOption);
   console.log(result.error)
   console.log(result.body)
   return;
@@ -231,8 +334,13 @@ function refreshToken(){
   });
 }
 
-setInterval(refreshToken, 1000 * 60 * 60 * 3 ) //6hour
-//setInterval(uploadBlog, 1000 * 60 * 20)
+setInterval(refreshToken, 1000 * 60 * 30 ) //1hour
+setInterval(function(){
+  var ranTime = Math.floor((Math.random() * 10) + 1)
+  setTimeout(() => {
+    uploadKakaoStroyWithLink()
+  }, ranTime) 
+}, 1000 * 60 * 60)
 app.get('/kakaologin', function (req, res) {
    res.writeHead(200, {'Content-Type': 'text/html;charset=utf-8'});
    res.end("<a href='"+ api_url + "'>Kakao Login</a>");
@@ -257,7 +365,7 @@ app.get('/kakaologin', function (req, res) {
         console.log(jsonBody)
         access_token = jsonBody.access_token
         refresh_token = jsonBody.refresh_token        
-        uploadBlog()
+        uploadKakaoStroyWithLink()
         res.end(body);
       } else {
         res.end(body)
