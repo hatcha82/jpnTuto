@@ -5,6 +5,8 @@ bot/ImageGifFuriganaKanjiBot/node_modules/
 bot/twitFuriganaKanjiBot/node_modules/
 bot/lyricsCrawBot/node_modules/
 bot/pantomTest/node_modules/
+bot/kakaoTranslateForNewsBot/node_modules/
+bot/kakaoTranslateForNewsBot/.env
 bot/kakaoStoryBot/node_modules/
 bot/kakaoStoryBot/.env
 bot/papagoBot/node_modules/
