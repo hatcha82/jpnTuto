@@ -1,6 +1,8 @@
 client/node_modules/
 server/node_modules/
 devTest/puppeteer/node_modules/
+bot/tstoryBot/node_modules/
+bot/tstoryBot/.env
 bot/YoubueTagBot/node_modules/
 bot/ImageGifFuriganaKanjiBot/node_modules/
 bot/twitFuriganaKanjiBot/node_modules/
