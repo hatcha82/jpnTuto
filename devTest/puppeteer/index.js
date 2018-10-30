@@ -17,7 +17,7 @@ async function papagoTranslate(){
   const page = await browser.newPage();
   await page.goto('https://papago.naver.com');
   
-  const srcText = 
+  const sourceText = 
   `
   週末の大通りを 黒猫が歩く
   御自慢の鍵尻尾を水平に 威風堂々と
@@ -69,17 +69,16 @@ async function papagoTranslate(){
   アルファベット1つ 加えて庭に埋めてやった
   聖なる騎士を埋めてやった
   `
-
-  const txtSource = '#txtSource';  
+  
   const param = {
-    selector : txtSource,
-    srcText : srcText
+    selector : '#txtSource',
+    sourceText : sourceText
   }
 
   await page.evaluate(param => {
-      document.querySelector(param.selector).value = param.srcText
+      document.querySelector(param.selector).value = param.sourceText
   }, param);
-  await page.type(txtSource,'\n', {delay: 1000});
+  await page.type(param.selector,'\n', {delay: 1000});
   await page.click("#btnTranslate");
 
   page.once('response', response => {
@@ -89,32 +88,10 @@ async function papagoTranslate(){
         JSONObj = JSON.parse(textBody)
         console.log(JSONObj.translatedText);
         fs.writeFile('myjsonfile.text', textBody); 
-        //await browser.close();
+        page.close()        
       })
     }
   })
-
-  // const targetEditArea = '#txtTarget';      
-  // const translatedText = await page.evaluate(targetEditArea => {
-  //     return document.querySelector(targetEditArea).textContent
-  // }, targetEditArea);
-
-  // console.log(translatedText)
-  // setTimeout(async ()=>{
-  //   const translatedText = await page.evaluate(targetEditArea => {
-  //     return document.querySelector(targetEditArea).textContent
-  //   }, targetEditArea);
-  //   console.log(translatedText)
-  // }, 3000)
-
-  
-  
-  
- 
-  
-
-  //await page.screenshot({path: 'full.png', fullPage: true});
-  //
 }
 async function furiganaLyrics(){
   const browser = await puppeteer.launch();
