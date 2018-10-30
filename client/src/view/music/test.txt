@@ -1,0 +1,20 @@
+
+
+curl -v -X POST https://kapi.kakao.com/v1/api/story/post/link \
+-H "Authorization: Bearer oeOQodweGwbTR-CtpSG-cuM-QAwQwGqepwXQDQo8BZUAAAFmqllc7A" \
+--data-urlencode 'link_info={
+                             "url":"https://developers.kakao.com/",
+                             "requested_url":"http://bit.ly/1wwLqDl",
+                             "host":"developers.kakao.com",
+                             "title":"Kakao Developers_",
+                             "image":["http://www.furiganahub.com/static/img/logoBlue.8db84c20.jpg?height=630&width=1200"],
+                             "description":"더 나은 세상을 꿈꾸고 그것을 현실로 만드는 이를 위하여 카카오에서 앱 개발 플랫폼 서비스를 시작합니다.",
+                             "section":"",
+                             "type":"website"
+                            }' \
+--data-urlencode 'content=better than expected!'
+
+
+curl -v -X POST https://kapi.kakao.com/v1/api/story/upload/multi \
+  -H "Authorization: Bearer 9yOGPw20X9WoDh1WOc7_vq1U897pFz_bY43ZRQo8BRIAAAFmqmvoJQ" \
+  -F "file=@/temp.jpg" \  
