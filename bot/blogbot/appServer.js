@@ -59,7 +59,7 @@ async function uploadArticleBlog(){
     newTemplate = newTemplate.replace('[[translateText]]',translateText)
   }
   
-  var title = `${article.title}-${article.titleTranslate}`;
+  var title = `[일본뉴스] ${article.title}-${article.titleTranslate}`;
   var contents = newTemplate;  
   var api_url = 'https://openapi.naver.com/blog/writePost.json';
   var request = require('request');
