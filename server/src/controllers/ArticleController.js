@@ -57,7 +57,7 @@ module.exports = {
         order: [
           ['newsPublishedDate', 'DESC']
         ],
-        limit: 6
+        limit: 4
       })
       res.send({data: articles})
     } catch (err) {
