@@ -71,9 +71,15 @@ async function papagoTranslate(){
   `
 
   const txtSource = '#txtSource';  
-  
-  
-  await page.type(txtSource,srcText, {delay: 200});
+  const param = {
+    selector : txtSource,
+    srcText : srcText
+  }
+
+  await page.evaluate(param => {
+      document.querySelector(param.selector).value = param.srcText
+  }, param);
+  await page.type(txtSource,'\n', {delay: 1000});
   await page.click("#btnTranslate");
 
   page.once('response', response => {
