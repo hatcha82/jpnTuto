@@ -16,6 +16,7 @@ module.exports = {
       const offset = parseInt(req.query.offset)
       if (search) {
         articles = await Article.findAll({
+          attributes: {exclude: ['article', 'furigana', 'translateText']},
           where: {
             $or: [
               'title', 'type', 'article'
@@ -34,7 +35,7 @@ module.exports = {
           attributes: [[Article.sequelize.fn('COUNT', Article.sequelize.col('id')), 'count']]
         })
         articles = await Article.findAll({
-          attributes: {exclude: ['lyrics', 'tab']},
+          attributes: {exclude: ['article', 'furigana', 'translateText']},
           order: [
             ['newsPublishedDate', 'DESC']
           ],
@@ -52,11 +53,11 @@ module.exports = {
   async recentNews (req, res) {
     try {
       const articles = await Article.findAll({
-        attributes: {exclude: ['lyrics', 'tab']},
+        attributes: {exclude: ['article', 'furigana', 'translateText']},
         order: [
           ['newsPublishedDate', 'DESC']
         ],
-        limit: 6
+        limit: 4
       })
       res.send({data: articles})
     } catch (err) {
