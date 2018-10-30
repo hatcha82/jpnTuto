@@ -2,11 +2,24 @@
 <div id="top">
 <v-container fluid grid-list-md >
     <v-layout row wrap>
-      <v-flex d-flex xs12 sm12 md12 lg6 >
+      <v-flex d-flex xs12 sm12 md12 lg12 >
       <v-card>
-        <v-img
-          class="white--text ml-5 mt-3"
+        <v-img height="200" contain position="left" class="ml-3" :lazy-src="article.newsImageUr ? article.newsImageUrl : require('../../assets/noImage.png')"
+              :src="article.newsImageUrl ? article.newsImageUrl : require('../../assets/noImage.png')"
+              />
+        
+       
+        <v-card-title>
+          <div v-if="(!edit)" >
+            
+            <a :href="article.newsUrl" class="headline"><span v-html="article.titleFurigana"></span></a><br>
+            
+            <span class="subheading">{{article.titleTranslate}}</span><br><br>
+            <v-img
+          class="white--text "
+          height="15"
           contain
+          position="left"
           :src="article.newsPubllisherImageUrl ? article.newsPubllisherImageUrl : require('../../assets/noImage.png')"
           :lazy-src="article.newsPubllisherImageUrl ? article.newsPubllisherImageUrl : require('../../assets/noImage.png')"
         >
@@ -19,18 +32,16 @@
           </v-container>
           
         </v-img>
-        
-        <v-card-title>
-          <div v-if="(!edit)" >
-            
-            <a :href="article.newsUrl" class="headline"><span v-html="article.titleFurigana"></span></a><br>
+    <br>
 
             <span class="caption">Created : {{ article.newsPublishedDate | moment("dddd, MMMM Do YYYY, h:mm:ss a")}} </span><br>
             <span  class="caption">{{article.newsPublisher}}</span><br>
+            
             <a :href="article.newsUrl" class="caption grey--text lighten-1">원본 : {{ article.newsUrl }} </a><br>
           </div>
           <div style="float:right">
           </div>
+            
         </v-card-title>
         <v-card-actions>
           <div>
@@ -86,7 +97,7 @@
       </v-card>
     </v-flex>
     
-    <v-flex d-flex xs12 sm12 md12 lg6 child-flex v-if="(!edit)">
+    <v-flex d-flex xs12 sm12 md12 lg12 child-flex v-if="(!edit)">
       <v-card>
       <v-tabs
         v-model="activeTab"
@@ -105,22 +116,25 @@
         class="white--text">
         원본
         </v-tab>
+                <v-tab          
+          ripple
+          key="2"
+        class="white--text">
+        번역
+        </v-tab>
         <v-tab-item  >
           <v-card flat>
             <v-card-text>
 
-              <div class="furigana headline" v-html="article.titleFurigana"></div>
-              <v-img  :lazy-src="article.newsImageUr ? article.newsImageUrl : require('../../assets/noImage.png')"
-                        :src="article.newsImageUrl ? article.newsImageUrl : require('../../assets/noImage.png')"
-                        class="mr-3"
-                        />
+              <div class="furigana headline" v-html="article.titleFurigana"></div><br>
+             
               <div v-html="article.furigana" class="furigana">
               </div>
               <v-img  :lazy-src="article.newsPubllisherImageUrl ? article.newsPubllisherImageUrl : require('../../assets/noImage.png')"
               :src="article.newsPubllisherImageUrl ? article.newsPubllisherImageUrl : require('../../assets/noImage.png')"
               height="30px"
               contain
-                        />
+                        /><br>
               <a :href="article.newsUrl" class="ml-3 caption grey--text lighten-1">원본 : {{ article.newsUrl }} </a><br>              
             </v-card-text>
           </v-card>
@@ -128,20 +142,39 @@
         <v-tab-item>
           <v-card flat>
             <v-card-text>
-              <div class="furigana headline" v-html="article.title"></div>
+              <div class="furigana headline" v-html="article.title"></div><br>            
               <div  v-html="article.article" class="furigana">
               </div>
               <v-img  :lazy-src="article.newsPubllisherImageUrl ? article.newsPubllisherImageUrl : require('../../assets/noImage.png')"
               :src="article.newsPubllisherImageUrl ? article.newsPubllisherImageUrl : require('../../assets/noImage.png')"
               height="30px"
               contain
+                        /><br>
+              <a :href="article.newsUrl"  class="ml-3 caption grey--text lighten-1">원본 : {{ article.newsUrl }} </a><br>
+            </v-card-text>  
+          </v-card>
+        </v-tab-item>
+        <v-tab-item>
+          <v-card flat>
+            <v-card-text>
+              <div class="furigana headline" v-html="article.titleTranslate"></div><br>
+              <div  v-html="article.translateText" class="furigana">
+              </div>
+              <v-img  :lazy-src="article.newsPubllisherImageUrl ? article.newsPubllisherImageUrl : require('../../assets/noImage.png')"
+              :src="article.newsPubllisherImageUrl ? article.newsPubllisherImageUrl : require('../../assets/noImage.png')"
+              height="30px"
+              contain
                         />
+                        <br>
               <a :href="article.newsUrl"  class="ml-3 caption grey--text lighten-1">원본 : {{ article.newsUrl }} </a><br>
             </v-card-text>  
           </v-card>
         </v-tab-item>
       </v-tabs>
       </v-card>
+    </v-flex>
+    <v-flex>
+      <RecentNews/>
     </v-flex>
   </v-layout>
   <back-to-top>
@@ -164,10 +197,12 @@ import {mapState} from 'vuex'
 import ArticlesService from '@/services/ArticlesService'
 import FuriganaService from '@/services/FuriganaService'
 import Synthesis from '@/components/common/Synthesis'
+import RecentNews from '@/components/article/RecentNews'
 
 export default {
   components: {
-    Synthesis
+    Synthesis,
+    RecentNews
   },
   computed: {
     ...mapState([
