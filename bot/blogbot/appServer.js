@@ -10,14 +10,114 @@ var api_url = `https://nid.naver.com/oauth2.0/authorize?response_type=code&clien
 var request = require('request');
 var access_token ='';
 var refresh_token = '';
-var {Song} = require('./models')
+var {Song,Article} = require('./models')
 const {sequelize} = require('./models')
 
 
 
-var template = fs.readFileSync('blogtemplate.html', 'utf-8');
+var blogtemplate = fs.readFileSync('blogtemplate.html', 'utf-8');
+var newsBlogtemplate = fs.readFileSync('newsBlogtemplate.html', 'utf-8');
+async function uploadArticleBlog(){
+  console.log("Upload Started...")
+  const Op = sequelize.Op
+  var article = await Article.findOne({
+    where :{
+      $and: [
+        {  
+          translateText : {[Op.ne]: null},
+          naverBlogUpload : 'N',
+          newsPublisher: {like: '%NEWS24'}
+        },
+        sequelize.where(
+           sequelize.fn('DATE', sequelize.col('createdAt')),
+           sequelize.literal('CURRENT_DATE')
+        )
+      ]
+    },        
+    limit: 1,
+  })
+  if(!article){
+    return;
+  }
+  var newTemplate = newsBlogtemplate.replace('[[title]]', article.title)
+  newTemplate = newTemplate.replace('[[title]]', article.titleTranslate)
+  newTemplate = newTemplate.split("[[id]]").join(article.id)
+  newTemplate = newTemplate.split("[[newsUrl]]").join(article.newsUrl)
+  newTemplate = newTemplate.split("[[newsPublishedDate]]").join(article.newsPublishedDate.toString())
+  newTemplate = newTemplate.split("[[newsPubllisherImageUrl]]").join(article.newsPubllisherImageUrl)
+  newTemplate = newTemplate.split("[[titleFurigana]]").join(article.titleFurigana)
+  newTemplate = newTemplate.split("[[titleTranslate]]").join(article.titleTranslate)
+  
+  var furigana = article.furigana;
+  furigana =  furigana.replace(/\n/g,'<br>')
+  newTemplate = newTemplate.replace('[[furigana]]',furigana)
 
-async function uploadBlog(){
+  var translateText = article.translateText;
+
+  if(translateText){
+    translateText =  translateText.replace(/\n/g,'<br>')
+    newTemplate = newTemplate.replace('[[translateText]]',translateText)
+  }
+  
+  var title = `[일본뉴스] ${article.title}-${article.titleTranslate}`;
+  var contents = newTemplate;  
+  var api_url = 'https://openapi.naver.com/blog/writePost.json';
+  var request = require('request');
+  var header = "Bearer " + access_token; // Bearer 다음에 공백 추가
+  var options = {
+      url: api_url,
+      form: {'title':title, 'contents':contents, categoryNo : 14}, // CATEGORY 10가사  : 13 test boad 14뉴스
+      headers: {'Authorization': header}
+   };
+  request.post(options, function (error, response, body) {
+    if (!error && response.statusCode == 200) {
+      console.log('Blog Uploaded')
+      var jsonBody
+      var naverBlogRefNo
+      var naverBlogUpload = 'Y'
+      try {
+        jsonBody= JSON.parse(body);
+        console.log(jsonBody.message)
+        naverBlogRefNo = jsonBody.message.result.logNo;
+        console.log(`naverBlogRefNo : ${naverBlogRefNo}`)
+      } catch (error) {
+        console.log(error)
+        naverBlogUpload = 'E'
+      }
+      console.log(naverBlogRefNo)
+      Article.update({
+        naverBlogUpload: naverBlogUpload,
+        naverBlogRefNo: naverBlogRefNo
+      }, {
+        where: { id: article.id }
+      })
+      .then(result =>{
+        console.log(`result: ${result}  updated row article.id ${article.id} ,title ${article.title}` )
+        
+      })
+      .catch(error =>{
+        console.log(`result: ${error}  updated row article.id ${article.id} ,title ${article.title}` )
+      })  
+    } else {
+      Article.update({
+        naverBlogUpload: 'E',
+      }, {
+        where: { id: article.id }
+      })
+      .then(result =>{
+        console.log(`result: ${result}  updated row article.id ${article.id} ,title ${article.title}` )
+        
+      })
+      .catch(error =>{
+        console.log(`result: ${error}  updated row article.id ${article.id} ,title ${article.title}` )
+      })  
+      if(response != null) {
+        
+      }
+    }
+  });
+}
+async function uploadSongBlog(){
   console.log("Upload Started...")
   const Op = sequelize.Op
   var song = await Song.findOne({
@@ -31,11 +131,12 @@ async function uploadBlog(){
   if(!song){
     return;
   }
-  var newTemplate = template.replace('[[title]]', song.title)
+  var newTemplate = blogtemplate.replace('[[title]]', song.title)
   newTemplate = newTemplate.replace('[[artist]]',song.artist)
   newTemplate = newTemplate.split("[[id]]").join(song.id)
   newTemplate = newTemplate.split("[[albumImageUrl]]").join(song.albumImageUrl)  
   newTemplate = newTemplate.replace('[[youtubeId]]',song.youtubeId)
+
 
   var furigana = song.tab;
   furigana =  furigana.replace(/\n/g,'<br>')
@@ -59,9 +160,6 @@ async function uploadBlog(){
       headers: {'Authorization': header}
    };
   request.post(options, function (error, response, body) {
-    
-   
-
     if (!error && response.statusCode == 200) {
       console.log('Blog Uploaded')
       var jsonBody
@@ -133,7 +231,13 @@ setInterval(refreshToken, 1000 * 60 * 10)
 setInterval(function(){
   var ranTime = Math.floor((Math.random() * 10) + 1)
   setTimeout(() => {
-    uploadBlog()
+    uploadArticleBlog()
+  }, ranTime) 
+}, 1000 * 60 * 3)
+setInterval(function(){
+  var ranTime = Math.floor((Math.random() * 10) + 1)
+  setTimeout(() => {
+    uploadSongBlog()
   }, ranTime) 
 }, 1000 * 60 * 60)
 app.get('/naverlogin', function (req, res) {
@@ -157,8 +261,9 @@ app.get('/naverlogin', function (req, res) {
         res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'});
         jsonBody = JSON.parse(body);
         access_token = jsonBody.access_token
-        refresh_token = jsonBody.refresh_token        
-        uploadBlog()
+        refresh_token = jsonBody.refresh_token     
+        uploadArticleBlog()   
+        uploadSongBlog()
         res.end(body);
       } else {
         res.status(response.statusCode).end();
@@ -213,8 +318,7 @@ app.get('/naverlogin', function (req, res) {
         }
       }
     });
-  });
-
+  });  
  app.listen(3000, function () {
    console.log('http://127.0.0.1:3000/naverlogin app listening on port 3000!');
  });
