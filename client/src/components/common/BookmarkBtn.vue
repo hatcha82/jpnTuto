@@ -66,7 +66,7 @@ export default {
           this.bookmark =null
         }
       } catch (err) {
-        alert(err)
+        //alert(err)
       }
     },
     async setAsBookmark () {
