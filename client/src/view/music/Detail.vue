@@ -67,7 +67,12 @@
           </v-dialog>
           </div>
         </v-card-actions>
+
+
+
         <div class="pa-3" v-if="(edit)" >
+          <v-layout>
+            <v-flex lg6>
             <v-text-field
               label="artist"
               v-model="song.artist"
@@ -87,7 +92,7 @@
             <v-text-field
               label="Album URL"
               v-model="song.albumImageUrl"
-            ></v-text-field>
+            ></v-text-field>           
             <v-text-field
               label="Youtube ID"
               v-model="song.youtubeId"
@@ -98,9 +103,50 @@
                 label="Lyrics"
                 v-model="song.lyrics"
                 hint="Hint text"
-              ></v-textarea>
+              ></v-textarea>              
+            </v-flex>
+            <v-flex lg6>
+              <v-card class="pa-2" v-if="song.youtubeId">
+                <div style="position: relative; padding-bottom: 56.25%;">
+                  <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" :src="'https://www.youtube.com/embed/'+ song.youtubeId" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
+                </div>
+              </v-card>
+              <v-card>                
+                <v-container grid-list-sm fluid v-if="images">
+                  <v-layout row wrap>
+                    <v-flex
+                      v-for="(item, index) in images.items"
+                      :key="index"
+                      xs2
+                      d-flex
+                    >
+                      <v-card flat tile class="d-flex">
+                        <v-img
+                          :src="item.link"
+                          :lazy-src="item.link"
+                          aspect-ratio="1"
+                          class="grey lighten-2"
+                          @click="setImage(item)"
+                        >
+                          <v-layout
+                            slot="placeholder"
+                            fill-height
+                            align-center
+                            justify-center
+                            ma-0
+                          >
+                            <v-progress-circular indeterminate color="grey lighten-5"></v-progress-circular>
+                          </v-layout>
+                        </v-img>
+                      </v-card>
+                    </v-flex>
+                  </v-layout>
+                </v-container>
+              </v-card>
+            </v-flex>
+          </v-layout>            
         </div> 
-      </v-card>
+      </v-card>      
     </v-flex>
     
     <v-flex d-flex xs12 sm12 md6 child-flex v-if="(!edit)">
@@ -147,8 +193,7 @@
         </v-tab-item>
         <v-tab-item>
           <v-card flat>
-            <v-card-text>
-              
+            <v-card-text>              
               <div  v-html="song.lyricsKor" class="furigana">
               </div>
             </v-card-text>  
@@ -220,6 +265,7 @@ export default {
     return {
       deleteDialog: false,
       song: null,
+      images:null,
       edit: false,
       activeTab: 0,
       imgNotFound: require('../../assets/noImage.png')
@@ -238,8 +284,12 @@ export default {
     back() {
       this.$router.back()
     },
+    setImage(imageItem){
+      this.song.albumImageUrl = imageItem.link
+    },
     newMusic () {
-      this.song = {}
+      this.song = {},
+      this.images = {},
       this.song.genre = 'J-pop'
       this.edit = true 
     },
@@ -328,7 +378,8 @@ export default {
     },
     async search () {
       const songId = this.$route.params.songId
-      this.song = (await SongsService.show(songId)).data
+      this.song = (await SongsService.show(songId)).data      
+      this.images = (await SongsService.searchImage(`${this.song.artist} ${this.song.title}`)).data;        
       if (this.isUserLoggedIn) {
         // SongHistoryService.post({
         //   songId: songId
