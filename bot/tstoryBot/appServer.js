@@ -66,6 +66,67 @@ function downloadFile(url, options){
 
 var template = fs.readFileSync('blogtemplate.html', 'utf-8');
 
+async function test(){
+  var song = await findSong();
+  
+  console.log(`${song.id} ${song.title}-${song.artist}`)
+
+  var newTemplate = template.replace('[[title]]', song.title)
+  newTemplate = newTemplate.replace('[[artist]]',song.artist)
+  newTemplate = newTemplate.split("[[id]]").join(song.id)
+  newTemplate = newTemplate.split("[[albumImageUrl]]").join(song.albumImageUrl)  
+  newTemplate = newTemplate.replace('[[youtubeId]]',song.youtubeId)
+
+
+  var furigana = song.tab;
+  furigana =  furigana.replace(/\n/g,'<br>')
+  newTemplate = newTemplate.replace('[[furigana]]',furigana)
+  
+  var lyricsKor = song.lyricsKor;
+  if(lyricsKor){
+    lyricsKor =  lyricsKor.replace(/\n/g,'<br>')
+    newTemplate = newTemplate.replace('[[lyricsKor]]',lyricsKor)
+  }
+
+  var api_url = 'https://www.tistory.com/apis/post/write'
+  var postOption = {
+    url: api_url,    
+    form: {
+      access_token:'da7a64ff1ec2eccca06b1b2907948b34_c906903066e671e1dc5ba3df1bcb19b0',
+      output:'json',
+      blogName:'furigana-hub',
+      title:`[ J-Pop : ${song.artist} ] ${song.title}`,
+      content:newTemplate,
+      visibility:0,
+      category:819726,
+      tag:'furiganahub,jpop,일본노래추천'
+    }
+  };
+  var postResult = await requestPost(postOption)
+  console.log(JSON.parse(postResult.body))
+  //819726 test category
+  // id": "819448",
+  //                   "name": "일본노래 가사(J-pop)",
+  //                   "parent": "",
+  //                   "label": "일본노래 가사(J-pop)",
+}
+test()
+
+  
+
+async function findSong(){
+  const Op = sequelize.Op
+  var song = await Song.findOne({
+    where :{     
+      tstoryUpload : 'N', 
+      albumImageUrl : {[Op.ne]: null},
+      lyricsKor : {[Op.ne]: null}
+    },
+    order: sequelize.random(),
+    limit: 1,
+  })
+  return song
+}
 
 async function uploadKakaoStroyWithLink() {
   const Op = sequelize.Op
@@ -346,77 +407,21 @@ app.get('/tstorylogin', function (req, res) {
  });
  app.get('/callback', function (req, res) {
     code = req.query.code;
-    state = req.query.state;
-    console.log(state)
-    // api_url = 'https://nid.naver.com/oauth2.0/token?grant_type=authorization_code&client_id='
-    //  + client_id + '&client_secret=' + client_secret + '&redirect_uri=' + redirectURI + '&code=' + code + '&state=' + state +'';
+    state = req.query.state;    
     api_url = `https://www.tistory.com/oauth/access_token?grant_type=authorization_code&client_id=${client_id}&client_secret=${client_secret}&redirect_uri=${redirectURI}&code=${code}`
     
     var request = require('request');
     var options = {
-        url: api_url,
-        //headers: {'X-Naver-Client-Id':client_id, 'X-Naver-Client-Secret': client_secret}
+        url: api_url,        
      };
     request.post(options, function (error, response, body) {
       if (!error && response.statusCode == 200) {
-        res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'});
-        
-        //jsonBody = JSON.parse(body);
-        console.log(body)
-        // access_token = jsonBody.access_token
-        // refresh_token = jsonBody.refresh_token        
+        res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'});        
+        access_token =body.replace(`access_token=`,'')        
         res.end(body);
       } else {
         res.end(body)
         console.log('error = ' + response.body);
-      }
-    });
-  });
-  app.get('/blog/post', function (req, res) {
-    var title = "네이버 블로그 api Test node js";
-    var contents = "<span style='color:blue'>네이버 블로그 api로 글을 블로그에 올려봅니다.</span>";
-
-    var api_url = 'https://openapi.naver.com/blog/writePost.json';
-    var request = require('request');
-    var header = "Bearer " + access_token; // Bearer 다음에 공백 추가
-    var options = {
-        url: api_url,
-        form: {'title':title, 'contents':contents},
-        headers: {'Authorization': header}
-     };
-    request.post(options, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'});
-        res.end(body);
-      } else {
-        console.log('error');
-        if(response != null) {
-          res.status(response.statusCode).end();
-          console.log('error = ' + response.statusCode);
-        }
-      }
-    });
-  });
-  app.get('/blog/category', function (req, res) {
-   
-    var header = "Bearer " + access_token; 
-    console.log(header)
-    var api_url = 'https://openapi.naver.com/blog/listCategory.json';
-    var request = require('request');
-    var options = {
-        url: api_url,
-        headers: {'Authorization': header}
-     };
-    request.get(options, function (error, response, body) {
-      if (!error && response.statusCode == 200) {
-        res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'});
-        res.end(body);
-      } else {
-        console.log('error');
-        if(response != null) {
-          res.status(response.statusCode).end();
-          console.log('error = ' + response.statusCode);
-        }
       }
     });
   });
