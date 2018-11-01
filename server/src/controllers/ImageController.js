@@ -1,7 +1,6 @@
 var clientId = process.env.NAVER_CLIENT_ID
 var clientSecret = process.env.NAVER_CLIENT_SECRET
 async function requestGet (options) {
-  console.log(options)
   return new Promise(resolve => {
     var request = require('request')
     request.get(options, function (error, response, body) {

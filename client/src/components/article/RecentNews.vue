@@ -2,7 +2,7 @@
   <v-layout row  >
     <v-flex xs12 sm12 lg12 md12>
       <template v-for="(item, index) in articles">
-      <v-card>          
+      <v-card v-bind:key="index">          
         <v-list three-line>
             <router-link v-bind:key="item.id" :to="{ name: 'article-detail', params: {  articleId: item.id}}" tag="div">
             <v-list-tile

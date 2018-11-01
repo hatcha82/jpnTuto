@@ -34,9 +34,7 @@
             <a target="_blank" :href="('https://www.google.co.kr/search?q='+ song.title + ' ' + song.artist)" v-if="!song.albumImageUrl">{{song.title}} {{song.artist}}<br></a>
             <span class="grey--text">Image 출처: <a  class="grey--text" :href="song.albumImageUrl">{{song.albumImageUrl}}</a></span>
           </div>
-          
           <div style="float:right">
-            
           </div>
         </v-card-title>
         <v-card-actions>
@@ -67,12 +65,9 @@
           </v-dialog>
           </div>
         </v-card-actions>
-
-
-
         <div class="pa-3" v-if="(edit)" >
-          <v-layout>
-            <v-flex lg6>
+          <v-layout >
+             <v-flex xs12 sm12 md12 lg12>
             <v-text-field
               label="artist"
               v-model="song.artist"
@@ -105,7 +100,7 @@
                 hint="Hint text"
               ></v-textarea>              
             </v-flex>
-            <v-flex lg6>
+            <v-flex column xs12 sm12 md12 lg12>
               <v-card class="pa-2" v-if="song.youtubeId">
                 <div style="position: relative; padding-bottom: 56.25%;">
                   <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" :src="'https://www.youtube.com/embed/'+ song.youtubeId" frameborder="0" gesture="media" allow="encrypted-media" allowfullscreen></iframe>
@@ -217,10 +212,20 @@
       </v-card>
       <v-card  class="mt-3">
          <v-card-title class="primary">
+            <span class="white--text">{{song.artist}}의 다른노래</span>
+          </v-card-title>
+          <v-container>
+          
+        <ArtistMusicList ref="artistMusicList" :songs="artistSongs"/>
+          </v-container>
+      </v-card>
+      
+      <v-card  class="mt-3">
+         <v-card-title class="primary">
             <span class="white--text">이 노래는 어떤가요?</span>
           </v-card-title>
           <v-container>
-        <RandomMusicList/>
+        <RandomMusicList ref="randomMusic"/>
           </v-container>
       </v-card>
       </div>
@@ -244,6 +249,7 @@
 <script>
 import {mapState} from 'vuex'
 import RandomMusicList from '@/components/music/RandomMusicList'
+import ArtistMusicList from '@/components/music/ArtistMusicList'
 import SongsService from '@/services/SongsService'
 import FuriganaService from '@/services/FuriganaService'
 import Synthesis from '@/components/common/Synthesis'
@@ -252,6 +258,7 @@ import BookmarkBtn from '@/components/common/BookmarkBtn'
 export default {
   components: {
     Synthesis,
+    ArtistMusicList,
     RandomMusicList,
     BookmarkBtn
   },
@@ -265,6 +272,7 @@ export default {
     return {
       deleteDialog: false,
       song: null,
+      artistSongs: null,
       images:null,
       edit: false,
       activeTab: 0,
@@ -378,7 +386,8 @@ export default {
     },
     async search () {
       const songId = this.$route.params.songId
-      this.song = (await SongsService.show(songId)).data      
+      this.song = (await SongsService.show(songId)).data
+      this.artistSongs = (await SongsService.songByArtist(this.song.artist, 10,0)).data;        
       this.images = (await SongsService.searchImage(`${this.song.artist} ${this.song.title}`)).data;        
       if (this.isUserLoggedIn) {
         // SongHistoryService.post({
@@ -399,6 +408,7 @@ export default {
   watch: {
     '$route' () {
       this.search()
+      this.$refs.randomMusic.search();
     }
   },
 }
