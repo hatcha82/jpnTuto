@@ -1,6 +1,6 @@
 const AuthenticationController = require('./controllers/AuthenticationController')
 const AuthenticationControllerPolicy = require('./policies/AuthenticationControllerPolicy')
-
+const ImageController = require('./controllers/ImageController')
 const VisitorContoller = require('./controllers/VisitorContoller')
 const ArticleController = require('./controllers/ArticleController')
 const SongsController = require('./controllers/SongsController')
@@ -42,6 +42,7 @@ module.exports = (app) => {
       logout: 'ok'
     })
   })
+  app.get('/image/search', ImageController.search)
   app.post('/furigana',
     FuriganaController.convert)
   app.get('/articles',
@@ -68,6 +69,8 @@ module.exports = (app) => {
     SongsController.indexImageTracker)
   app.get('/songs/randomeSong',
     SongsController.randomeSong)
+  app.get('/songs/songByArtist',
+    SongsController.songByArtist)
   app.get('/song/meta/:songId',
     SongsController.meta)
   app.get('/song/:songId',

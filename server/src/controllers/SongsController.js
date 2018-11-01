@@ -145,7 +145,7 @@ module.exports = {
     try {
       const Op = sequelize.Op
       const songs = await Song.findAll({
-        attributes: {exclude: ['lyrics', 'tab']},
+        attributes: {exclude: ['lyrics', 'lyricsKor', 'tab']},
         where: {
           albumImageUrl: {
             [Op.ne]: null
@@ -157,6 +157,33 @@ module.exports = {
         limit: 10
       })
       res.send({data: songs})
+    } catch (err) {
+      res.status(500).send({
+        error: err
+      })
+    }
+  },
+  async songByArtist (req, res) {
+    try {
+      const artist = req.query.artist
+      const Op = sequelize.Op
+      const songs = await Song.findAll({
+        attributes: {exclude: ['lyrics', 'lyricsKor', 'tab']},
+        where: {
+          artist: artist,
+          albumImageUrl: {
+            [Op.ne]: null
+          },
+          lyricsKor: {
+            [Op.ne]: null
+          }
+        },
+        order: [
+          [sequelize.random()]
+        ],
+        limit: 10
+      })
+      res.send(songs)
     } catch (err) {
       res.status(500).send({
         error: err

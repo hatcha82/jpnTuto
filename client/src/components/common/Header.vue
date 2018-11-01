@@ -48,6 +48,7 @@
     </v-navigation-drawer>
     <v-toolbar
       dense
+      flat
       fixed
       clipped-left
       dark

@@ -9,6 +9,14 @@ export default {
       }
     })
   },
+  searchImage (keyword,offset) {
+    return Api().get('image/search', {
+      params: {
+        keyword: keyword,
+        offset: offset
+      }
+    })
+  },
   indexImageTracker (search,offset) {
     return Api().get('songs/indexImageTracker', {
       params: {
@@ -20,6 +28,15 @@ export default {
   randomFiveSong () {
     return Api().get('songs/randomeSong', {
       params: {
+      }
+    })
+  },
+  songByArtist (artist, offset, limit) {
+    return Api().get('songs/songByArtist', {
+      params: {
+        artist: artist,
+        offset: offset,
+        limit: limit,
       }
     })
   },
