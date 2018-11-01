@@ -33,17 +33,17 @@
                   <v-list-tile-title>
                    {{item.title}}
                   </v-list-tile-title>
-                  <v-list-tile-sub-title >
+                   <v-list-tile-title class="caption grey--text">
                     {{item.titleTranslate}}
-                   </v-list-tile-sub-title >
+                   </v-list-tile-title>
+
                    <v-list-tile-sub-title >
                      <img  :lazy-src="item.newsPubllisherImageUrl ? item.newsPubllisherImageUrl : require('../../assets/noImage.png')"
                         :src="item.newsPubllisherImageUrl ? item.newsPubllisherImageUrl : require('../../assets/noImage.png')"
-                        style="postion:absolute;width:30px" 
+                        style="postion:absolute;width:30px;margin-left:2px" 
                         />
-                        {{item.newsPublisher}}
                     <span class="caption">
-                    {{ item.newsPublishedDate | moment("dddd, MMMM Do YYYY, h:mm:ss a")}}
+                    {{ item.newsPublishedDate | moment("YYYY MMMM Do dddd,a h:mm:ss")}}
                     </span>
                    </v-list-tile-sub-title>
                 </v-list-tile-content>

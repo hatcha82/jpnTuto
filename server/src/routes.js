@@ -69,6 +69,8 @@ module.exports = (app) => {
     SongsController.indexImageTracker)
   app.get('/songs/randomeSong',
     SongsController.randomeSong)
+  app.get('/songs/songByArtist',
+    SongsController.songByArtist)
   app.get('/song/meta/:songId',
     SongsController.meta)
   app.get('/song/:songId',

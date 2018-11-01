@@ -1,7 +1,7 @@
 <template>
-<div>
+<div>  
   <v-layout wrap>
-    <template v-for="(item, index) in songs">
+    <template v-if="songs" v-for="(item, index) in songs">
       <v-flex x6 sm6 lg6 md6>
         <v-card>          
           <v-list>
@@ -40,12 +40,14 @@
 import {mapState} from 'vuex'
 import SongsService from '@/services/SongsService'
 export default {
+  props: [
+    'songs'
+  ],
   components: {
   },
   data () {
-    return {
-      songs: null,
-    }
+     return {
+     }
   },
     computed: {
     ...mapState([
@@ -56,8 +58,7 @@ export default {
   watch: {
   },
   
-  async mounted () {
-    this.search()
+  async mounted () {   
   },
   filters: {
     imageInfo(item){
@@ -70,15 +71,7 @@ ${item.albumImageUrl}
       `
     }
   },
-  methods: {
-    async search (){
-      try {
-        var dataSet = (await SongsService.randomFiveSong()).data;
-        this.songs = dataSet.data;
-      } catch (error) {
-        console.log(error)
-      }
-    }
+  methods: {    
   }
 }
 </script>

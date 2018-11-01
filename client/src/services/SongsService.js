@@ -31,6 +31,15 @@ export default {
       }
     })
   },
+  songByArtist (artist, offset, limit) {
+    return Api().get('songs/songByArtist', {
+      params: {
+        artist: artist,
+        offset: offset,
+        limit: limit,
+      }
+    })
+  },
   show (songId) {
     return Api().get(`song/${songId}`)
   },

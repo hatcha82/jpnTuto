@@ -4,8 +4,8 @@
       v-if="isUserLoggedIn && !bookmark"
       dark
       class="primary"
-      @click="setAsBookmark">
-      Set As Bookmark
+      @click="setAsBookmark">      
+      <v-icon >far fa-bookmark</v-icon>
     </v-btn>
 
     <v-btn
@@ -13,7 +13,7 @@
       dark
       class="primary"
       @click="unsetAsBookmark">
-      Unset As Bookmark
+      <v-icon >fas fa-bookmark</v-icon>
     </v-btn>
   </div>
 </template>
@@ -45,7 +45,7 @@ export default {
       //   this.reloadBookmark()
       // },
       bookmarkObject: {
-        async handler(val){          
+        async handler(){          
           this.reloadBookmark()
         },
         deep:true
@@ -74,13 +74,13 @@ export default {
         this.bookmark = (await BookmarksService.post({
           songId: this.bookmarkObject.id
         })).data
-      } catch (err) {alert(err)}
+      } catch (err) {console.log(err)}
     },
     async unsetAsBookmark () {
         try {
           await BookmarksService.delete(this.bookmark.id)
           this.bookmark = null
-        } catch (err) {alert(err)}
+        } catch (err) {console.log(err)}
       }
   }
 }

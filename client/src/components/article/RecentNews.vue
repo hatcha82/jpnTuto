@@ -2,7 +2,7 @@
   <v-layout row  >
     <v-flex xs12 sm12 lg12 md12>
       <template v-for="(item, index) in articles">
-      <v-card>          
+      <v-card v-bind:key="index">          
         <v-list three-line>
             <router-link v-bind:key="item.id" :to="{ name: 'article-detail', params: {  articleId: item.id}}" tag="div">
             <v-list-tile
@@ -24,13 +24,12 @@
                     {{item.titleTranslate}}
                    </v-list-tile-sub-title >
                   <v-list-tile-sub-title >
-                    <img  :lazy-src="item.newsPubllisherImageUrl ? item.newsPubllisherImageUrl : require('../../assets/noImage.png')"
-                      :src="item.newsPubllisherImageUrl ? item.newsPubllisherImageUrl : require('../../assets/noImage.png')"
-                      style="postion:absolute;width:30px" 
-                      />
-                      {{item.newsPublisher}}
+                   <img  :lazy-src="item.newsPubllisherImageUrl ? item.newsPubllisherImageUrl : require('../../assets/noImage.png')"
+                        :src="item.newsPubllisherImageUrl ? item.newsPubllisherImageUrl : require('../../assets/noImage.png')"
+                        style="postion:absolute;width:30px;margin-left:2px" 
+                        />
                   <span class="caption">
-                  {{ item.newsPublishedDate | moment("dddd, MMMM Do YYYY, h:mm:ss a")}}
+                  {{ item.newsPublishedDate | moment("YYYY MMMM Do dddd,a h:mm:ss")}}
                   </span>
                   </v-list-tile-sub-title>
               </v-list-tile-content>
