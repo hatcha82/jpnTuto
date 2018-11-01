@@ -24,13 +24,12 @@
                     {{item.titleTranslate}}
                    </v-list-tile-sub-title >
                   <v-list-tile-sub-title >
-                    <img  :lazy-src="item.newsPubllisherImageUrl ? item.newsPubllisherImageUrl : require('../../assets/noImage.png')"
-                      :src="item.newsPubllisherImageUrl ? item.newsPubllisherImageUrl : require('../../assets/noImage.png')"
-                      style="postion:absolute;width:30px" 
-                      />
-                      {{item.newsPublisher}}
+                   <img  :lazy-src="item.newsPubllisherImageUrl ? item.newsPubllisherImageUrl : require('../../assets/noImage.png')"
+                        :src="item.newsPubllisherImageUrl ? item.newsPubllisherImageUrl : require('../../assets/noImage.png')"
+                        style="postion:absolute;width:30px;margin-left:2px" 
+                        />
                   <span class="caption">
-                  {{ item.newsPublishedDate | moment("dddd, MMMM Do YYYY, h:mm:ss a")}}
+                  {{ item.newsPublishedDate | moment("YYYY MMMM Do dddd,a h:mm:ss")}}
                   </span>
                   </v-list-tile-sub-title>
               </v-list-tile-content>
