@@ -2,11 +2,15 @@ client/node_modules/
 server/node_modules/
 server/.env
 devTest/puppeteer/node_modules/
+bot/tstoryBot/node_modules/
+bot/tstoryBot/.env
 bot/YoubueTagBot/node_modules/
 bot/ImageGifFuriganaKanjiBot/node_modules/
 bot/twitFuriganaKanjiBot/node_modules/
 bot/lyricsCrawBot/node_modules/
 bot/pantomTest/node_modules/
+bot/PupperteerBot/node_modules/
+bot/PupperteerBot/.env
 bot/kakaoTranslateForNewsBot/node_modules/
 bot/kakaoTranslateForNewsBot/.env
 bot/kakaoStoryBot/node_modules/
