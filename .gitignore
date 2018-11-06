@@ -9,6 +9,8 @@ bot/ImageGifFuriganaKanjiBot/node_modules/
 bot/twitFuriganaKanjiBot/node_modules/
 bot/lyricsCrawBot/node_modules/
 bot/pantomTest/node_modules/
+bot/puppeteerAmebaBot/node_modules/
+bot/puppeteerAmebaBot/.env
 bot/PupperteerBot/node_modules/
 bot/PupperteerBot/.env
 bot/kakaoTranslateForNewsBot/node_modules/
