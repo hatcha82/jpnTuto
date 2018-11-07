@@ -1,21 +1,23 @@
 version: '3'
 services:
-  db:
-    image: mariadb
-    restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: g8ckdqja1013
-    volumes:
-     - "jpntuto_mariadb_data:/var/lib/mysql"
-     - "jpntuto_mariadb_config:/etc/mysql/conf.d"
-    ports:
-     - "3307:3306"
+        #dbInternel:
+        #image: mariadb
+        #restart: always
+        #environment:
+        #MYSQL_ROOT_PASSWORD: g8ckdqja1013
+        #volumes:
+        #- "jpntuto_mariadb_data:/var/lib/mysql"
+        #- "jpntuto_mariadb_config:/etc/mysql/conf.d"
+        #ports:
+        #- "3307:3306"
   mongo:
     image: mongo
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: g8ckdqja1013
+    ports:
+     - 27017:27017
     volumes:
      - "jpntuto_mongo_data:/data/db"
   mongo-express:
@@ -29,12 +31,12 @@ services:
   redis:
     image : redis
     restart: always
-    port:
+    ports:
       - 6379:6379
     volumes:
       - "jpntuto_redis_data:/data"
 volumes:
-    jpntuto_mariadb_data:
-    jpntuto_mariadb_config:
+        #jpntuto_mariadb_data:
+        #jpntuto_mariadb_config:
     jpntuto_mongo_data:
     jpntuto_redis_data:
