@@ -71,12 +71,14 @@ setInterval(function(){
   setTimeout(() => {
     runPost()
   }, ranTime) 
-}, 1000 * 60 * 10)
+}, 1000 * 60 * 90)
 runPost()
 async function runPost(){
   var song = await findSong();
-  if(!song) return;
-
+  if(!song) {
+    console.log(`No Song found for uploading`)
+    return;
+  }
   var newTemplate = template.replace('[[title]]', song.title)
   newTemplate = newTemplate.replace('[[artist]]',song.artist)
   newTemplate = newTemplate.split("[[id]]").join(song.id)
@@ -110,6 +112,7 @@ async function runPost(){
   };
   var postResult = await requestPost(postOption)
   JSONBody = JSON.parse(postResult.body);
+  
   var updateResult = null
   try {
     if(JSONBody.tistory.status == '200'){
@@ -117,6 +120,8 @@ async function runPost(){
       song.tstoryUpload = 'Y' 
       song.tstoryRefId = JSONBody.tistory.postId
       updateResult = await uploadTstoryResult(song)  
+    }else{
+      console.log(JSONBody.tistory.error_message)
     }  
   } catch (error) {
     song.tstoryUpload = 'E'
