@@ -1,6 +1,8 @@
 client/node_modules/
 server/node_modules/
 server/.env
+devTest/kanjiExtractor/node_modules/
+devTest/kanjiExtractor/.env
 devTest/puppeteer/node_modules/
 bot/tstoryBot/node_modules/
 bot/tstoryBot/.env
