@@ -10,6 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     lyrics: DataTypes.TEXT,
     tab: DataTypes.TEXT,
     lyricsKor: DataTypes.TEXT,
+    songLink: DataTypes.STRING,
     rank: DataTypes.STRING,
     createdUserId: DataTypes.INTEGER,
     updatedUserId: DataTypes.INTEGER
