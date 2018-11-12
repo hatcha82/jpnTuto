@@ -39,6 +39,7 @@ server/package-lock.json
 bot/YoubueTagBot/config/config.js
 bot/lyricsCrawBot/config/config.js
 bot/YoubueTagBot/config/config.js
+bot/lyricsCrawBot/.env.js
 bot/lyricsCrawBot/config/config.js
 client/Dockerfile_back
 client/Dockerfile_nginxTest
