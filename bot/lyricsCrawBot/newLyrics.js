@@ -135,11 +135,12 @@ async function getSongLyric(songLink){
   await page.waitForSelector(param.selector);  
   var songLyric = await page.evaluate(param => {      
       var songLyricTag =  document.querySelector(param.selector)
-      return songLyricTag.textContent
+      return songLyricTag.innerHTML
   }, param);  
   var randomTime = Math.floor((Math.random() * 10) + 1);  
   await page.waitFor( 1000 * ( randomTime + 30) );
   page.close()
+  songLyric =songLyric.replace(/<br>/g,'\n')
   return songLyric
 }
 async function getArtistInfo(page){
