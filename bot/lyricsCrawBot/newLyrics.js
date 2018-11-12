@@ -137,7 +137,7 @@ async function getSongLyric(songLink){
       return songLyricTag.textContent
   }, param);  
   var randomTime = Math.floor((Math.random() * 10) + 1);  
-  await page.waitFor( 1000 * ( randomTime + 10) );
+  await page.waitFor( 1000 * ( randomTime + 30) );
   page.close()
   return songLyric
 }
