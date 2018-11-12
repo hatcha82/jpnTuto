@@ -17,8 +17,29 @@ async function init(){
   })
 
   await kuroshiro.init(new KuromojiAnalyzer());
-  browser = await puppeteer.launch({headless: false});
+  browser = await puppeteer.launch({headless: true});
 }
+async function findOrCreateSong(song) {
+  song.createdUserId=3
+  song.updatedUseId=3   
+
+  const [instance, wasCreated] = await Song.findOrCreate({ where: { artist: song.artist , title: song.title} , defaults : song });
+  if(!wasCreated){    
+    instance.artistId = song.artistId
+    instance.songLink = song.songLink
+    await instance.save();
+  }
+
+  return [instance, wasCreated];
+}
+async function findOrCreateArtist(artist) {
+  artist.artist = artist.artistKanjiName
+  artist.createdUserId=3
+  artist.updatedUseId=3   
+  const [instance, wasCreated] = await Artist.findOrCreate({ where: { artist: artist.artistKanjiName} , defaults : artist });
+  return [instance, wasCreated];
+}
+
 
 async function run(){
   await init() 
@@ -33,26 +54,27 @@ async function run(){
       var artistInfoList = await getArtistInfo(page)      
       for(artist of artistInfoList){
         
-        /*
-        artist.artist = artist.artistKanjiName
-        artist.createdUserId=3
-        artist.updatedUseId=3   
-        const [instance, wasCreated] = await Artist.findOrCreate({ where: { artist: artist.artistKanjiName} , defaults : artist });
+        const [artistInstance, artistCreated] = await findOrCreateArtist(artist) 
+        
 
-        console.log(`created result : ${wasCreated}`)
-        console.log(`instance: ${instance}`)        
-        */
-        /*
+        //console.log(`created result : ${artistCreated}`)
+        //console.log(artistInstance)          
         var songList = await getSongsByArtist(artist.artistLink)
         for(song of songList){
-          var songLyric = await getSongLyric(song.songLink)
-          song.artist = artist.artistKanjiName;
-          song.songLyric = songLyric;
-          song.furigana = await kuroshiro.convert(songLyric, {mode: 'furigana', to: 'hiragana', romajiSystem: 'passport'})
-          console.log(song)
+          
+          try {
+            var songLyric = await getSongLyric(song.songLink)
+            song.artist = artist.artistKanjiName;
+            song.lyrics = songLyric;
+            song.tab = await kuroshiro.convert(songLyric, {mode: 'furigana', to: 'hiragana', romajiSystem: 'passport'})
+            song.artistId = artistInstance.id          
+            const [songInstance, songCreated] = await findOrCreateSong(song) 
+            console.log(`[pageNo: ${pageNo}][Created : ${songCreated}] Artist : ${song.artist} Song id : ${songInstance.id} Title : ${song.title}`)
+          } catch (error) {
+            console.log('Error 발생: ')
+            console.log(song)
+          }                    
         }
-        */
-        
       }
 
       page.close();
@@ -85,8 +107,13 @@ async function getSongList(page){
         if(divTag.id){
           var songInfo = {
             title : divTag.querySelector('p.ttl a').textContent,
+            genre : 'J-pop',
+            album :  divTag.querySelector('img') ? divTag.querySelector('img').alt : null,
+            youtubeId : null,
+            tab: null,
+            lyricsKor: null,
             songLink : divTag.querySelector('p.ttl a').href,
-            songImage :  divTag.querySelector('img') ? divTag.querySelector('img').src : null
+            albumImageUrl :  divTag.querySelector('img') ? divTag.querySelector('img').src : null
           }         
           songList.push(songInfo)
         }
