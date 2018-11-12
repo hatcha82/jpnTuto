@@ -64,6 +64,7 @@ async function run(){
           
           try {
             var songLyric = await getSongLyric(song.songLink)
+            songLyric =songLyric.replace(/<br>/g,'\n')
             song.artist = artist.artistKanjiName;
             song.lyrics = songLyric;
             song.tab = await kuroshiro.convert(songLyric, {mode: 'furigana', to: 'hiragana', romajiSystem: 'passport'})
