@@ -41,10 +41,10 @@
           </div>
             
         </v-card-title>
+        <div class="pl-2 pr-2">
+          <Synthesis :text="article.article" class=""/>
+        </div>
         <v-card-actions>
-          <div>
-            <Synthesis :text="article.article" class=""/>
-          </div>
           <div>
             <v-btn v-if="(isUserLoggedIn)" @click="newArticle" flat color="info">New</v-btn>
             <v-btn v-if="(edit)" @click="saveArticle" flat color="info">Save</v-btn>
@@ -105,7 +105,7 @@
         <v-tab          
           ripple
           key="0"
-          v-if="article.translateText"
+        v-if="article.translateText"
         class="white--text" >
         함께보기
         </v-tab>
@@ -251,6 +251,7 @@ export default {
     withTranslate(furigana, traslate){
       var html = ''; 
       var furiganaArray = furigana.split('\n')
+      
       var traslateArray = traslate.split('\n')
       for(let [index,line] of furiganaArray.entries()){
         var trans =  traslateArray[index] ? traslateArray[index] : ''
