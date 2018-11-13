@@ -87,14 +87,27 @@ async function runPost(){
 
 
   var furigana = song.tab;
-  furigana =  furigana.replace(/\n/g,'<br>')
-  newTemplate = newTemplate.replace('[[furigana]]',furigana)
-  
   var lyricsKor = song.lyricsKor;
-  if(lyricsKor){
-    lyricsKor =  lyricsKor.replace(/\n/g,'<br>')
-    newTemplate = newTemplate.replace('[[lyricsKor]]',lyricsKor)
+  var furiganaArray = furigana.split('\n')
+  var TransArray = lyricsKor.split('\n')
+  var html = ''; 
+  for(let [index,line] of furiganaArray.entries()){
+  
+    var trans =  TransArray[index] ? TransArray[index] : ''
+    var furigana = line ? line : ''
+    html += furigana;
+    html += '<br>'
+    html += trans;
+    html += '<br>'
   }
+
+  furigana =  furigana.replace(/\n/g,'<br>')
+  newTemplate = newTemplate.replace('[[furigana]]',html)  
+ 
+  // if(lyricsKor){
+  //   lyricsKor =  lyricsKor.replace(/\n/g,'<br>')
+  //   newTemplate = newTemplate.replace('[[lyricsKor]]',lyricsKor)
+  // }
 
   var api_url = 'https://www.tistory.com/apis/post/write'
   var postOption = {
@@ -112,7 +125,7 @@ async function runPost(){
   };
   var postResult = await requestPost(postOption)
   JSONBody = JSON.parse(postResult.body);
-  
+
   var updateResult = null
   try {
     if(JSONBody.tistory.status == '200'){
@@ -206,7 +219,8 @@ app.get('/tstorylogin', function (req, res) {
     request.post(options, function (error, response, body) {
       if (!error && response.statusCode == 200) {
         res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'});        
-        access_token =body.replace(`access_token=`,'')        
+        access_token =body.replace(`access_token=`,'')   
+        runPost()     
         res.end(body);
       } else {
         res.end(body)
