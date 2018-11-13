@@ -7,8 +7,6 @@
         <v-img height="200" contain position="left" class="ml-3" :lazy-src="article.newsImageUr ? article.newsImageUrl : require('../../assets/noImage.png')"
               :src="article.newsImageUrl ? article.newsImageUrl : require('../../assets/noImage.png')"
               />
-        
-       
         <v-card-title>
           <div v-if="(!edit)" >
             
@@ -108,20 +106,43 @@
           ripple
           key="0"
         class="white--text" >
-        후리가나
+        함께보기
         </v-tab>
         <v-tab          
           ripple
           key="1"
-        class="white--text">
-        원본
+        class="white--text" >
+        후리가나
         </v-tab>
-                <v-tab          
+        <v-tab          
           ripple
           key="2"
         class="white--text">
+        원본
+        </v-tab>
+        <v-tab          
+          ripple
+          key="3"
+        class="white--text">
         번역
         </v-tab>
+        <v-tab-item  >
+          <v-card flat>
+            <v-card-text>
+
+              <div class="furigana headline" v-html="$options.filters.withTranslate(article.titleFurigana, article.titleTranslate)" ></div><br>
+             
+              <div  v-html="$options.filters.withTranslate(article.furigana, article.translateText)" class="furigana">
+              </div>
+              <v-img  :lazy-src="article.newsPubllisherImageUrl ? article.newsPubllisherImageUrl : require('../../assets/noImage.png')"
+              :src="article.newsPubllisherImageUrl ? article.newsPubllisherImageUrl : require('../../assets/noImage.png')"
+              height="30px"
+              contain
+                        /><br>
+              <a :href="article.newsUrl" class="ml-3 caption grey--text lighten-1">원본 : {{ article.newsUrl }} </a><br>              
+            </v-card-text>
+          </v-card>
+        </v-tab-item>        
         <v-tab-item  >
           <v-card flat>
             <v-card-text>
@@ -218,6 +239,29 @@ export default {
       activeTab: 0
     }
   }, 
+  filters:{
+    imageCheck(value){
+      if(value){
+        return value
+      }else{
+        return this.imgNotFound
+      }
+    },
+    withTranslate(furigana, traslate){
+      var html = ''; 
+      var furiganaArray = furigana.split('\n')
+      var traslateArray = traslate.split('\n')
+      for(let [index,line] of furiganaArray.entries()){
+        var trans =  traslateArray[index] ? traslateArray[index] : ''
+        var furiganaText = line ? line : ''
+        html += furiganaText;
+        html += '\n'
+        html +=  `<span style='color:#aaa;font-size:0.9em'>${trans}</span>`;
+        html += '\n'
+      }
+      return html;
+    }
+  },
   methods: {
     newArticle () {
       this.article = {}

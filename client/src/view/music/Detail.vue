@@ -153,23 +153,36 @@
         >
         <v-tab          
           ripple
-          key="0"
+          key="1"
+        class="white--text" >
+        함께 보기
+        </v-tab>
+        <v-tab          
+          ripple
+          key="1"
         class="white--text" >
         후리가나
         </v-tab>
         <v-tab          
           ripple
-          key="1"
+          key="2"
         class="white--text">
         원본
         </v-tab>
         <v-tab          
           ripple
-          key="2"
+          key="3"
         class="white--text">
         번역
         </v-tab>
-        
+        <v-tab-item  >
+          <v-card flat>
+            <v-card-text>
+              <div v-html="$options.filters.withTranslate(song.tab, song.lyricsKor)" class="furigana">
+              </div>
+            </v-card-text>
+          </v-card>
+        </v-tab-item>
         <v-tab-item  >
           <v-card flat>
             <v-card-text>
@@ -286,6 +299,20 @@ export default {
       }else{
         return this.imgNotFound
       }
+    },
+    withTranslate(furigana, traslate){
+      var html = ''; 
+      var furiganaArray = furigana.split('\n')
+      var traslateArray = traslate.split('\n')
+      for(let [index,line] of furiganaArray.entries()){
+        var trans =  traslateArray[index] ? traslateArray[index] : ''
+        var furiganaText = line ? line : ''
+        html += furiganaText;
+        html += '\n'
+        html +=  `<span style='color:#aaa;font-size:0.9em'>${trans}</span>`;
+        html += '\n'
+      }
+      return html;
     }
   },
   methods: {
@@ -304,8 +331,7 @@ export default {
     editMusic () {
        this.edit = true 
     },
-    saveMusic () {
-      
+    saveMusic () {      
       if(this.song.id){
         this.save()  
       } else {
