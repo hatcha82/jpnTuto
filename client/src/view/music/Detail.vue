@@ -37,10 +37,10 @@
           <div style="float:right">
           </div>
         </v-card-title>
-        <v-card-actions>
-          <div>
+        <div  class="pl-2 pr-2">
             <Synthesis :text="song.lyrics" class=""/>
-          </div>
+        </div>
+        <v-card-actions>
           <div class="ml-2">
             <BookmarkBtn :bookmarkObject="song"/>
           </div>
@@ -48,7 +48,6 @@
             <v-btn v-if="(isUserLoggedIn)" @click="newMusic" flat color="info">New</v-btn>
             <v-btn v-if="(edit)" @click="saveMusic" flat color="info">Save</v-btn>
           </div>          
-          
           <div v-if="(isUserLoggedIn && user.id === song.createdUserId ) || (isUserLoggedIn && user.adminFlag === 'Y')" >
           <v-btn v-if="(!edit)" @click="editMusic" flat color="info">Edit</v-btn>
           <v-dialog v-model="deleteDialog" persistent max-width="290">
