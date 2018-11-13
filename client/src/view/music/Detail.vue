@@ -151,7 +151,8 @@
         color="primary"
         slider-color="yellow"
         >
-        <v-tab          
+        <v-tab  
+          v-if="song.lyricsKor"        
           ripple
           key="1"
         class="white--text" >
@@ -175,7 +176,7 @@
         class="white--text">
         번역
         </v-tab>
-        <v-tab-item  >
+        <v-tab-item  v-if="song.lyricsKor">
           <v-card flat>
             <v-card-text>
               <div v-html="$options.filters.withTranslate(song.tab, song.lyricsKor)" class="furigana">

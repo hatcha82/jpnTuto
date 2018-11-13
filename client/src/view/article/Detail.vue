@@ -105,6 +105,7 @@
         <v-tab          
           ripple
           key="0"
+          v-if="article.translateText"
         class="white--text" >
         함께보기
         </v-tab>
@@ -126,7 +127,7 @@
         class="white--text">
         번역
         </v-tab>
-        <v-tab-item  >
+        <v-tab-item  v-if="article.translateText">
           <v-card flat>
             <v-card-text>
 
