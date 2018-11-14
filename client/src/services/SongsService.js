@@ -10,7 +10,7 @@ export default {
     })
   },
   searchItune(keyword){
-    var ituneSearchUrl = `https://itunes.apple.com/search?term=${keyword}&country=JP&entity=musicTrack&lang=ja_jp`
+    var ituneSearchUrl = `https://itunes.apple.com/search?term=${keyword}&country=JP&entity=musicTrack&lang=ja_jp`    
     return Api().get(ituneSearchUrl, {})
   },
   searchImage (keyword,offset) {
