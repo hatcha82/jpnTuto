@@ -1,7 +1,7 @@
 var html = `
 <table>
 	<tr>
-		<td width="50" align="center">순위</td><td">제목-가수</td>
+		<td width="30" align="center">순위</td><td">제목</td>
 	</tr>
 	[trs]
 </table>
@@ -21,7 +21,7 @@ $.map(rowTags,function(obj){
 		var artist = title.split('] ')[0].replace('] ','')
 		var songTitle = title.split('] ')[1]
 		
-        var trTag = `<tr><td align="center">${rank}</td><td><a href="${link}" title="${songTitle} - ${artist}">${songTitle}<br>- ${artist}</a></td><tr>`
+        var trTag = `<tr><td align="center">${rank}</td><td><a href="${link}" title="${songTitle} - ${artist}">${songTitle}</a></td><tr>`
         trs+=trTag
 		count++
     }
