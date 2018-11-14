@@ -444,7 +444,7 @@ export default {
       const songId = this.$route.params.songId
       this.song = (await SongsService.show(songId)).data
       this.artistSongs = (await SongsService.songByArtist(this.song.artist, 10,0)).data;   
-      this.ituneInfo = (await SongsService.searchItune(`${this.song.artist} ${this.song.title}`))      
+      //this.ituneInfo = (await SongsService.searchItune(`${this.song.artist} ${this.song.title}`))      
       this.images = (await SongsService.searchImage(`${this.song.artist} ${this.song.title}`)).data;        
       if (this.isUserLoggedIn) {
         // SongHistoryService.post({
