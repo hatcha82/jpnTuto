@@ -39,7 +39,7 @@
                 contain
               /> -->
                <!-- -->
-                <vuetify-audio style="background:none;color:#eee"  v-if="ituneInfo.data.results.length > 0" :file="ituneInfo.data.results[0].previewUrl" ></vuetify-audio>      
+                <!-- <vuetify-audio style="background:none;color:#eee"  v-if="ituneInfo.data.results.length > 0" :file="ituneInfo.data.results[0].previewUrl" ></vuetify-audio>       -->
                <!-- </v-img> -->
               <!-- <div v-bind:style="{ backgroundImage: 'url(' + song.albumImageUrl ? song.albumImageUrl : require('../../assets/noImage.png') + ')' }">
                  
