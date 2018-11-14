@@ -39,7 +39,7 @@
                 contain
               /> -->
                <!-- -->
-                <!-- <vuetify-audio style="background:none;color:#eee"  v-if="ituneInfo.data.results.length > 0" :file="ituneInfo.data.results[0].previewUrl" ></vuetify-audio>       -->
+                <vuetify-audio style="background:none;color:#eee"  v-if="ituneInfo && ituneInfo.data.results.length > 0" :file="ituneInfo.data.results[0].previewUrl" ></vuetify-audio>      
                <!-- </v-img> -->
               <!-- <div v-bind:style="{ backgroundImage: 'url(' + song.albumImageUrl ? song.albumImageUrl : require('../../assets/noImage.png') + ')' }">
                  
@@ -444,7 +444,12 @@ export default {
       const songId = this.$route.params.songId
       this.song = (await SongsService.show(songId)).data
       this.artistSongs = (await SongsService.songByArtist(this.song.artist, 10,0)).data;   
-      //this.ituneInfo = (await SongsService.searchItune(`${this.song.artist} ${this.song.title}`))      
+      try {
+        this.ituneInfo = (await SongsService.searchItune(`${this.song.artist} ${this.song.title}`))        
+      } catch (error) {
+        this.ituneInfo = null;
+      }
+      
       this.images = (await SongsService.searchImage(`${this.song.artist} ${this.song.title}`)).data;        
       if (this.isUserLoggedIn) {
         // SongHistoryService.post({

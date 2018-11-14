@@ -6,6 +6,7 @@ export default () => {
     baseURL: `http://www.furiganahub.com:8080`, // + process.env.API_URL,
     // baseURL: `http://localhost:8081`, // + process.env.API_URL,
     headers: {
+      'Access-Control-Allow-Origin': '*',
       Authorization: `Bearer ${store.state.token}`
     }
   })
