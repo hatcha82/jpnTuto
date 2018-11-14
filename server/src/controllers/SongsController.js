@@ -133,7 +133,6 @@ module.exports = {
           offset: offset
         })
       }
-      console.log(count)
       res.send({data: songs, count: count})
     } catch (err) {
       res.status(500).send({
@@ -242,8 +241,6 @@ module.exports = {
   async remove (req, res) {
     try {
       const songId = req.params.songId
-      console.log('param:')
-      console.log(req.params)
       const song = await Song.findOne({
         where: {
           id: songId
