@@ -1,45 +1,67 @@
 <template>
 <div id="top">
-<v-container fluid grid-list-md >
+<v-container fluid grid-list-md >    
     <v-layout row wrap>
       <v-flex d-flex xs12 sm12 md12 >
       <v-card>
-        <v-img
+        <v-img        
           class="white--text"
-          height="200px"
+          height="200px"         
           :src="song.albumImageUrl ? song.albumImageUrl : require('../../assets/noImage.png')"
         >
-        
-          <v-container fill-height fluid>
+          <v-container  fill-height  style="background-color:rgba(0, 0, 0, 0.5);">
             <v-layout fill-height>
-              <v-flex xs12 align-start flexbox>
-                  <img 
+              <!-- <v-flex fill-height>
+                <vuetify-audio  v-if="ituneInfo.data.results.length > 0" :file="ituneInfo.data.results[0].previewUrl" ></vuetify-audio>      
+              </v-flex> -->
+              <v-flex v-if="(!edit)"  style="padding:5px 10px">
+                <div>
+                <span class="display-1 font-weight-bold">{{song.title}}</span><br>
+                <span >Aritst : {{song.artist}}</span><br>
+                <span >Album : {{song.album}}</span><br>
+                <span >Genre : {{song.genre}}</span><br>                
+                <!-- previewUrl<pre>{{ituneInfo.data.results[0].previewUrl}}</pre>
+                artistViewUrl<pre>{{ituneInfo.data.results[0].artistViewUrl}}</pre>            
+                artworkUrl100<pre>{{ituneInfo.data.results[0].artworkUrl100}}</pre>
+                <img :src="ituneInfo.data.results[0].artworkUrl100"/>
+                primaryGenreName<pre>{{ituneInfo.data.results[0].primaryGenreName}}</pre> -->
+                <br>
+                <a target="_blank" :href="('https://www.google.co.kr/search?q='+ song.title + ' ' + song.artist)" v-if="!song.albumImageUrl">{{song.title}} {{song.artist}}<br></a>
+                <!-- <span class="grey--text">Image 출처: <a  class="grey--text" :href="song.albumImageUrl">{{song.albumImageUrl}}</a></span> -->
+                </div>
+              </v-flex>
+              <v-flex align-start flexbox>
+                  <!-- <img 
                 :src="song.albumImageUrl ? song.albumImageUrl : require('../../assets/noImage.png')"
                 height="150px;"
-                style="float:right;border:1px solid #eee"
+                style="float:right;border:1px solid #eee;margin-right:0px"
                 :title="song.albumImageUrl"  
                 contain
-              />
+              /> -->
+               <!-- -->
+                <vuetify-audio style="background:none;color:#eee"  v-if="ituneInfo.data.results.length > 0" :file="ituneInfo.data.results[0].previewUrl" ></vuetify-audio>      
+               <!-- </v-img> -->
+              <!-- <div v-bind:style="{ backgroundImage: 'url(' + song.albumImageUrl ? song.albumImageUrl : require('../../assets/noImage.png') + ')' }">
+                 
+              </div> -->
+              <span style="position:absolute;bottom:0px;left:10px;opacity:0.3;font-size:9px" class="white--text">Image 출처: <a  class="white--text" :href="song.albumImageUrl">{{song.albumImageUrl}}</a></span>
+              </v-flex>
+              <v-flex>
+                <v-img        
+                  class="white--text"
+                  height="150px"
+                  style="background-position:right;opacity:0.9"    
+                  contain                       
+                  :src="song.albumImageUrl ? song.albumImageUrl : require('../../assets/noImage.png')"
+                /> 
               </v-flex>
             </v-layout>
           </v-container>
         </v-img>
         <v-card-title>
-          <div v-if="(!edit)" >
-            <span class="headline primary--text">{{song.title}}</span><br>
-            <span >Aritst : {{song.artist}}</span><br>
-            <span >Album : {{song.album}}</span><br>
-            <span >Genre : {{song.genre}}</span><br>
-            <br>
-            <a target="_blank" :href="('https://www.google.co.kr/search?q='+ song.title + ' ' + song.artist)" v-if="!song.albumImageUrl">{{song.title}} {{song.artist}}<br></a>
-            <span class="grey--text">Image 출처: <a  class="grey--text" :href="song.albumImageUrl">{{song.albumImageUrl}}</a></span>
-          </div>
-          <div style="float:right">
-          </div>
+          <v-layout column>                        
+          </v-layout>
         </v-card-title>
-        <div  class="pl-2 pr-2">
-            <Synthesis :text="song.lyrics" class=""/>
-        </div>
         <v-card-actions>
           <div class="ml-2">
             <BookmarkBtn :bookmarkObject="song"/>
@@ -142,7 +164,11 @@
         </div> 
       </v-card>      
     </v-flex>
-    
+    <v-flex d-flex xs12 sm12 md12 >
+      <div  class="pl-2 pr-2">            
+        <Synthesis :text="song.lyrics" class=""/>
+      </div>               
+    </v-flex>
     <v-flex d-flex xs12 sm12 md6 child-flex v-if="(!edit)">
       <v-card>
       <v-tabs
@@ -260,6 +286,7 @@
 </div> 
 </template>
 <script>
+import VuetifyAudio from 'vuetify-audio';
 import {mapState} from 'vuex'
 import RandomMusicList from '@/components/music/RandomMusicList'
 import ArtistMusicList from '@/components/music/ArtistMusicList'
@@ -273,7 +300,8 @@ export default {
     Synthesis,
     ArtistMusicList,
     RandomMusicList,
-    BookmarkBtn
+    BookmarkBtn,
+    VuetifyAudio
   },
   computed: {
     ...mapState([
@@ -283,6 +311,7 @@ export default {
   },
   data () {
     return {
+      ituneInfo: null,
       deleteDialog: false,
       song: null,
       artistSongs: null,
@@ -323,6 +352,7 @@ export default {
       this.song.albumImageUrl = imageItem.link
     },
     newMusic () {
+      this.ituneInfo = {}
       this.song = {},
       this.images = {},
       this.song.genre = 'J-pop'
@@ -413,7 +443,8 @@ export default {
     async search () {
       const songId = this.$route.params.songId
       this.song = (await SongsService.show(songId)).data
-      this.artistSongs = (await SongsService.songByArtist(this.song.artist, 10,0)).data;        
+      this.artistSongs = (await SongsService.songByArtist(this.song.artist, 10,0)).data;   
+      this.ituneInfo = (await SongsService.searchItune(`${this.song.artist} ${this.song.title}`))      
       this.images = (await SongsService.searchImage(`${this.song.artist} ${this.song.title}`)).data;        
       if (this.isUserLoggedIn) {
         // SongHistoryService.post({
@@ -439,7 +470,7 @@ export default {
   },
 }
 </script>
-<style>
+<style scope>
 .furigana{
   line-height:2em;
   font-size:1.2em;
@@ -449,4 +480,31 @@ export default {
   color:red;
   font-size:0.6em;
 }
+.teal--text {
+    caret-color: #fff!important;
+    color: #fff!important;
+}
+#top > div > div.layout.row.wrap > div.flex.d-flex.xs12.sm12.md12 > div > div.v-responsive.v-image.white--text > div.v-responsive__content > div > div > div.flex.fill-height > div > div{
+  background:none;  
+  padding:10px;
+  margin-top:-20px  
+  
+}
+#top > div > div.layout.row.wrap > div.flex.d-flex.xs12.sm12.md12 > div > div.v-card__title > div > div:nth-child(1) > div > div > button{
+  color:#fff;
+}
+#top > div > div.layout.row.wrap > div.flex.d-flex.xs12.sm12.md12 > div > div.v-card__title > div > div:nth-child(1) > div > div > button > div > i{
+  color:#fff;
+}
+
+#top > div > div.layout.row.wrap > div.flex.d-flex.xs12.sm12.md12 > div > div.v-card__title > div > div:nth-child(1) > div > div > div > div > div.v-input__slot{
+  display: none
+}
+#top > div > div.layout.row.wrap > div.flex.d-flex.xs12.sm12.md12 > div > div.v-card__title > div > div:nth-child(1) > div > div > p{
+  display: none
+}
+#top > div > div.layout.row.wrap > div.flex.d-flex.xs12.sm12.md12 > div > div.v-card__title > div > div:nth-child(1) > div{
+  box-shadow: none;
+}
+
 </style>

@@ -1,60 +1,66 @@
 <template>
 <div class="">
-  <v-select 
-    @change="voiceChange"
-    v-model="selectedVoice"             
-    :items="voiceList"
-    item-text="name"
-    item-value="name"
-    label="Voice"
-    persistent-hint
-    return-object
-    single-line
-  ></v-select>
+  <v-layout row>
+    <v-flex xs8 md8 lg8>
+        <v-select 
+          @change="voiceChange"
+          v-model="selectedVoice"             
+          :items="voiceList"
+          item-text="name"
+          item-value="name"
+          label="Voice"
+          persistent-hint
+          return-object
+          single-line          
+        ></v-select>
+    </v-flex>
+    <v-flex class="pt-4" xs1 md1 lg1>
+      <transition name="fade" v-if="isLoading">  
+        <v-btn @click="stop"  color="primary">
+          <scale-loader :loading="isLoading" :size="loadingSize" :color="this.$vuetify.theme.accent"></scale-loader>
+        </v-btn> 
+        <!-- <pulse-loader :loading="isLoading" :color="color" :size="size"></pulse-loader> -->
+      </transition>
+      <transition name="fade" v-if="!isLoading">
+        <v-btn @click="play" color="primary"  >
+            <v-icon v-if="!isLoading">fas fa-volume-up </v-icon>
+            <v-icon v-if="isLoading">fas fa-headphones-alt</v-icon>
+          </v-btn>    
+        <div id="page-wrapper">       
+            <v-layout row justify-center >
+              <v-flex xs12>
+                <v-select 
+                  @change="voiceChange"
+                  v-model="selectedVoice"             
+                  :items="voiceList"
+                  item-text="name"
+                  item-value="name"
+                  label="Voice"
+                  persistent-hint
+                  return-object
+                  single-line
+                ></v-select>
+              </v-flex>
+              <v-flex xs6 style="">
+                <v-slider min="0" max="10" step="1" v-model="volume" label="Volume"></v-slider>
+              </v-flex>
+              <v-flex xs6 style="">
+                <v-slider min="0" max="10" step="1" v-model="rate" label="Rate"></v-slider>
+              </v-flex>           
+              <v-flex xs4>
+                <v-slider min="0" max="10" step="1" thumb-label="always" v-model="pitch" label="Pitch"></v-slider>
+              </v-flex>           
+            </v-layout>        
+          <v-btn @click="play"><v-icon >play_arrow</v-icon></v-btn>
+          <v-btn @click="pause"><v-icon >pause</v-icon></v-btn>      
+          <v-btn @click="reset"><v-icon ></v-icon>Reset</v-btn>    
+        </div>
+      </transition>
+    </v-flex>
+  </v-layout>
+
   
-  <transition name="fade" v-if="isLoading">  
-    <v-btn @click="stop"  color="primary">
-      <scale-loader :loading="isLoading" :size="loadingSize" :color="this.$vuetify.theme.accent"></scale-loader>
-    </v-btn> 
-    <!-- <pulse-loader :loading="isLoading" :color="color" :size="size"></pulse-loader> -->
-  </transition>
-  <transition name="fade" v-if="!isLoading">
-    <v-btn @click="play" color="primary"  >
-        <v-icon v-if="!isLoading">fas fa-volume-up </v-icon>
-        <v-icon v-if="isLoading">fas fa-headphones-alt</v-icon>
-      </v-btn>    
-     <div id="page-wrapper">       
-        <v-layout row justify-center >
-          <v-flex xs12>
-            <v-select 
-              @change="voiceChange"
-              v-model="selectedVoice"             
-              :items="voiceList"
-              item-text="name"
-              item-value="name"
-              label="Voice"
-              persistent-hint
-              return-object
-              single-line
-            ></v-select>
-          </v-flex>
-          <v-flex xs6 style="">
-            <v-slider min="0" max="10" step="1" v-model="volume" label="Volume"></v-slider>
-          </v-flex>
-          <v-flex xs6 style="">
-            <v-slider min="0" max="10" step="1" v-model="rate" label="Rate"></v-slider>
-          </v-flex>           
-          <v-flex xs4>
-            <v-slider min="0" max="10" step="1" thumb-label="always" v-model="pitch" label="Pitch"></v-slider>
-          </v-flex>           
-        </v-layout>
-        
-      <v-btn @click="play"><v-icon >play_arrow</v-icon></v-btn>
-      <v-btn @click="pause"><v-icon >pause</v-icon></v-btn>
-      
-      <v-btn @click="reset"><v-icon ></v-icon>Reset</v-btn>    
-    </div>
-  </transition>
+
 </div>  
 </template>
 

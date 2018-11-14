@@ -106,7 +106,7 @@
   
 </template>
 <script>
-  import SiteService from '@/services/SiteService'
+  //import SiteService from '@/services/SiteService'
   import AuthenticationService from '@/services/AuthenticationService'
   import TwitterUsersList from '@/components/twitter/TwitterUsersList'
   import {mapState} from 'vuex'
