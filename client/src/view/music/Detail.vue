@@ -1,6 +1,6 @@
 <template>
 <div id="top">
-<v-container fluid grid-list-md >    
+<v-container fluid grid-list-md style="padding:5px">    
     <v-layout row wrap>
       <v-flex d-flex xs12 sm12 md12 xl12>
       <v-card>
@@ -39,7 +39,8 @@
                 contain
               /> -->
                <!-- -->
-                <vuetify-audio style="min-width:150px;background:none;color:#eee"  v-if="ituneInfo && ituneInfo.data.results.length > 0" :file="ituneInfo.data.results[0].previewUrl" ></vuetify-audio>      
+
+              <!-- <vuetify-audio style="min-width:150px;background:none;color:#eee"  v-if="ituneInfo && ituneInfo.data && ituneInfo.data.results  && ituneInfo.data.results.length > 0" :file="ituneInfo.data.results[0].previewUrl" ></vuetify-audio>       -->
                <!-- </v-img> -->
               <!-- <div v-bind:style="{ backgroundImage: 'url(' + song.albumImageUrl ? song.albumImageUrl : require('../../assets/noImage.png') + ')' }">
                  
@@ -61,6 +62,10 @@
         <v-card-title>
           <v-layout column>      
             <!-- <pre>{{ituneInfo}}</pre>                   -->
+            <!-- <PreviewMusic v-if="ituneInfo && ituneInfo.data.results.length > 0" :src="ituneInfo.data.results[0].previewUrl"/> -->
+              <!-- <audio controls> 
+                <source v-if="ituneInfo && ituneInfo.data && ituneInfo.data.results  && ituneInfo.data.results.length > 0" :src="ituneInfo.data.results[0].previewUrl">
+              </audio> -->
           </v-layout>
         </v-card-title>
         <v-card-actions>
@@ -295,6 +300,8 @@ import SongsService from '@/services/SongsService'
 import FuriganaService from '@/services/FuriganaService'
 import Synthesis from '@/components/common/Synthesis'
 import BookmarkBtn from '@/components/common/BookmarkBtn'
+import PreviewMusic from '@/components/common/PreviewMusic'
+
 
 export default {
   components: {
@@ -302,6 +309,7 @@ export default {
     ArtistMusicList,
     RandomMusicList,
     BookmarkBtn,
+    PreviewMusic,
     VuetifyAudio
   },
   computed: {
