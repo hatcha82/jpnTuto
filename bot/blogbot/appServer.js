@@ -126,6 +126,7 @@ async function uploadSongBlog(){
       albumImageUrl : {[Op.ne]: null},
       lyricsKor : {[Op.ne]: null}
     },
+    order: sequelize.random(),
     limit: 1,
   })
   if(!song){
