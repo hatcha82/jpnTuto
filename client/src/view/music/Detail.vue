@@ -40,7 +40,7 @@
               /> -->
                <!-- -->
 
-              <vuetify-audio ref="previewMusic" style="min-width:150px;background:none;color:#eee"  v-if="ituneInfo && ituneInfo.data && ituneInfo.data.results  && ituneInfo.data.results.length > 0" :file="ituneInfo.data.results[0].previewUrl" ></vuetify-audio>      
+              <previewMusic ref="previewMusic" style="min-width:150px;background:none;color:#eee"  v-if="ituneInfo && ituneInfo.data && ituneInfo.data.results  && ituneInfo.data.results.length > 0" :file="ituneInfo.data.results[0].previewUrl" />
                <!-- </v-img> -->
               <!-- <div v-bind:style="{ backgroundImage: 'url(' + song.albumImageUrl ? song.albumImageUrl : require('../../assets/noImage.png') + ')' }">
                  
