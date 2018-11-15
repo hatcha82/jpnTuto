@@ -1,15 +1,15 @@
 <template>
 <div id="top">
-<v-container fluid grid-list-md >    
+<v-container fluid grid-list-md style="padding:5px">    
     <v-layout row wrap>
-      <v-flex d-flex xs12 sm12 md12 >
+      <v-flex d-flex xs12 sm12 md12 xl12>
       <v-card>
         <v-img        
           class="white--text"
           height="200px"         
           :src="song.albumImageUrl ? song.albumImageUrl : require('../../assets/noImage.png')"
         >
-          <v-container  fill-height  style="background-color:rgba(0, 0, 0, 0.5);">
+          <v-container style="width:100%;max-width: 100%;background-color:rgba(0, 0, 0, 0.5);">
             <v-layout fill-height>
               <!-- <v-flex fill-height>
                 <vuetify-audio  v-if="ituneInfo.data.results.length > 0" :file="ituneInfo.data.results[0].previewUrl" ></vuetify-audio>      
@@ -39,12 +39,13 @@
                 contain
               /> -->
                <!-- -->
-                <vuetify-audio style="background:none;color:#eee"  v-if="ituneInfo && ituneInfo.data.results.length > 0" :file="ituneInfo.data.results[0].previewUrl" ></vuetify-audio>      
+
+              <previewMusic ref="previewMusic" style="min-width:150px;background:none;color:#eee"  v-if="ituneInfo && ituneInfo.data && ituneInfo.data.results  && ituneInfo.data.results.length > 0" :file="ituneInfo.data.results[0].previewUrl" />
                <!-- </v-img> -->
               <!-- <div v-bind:style="{ backgroundImage: 'url(' + song.albumImageUrl ? song.albumImageUrl : require('../../assets/noImage.png') + ')' }">
                  
               </div> -->
-              <span style="position:absolute;bottom:0px;left:10px;opacity:0.3;font-size:9px" class="white--text">Image 출처: <a  class="white--text" :href="song.albumImageUrl">{{song.albumImageUrl}}</a></span>
+              <span style="position:absolute;bottom:0px;left:10px;opacity:0.3;font-size:9px" class="white--text">Image 출처: {{song.albumImageUrl}}</span>
               </v-flex>
               <v-flex>
                 <v-img        
@@ -59,7 +60,12 @@
           </v-container>
         </v-img>
         <v-card-title>
-          <v-layout column>                        
+          <v-layout column>      
+            <!-- <pre>{{ituneInfo}}</pre>                   -->
+            <!-- <PreviewMusic ref="previewMusic" v-if="ituneInfo && ituneInfo.data.results.length > 0" :src="ituneInfo.data.results[0].previewUrl"/> -->
+              <!-- <audio controls> 
+                <source v-if="ituneInfo && ituneInfo.data && ituneInfo.data.results  && ituneInfo.data.results.length > 0" :src="ituneInfo.data.results[0].previewUrl">
+              </audio> -->
           </v-layout>
         </v-card-title>
         <v-card-actions>
@@ -128,7 +134,7 @@
                 </div>
               </v-card>
               <v-card>                
-                <v-container grid-list-sm fluid v-if="images">
+                <v-container grid-list-sm fluid v-if="images && images.items">
                   <v-layout row wrap>
                     <v-flex
                       v-for="(item, index) in images.items"
@@ -294,6 +300,8 @@ import SongsService from '@/services/SongsService'
 import FuriganaService from '@/services/FuriganaService'
 import Synthesis from '@/components/common/Synthesis'
 import BookmarkBtn from '@/components/common/BookmarkBtn'
+import PreviewMusic from '@/components/common/PreviewMusic'
+
 
 export default {
   components: {
@@ -301,6 +309,7 @@ export default {
     ArtistMusicList,
     RandomMusicList,
     BookmarkBtn,
+    PreviewMusic,
     VuetifyAudio
   },
   computed: {
@@ -443,9 +452,10 @@ export default {
     async search () {
       const songId = this.$route.params.songId
       this.song = (await SongsService.show(songId)).data
-      this.artistSongs = (await SongsService.songByArtist(this.song.artist, 10,0)).data;   
+      this.artistSongs = (await SongsService.songByArtist(this.song.artist, 10,0)).data;            
+
       try {
-        this.ituneInfo = (await SongsService.searchItune(`${this.song.artist} ${this.song.title}`))        
+        this.ituneInfo = (await SongsService.searchItune(`${this.song.artist} ${this.song.title}`))
       } catch (error) {
         this.ituneInfo = null;
       }
@@ -469,6 +479,11 @@ export default {
   },
   watch: {
     '$route' () {
+      
+      try {
+        this.$refs.previewMusic.stop();     
+      } catch (error) {        
+      }
       this.search()
       this.$refs.randomMusic.search();
     }
@@ -501,7 +516,9 @@ export default {
 #top > div > div.layout.row.wrap > div.flex.d-flex.xs12.sm12.md12 > div > div.v-card__title > div > div:nth-child(1) > div > div > button > div > i{
   color:#fff;
 }
-
+#top > div > div.layout.row.wrap > div.flex.d-flex.xs12.sm12.md12.lg12 > div > div.v-responsive.v-image.white--text > div.v-responsive__content > div > div > div.flex.align-start.flexbox > div > div > button:nth-child(3){
+  display: none;
+}
 #top > div > div.layout.row.wrap > div.flex.d-flex.xs12.sm12.md12 > div > div.v-card__title > div > div:nth-child(1) > div > div > div > div > div.v-input__slot{
   display: none
 }
