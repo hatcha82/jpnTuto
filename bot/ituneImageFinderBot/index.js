@@ -88,4 +88,8 @@ async function run(){
   } 
 }
 run()
-setInterval(run, 1000 * 10)
+setInterval(function(){
+  var randomTime = Math.floor(Math.random() * 10)
+  console.log(`start after ${randomTime}sec..`)
+  setTimeout(run, randomTime * 1000) 
+}, 1000 * 10)
