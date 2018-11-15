@@ -2,14 +2,14 @@
 <div id="top">
 <v-container fluid grid-list-md >    
     <v-layout row wrap>
-      <v-flex d-flex xs12 sm12 md12 >
+      <v-flex d-flex xs12 sm12 md12 xl12>
       <v-card>
         <v-img        
           class="white--text"
           height="200px"         
           :src="song.albumImageUrl ? song.albumImageUrl : require('../../assets/noImage.png')"
         >
-          <v-container  fill-height  style="background-color:rgba(0, 0, 0, 0.5);">
+          <v-container style="width:100%;max-width: 100%;background-color:rgba(0, 0, 0, 0.5);">
             <v-layout fill-height>
               <!-- <v-flex fill-height>
                 <vuetify-audio  v-if="ituneInfo.data.results.length > 0" :file="ituneInfo.data.results[0].previewUrl" ></vuetify-audio>      
@@ -39,12 +39,12 @@
                 contain
               /> -->
                <!-- -->
-                <vuetify-audio style="background:none;color:#eee"  v-if="ituneInfo && ituneInfo.data.results.length > 0" :file="ituneInfo.data.results[0].previewUrl" ></vuetify-audio>      
+                <vuetify-audio style="min-width:150px;background:none;color:#eee"  v-if="ituneInfo && ituneInfo.data.results.length > 0" :file="ituneInfo.data.results[0].previewUrl" ></vuetify-audio>      
                <!-- </v-img> -->
               <!-- <div v-bind:style="{ backgroundImage: 'url(' + song.albumImageUrl ? song.albumImageUrl : require('../../assets/noImage.png') + ')' }">
                  
               </div> -->
-              <span style="position:absolute;bottom:0px;left:10px;opacity:0.3;font-size:9px" class="white--text">Image 출처: <a  class="white--text" :href="song.albumImageUrl">{{song.albumImageUrl}}</a></span>
+              <span style="position:absolute;bottom:0px;left:10px;opacity:0.3;font-size:9px" class="white--text">Image 출처: {{song.albumImageUrl}}</span>
               </v-flex>
               <v-flex>
                 <v-img        
@@ -59,7 +59,8 @@
           </v-container>
         </v-img>
         <v-card-title>
-          <v-layout column>                        
+          <v-layout column>      
+            <!-- <pre>{{ituneInfo}}</pre>                   -->
           </v-layout>
         </v-card-title>
         <v-card-actions>
@@ -501,7 +502,9 @@ export default {
 #top > div > div.layout.row.wrap > div.flex.d-flex.xs12.sm12.md12 > div > div.v-card__title > div > div:nth-child(1) > div > div > button > div > i{
   color:#fff;
 }
-
+#top > div > div.layout.row.wrap > div.flex.d-flex.xs12.sm12.md12.lg12 > div > div.v-responsive.v-image.white--text > div.v-responsive__content > div > div > div.flex.align-start.flexbox > div > div > button:nth-child(3){
+  display: none;
+}
 #top > div > div.layout.row.wrap > div.flex.d-flex.xs12.sm12.md12 > div > div.v-card__title > div > div:nth-child(1) > div > div > div > div > div.v-input__slot{
   display: none
 }
