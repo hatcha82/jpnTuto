@@ -40,7 +40,7 @@
               /> -->
                <!-- -->
 
-              <!-- <vuetify-audio style="min-width:150px;background:none;color:#eee"  v-if="ituneInfo && ituneInfo.data && ituneInfo.data.results  && ituneInfo.data.results.length > 0" :file="ituneInfo.data.results[0].previewUrl" ></vuetify-audio>       -->
+              <previewMusic ref="previewMusic" style="min-width:150px;background:none;color:#eee"  v-if="ituneInfo && ituneInfo.data && ituneInfo.data.results  && ituneInfo.data.results.length > 0" :file="ituneInfo.data.results[0].previewUrl" />
                <!-- </v-img> -->
               <!-- <div v-bind:style="{ backgroundImage: 'url(' + song.albumImageUrl ? song.albumImageUrl : require('../../assets/noImage.png') + ')' }">
                  
@@ -62,7 +62,7 @@
         <v-card-title>
           <v-layout column>      
             <!-- <pre>{{ituneInfo}}</pre>                   -->
-            <!-- <PreviewMusic v-if="ituneInfo && ituneInfo.data.results.length > 0" :src="ituneInfo.data.results[0].previewUrl"/> -->
+            <!-- <PreviewMusic ref="previewMusic" v-if="ituneInfo && ituneInfo.data.results.length > 0" :src="ituneInfo.data.results[0].previewUrl"/> -->
               <!-- <audio controls> 
                 <source v-if="ituneInfo && ituneInfo.data && ituneInfo.data.results  && ituneInfo.data.results.length > 0" :src="ituneInfo.data.results[0].previewUrl">
               </audio> -->
@@ -134,7 +134,7 @@
                 </div>
               </v-card>
               <v-card>                
-                <v-container grid-list-sm fluid v-if="images">
+                <v-container grid-list-sm fluid v-if="images && images.items">
                   <v-layout row wrap>
                     <v-flex
                       v-for="(item, index) in images.items"
@@ -452,9 +452,10 @@ export default {
     async search () {
       const songId = this.$route.params.songId
       this.song = (await SongsService.show(songId)).data
-      this.artistSongs = (await SongsService.songByArtist(this.song.artist, 10,0)).data;   
+      this.artistSongs = (await SongsService.songByArtist(this.song.artist, 10,0)).data;            
+
       try {
-        this.ituneInfo = (await SongsService.searchItune(`${this.song.artist} ${this.song.title}`))        
+        this.ituneInfo = (await SongsService.searchItune(`${this.song.artist} ${this.song.title}`))
       } catch (error) {
         this.ituneInfo = null;
       }
@@ -478,6 +479,11 @@ export default {
   },
   watch: {
     '$route' () {
+      
+      try {
+        this.$refs.previewMusic.stop();     
+      } catch (error) {        
+      }
       this.search()
       this.$refs.randomMusic.search();
     }
