@@ -20,6 +20,7 @@ async function run(param){
       artist: {[Op.notLike]: '%\\%%'},
       albumImageUrl: {[Op.ne]: null}
     },
+    order: sequelize.random(),
     limit: 1
   })
   
