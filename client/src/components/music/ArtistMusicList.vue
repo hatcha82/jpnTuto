@@ -3,8 +3,8 @@
   <v-layout wrap>
     <template v-if="songs" v-for="(item) in songs">
       <v-flex x6 sm6 lg6 md6 :key="'artist' + '_' + item.id">
-        <v-card>          
-          <v-list v-if="currentSong.id != item.id">
+        <v-card >           
+          <v-list>
               <router-link  :to="{ name: 'music-detail', params: {  songId: item.id}}" tag="div">
               <v-subheader
                 v-if="item.header"
