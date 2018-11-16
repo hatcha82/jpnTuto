@@ -4,8 +4,8 @@
     <template v-if="songs" v-for="(item) in songs">
       <v-flex x6 sm6 lg6 md6 :key="'artist' + '_' + item.id">
         <v-card>          
-          <v-list>
-              <router-link :to="{ name: 'music-detail', params: {  songId: item.id}}" tag="div">
+          <v-list v-if="currentSong.id != item.id">
+              <router-link  :to="{ name: 'music-detail', params: {  songId: item.id}}" tag="div">
               <v-subheader
                 v-if="item.header"
                 :key="item.header"
@@ -39,7 +39,7 @@
 <script>
 import { mapState } from "vuex";
 export default {
-  props: ["songs"],
+  props: ["songs", "currentSong"],
   components: {},
   data() {
     return {};

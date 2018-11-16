@@ -59,9 +59,13 @@
       <!-- <v-toolbar-title  @click="linkTo('home')" ></v-toolbar-title> -->
       <v-toolbar-title class="mr- align-center" @click="linkTo({linkTo:'Main'})">
         <router-link to="/Main">
-        <img style="height:25px;margin-top:5px" src="../../assets/logoWhiteWide.svg"/>
+        <img src="../../assets/logoBlue.jpg"  height="50px" style="margin-top:4px"/>
+        <!-- <img style="height:25px;margin-top:5px" src="../../assets/logoWhiteWide.svg"/> -->
+        <span class="title white--text  hidden-sm-and-down" 
+       
+        style=" position: absolute;top: 14px;">FuriganaHub</span>
         </router-link>
-        <!-- <span class="title white--text">FuRIGana</span> -->
+
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-title  @click="linkTo({linkTo:'music-list'})" > 
