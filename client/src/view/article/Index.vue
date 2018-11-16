@@ -70,66 +70,61 @@
 </div>    
 </template>
 <script>
-import {mapState} from 'vuex'
-import ArticlesService from '@/services/ArticlesService'
+import { mapState } from "vuex";
+import ArticlesService from "@/services/ArticlesService";
 
 export default {
-  data () {
+  data() {
     return {
       articles: null,
-      busy : false,
+      busy: false,
       count: 0,
       offset: 0
-    }
+    };
   },
-    computed: {
-    ...mapState([
-      'isUserLoggedIn',
-      'user'
-    ])
+  computed: {
+    ...mapState(["isUserLoggedIn", "user"])
   },
-  
-  async mounted () {
+
+  async mounted() {
     try {
-      
       var dataSet = (await ArticlesService.index(null, this.offset)).data;
       this.articles = dataSet.data;
-      this.count = dataSet.count.count
-      this.offset = this.articles.length
+      this.count = dataSet.count.count;
+      this.offset = this.articles.length;
     } catch (error) {
-      alert(error)
+      alert(error);
     }
   },
   methods: {
-    createNewArticle () {
+    createNewArticle() {
       this.$router.push({
-        name: 'article-detail',
-        params: {  newarticle : true}
-      })
+        name: "article-detail",
+        params: { newarticle: true }
+      });
     },
     async loadMore() {
-      this.busy = true
+      this.busy = true;
       try {
-        if(!this.articles){
-          this.busy = false
+        if (!this.articles) {
+          this.busy = false;
           return;
-        } 
-        if(this.offset >= this.count){
-          this.busy = false
+        }
+        if (this.offset >= this.count) {
+          this.busy = false;
           return;
-        } 
+        }
         var dataSet = (await ArticlesService.index(null, this.offset)).data;
         var data = dataSet.data;
-        this.articles = this.articles.concat(data) 
-        this.offset = this.articles.length
-        
+        this.articles = this.articles.concat(data);
+        this.offset = this.articles.length;
+
         //this.articles.push(data)
       } catch (error) {
-        alert(error)
+        alert(error);
       }
-      this.busy = false
-      
+      this.busy = false;
     }
   }
-}
+};
 </script>

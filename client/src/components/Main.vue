@@ -9,7 +9,7 @@
           class="white--text"
         >
           <img src="../assets/logoBlue.jpg" alt="Vuetify.js" height="150" style="border-radius:100px">
-          <h1 class="white--text mb-2 display-1 text-xs-center font-weight-black">FuRigana Hub</h1>
+          <h1 class="white--text mb-2 display-1 text-xs-center font-weight-black">FuriganaHub</h1>
           <div class="subheading mb-3 text-xs-center " >일본어를 쉽게 읽어 봅시다.</div>
           <router-link to="/login">
           <v-btn
@@ -228,12 +228,12 @@
 </template>
 
 <script>
-import RandomMusicList from '@/components/music/RandomMusicList'
-import RecentNews from '@/components/article/RecentNews'
-import EveryDayKanji from '@/components/kanji/EveryDayKanji'
-import TwitterUsersList from '@/components/twitter/TwitterUsersList'
-import {mapState} from 'vuex'
-  
+import RandomMusicList from "@/components/music/RandomMusicList";
+import RecentNews from "@/components/article/RecentNews";
+import EveryDayKanji from "@/components/kanji/EveryDayKanji";
+import TwitterUsersList from "@/components/twitter/TwitterUsersList";
+import { mapState } from "vuex";
+
 export default {
   components: {
     RandomMusicList,
@@ -242,28 +242,24 @@ export default {
     TwitterUsersList
   },
   computed: {
-    ...mapState([
-      'isUserLoggedIn',
-      'user'
-    ])
+    ...mapState(["isUserLoggedIn", "user"])
   },
   props: {
     msg: String
   }
-  
-}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .newsIcon {
-  width:40px
+  width: 40px;
 }
-.parallax-dark{
-  background:#222;
+.parallax-dark {
+  background: #222;
   opacity: 0.7;
-  padding:10px;
-  border-radius: 5px
+  padding: 10px;
+  border-radius: 5px;
 }
 h3 {
   margin: 40px 0 0;

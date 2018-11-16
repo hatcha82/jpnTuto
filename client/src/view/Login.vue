@@ -44,82 +44,79 @@
 </template>
 
 <script>
-import AuthenticationService from '@/services/AuthenticationService'
+import AuthenticationService from "@/services/AuthenticationService";
 
 export default {
-  data () {
+  data() {
     return {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       error: null
-    }
+    };
   },
-  async mounted () {
-    const providerId = this.$route.params.providerId
-    if(providerId){
+  async mounted() {
+    const providerId = this.$route.params.providerId;
+    if (providerId) {
       try {
         const response = await AuthenticationService.oAuthLogin({
           providerId: providerId
-        })
-        console.log(response.data)
-        this.$store.dispatch('setToken', response.data.token)
-        this.$store.dispatch('setUser', response.data.user)
+        });
+        console.log(response.data);
+        this.$store.dispatch("setToken", response.data.token);
+        this.$store.dispatch("setUser", response.data.user);
         this.$router.push({
-          name: 'Main'
-        })
+          name: "Main"
+        });
       } catch (error) {
-        this.error = error.response.data.error
+        this.error = error.response.data.error;
       }
-    }else{
-
+    } else {
     }
   },
   methods: {
-    linkTo (name) {
-        this.$router.push({
-          name: name
-        })
+    linkTo(name) {
+      this.$router.push({
+        name: name
+      });
     },
     // login: function () {
     //   var email =this.email;
     //   var password = this.password
-      
+
     //   this.$auth.login({ email, password }).then(function (res) {
     //     // console.log(res.data.login)
     //   })
     // },
-    async login () {
+    async login() {
       try {
         const response = await AuthenticationService.login({
           email: this.email,
           password: this.password
-        })
-        this.$store.dispatch('setToken', response.data.token)
-        this.$store.dispatch('setUser', response.data.user)
+        });
+        this.$store.dispatch("setToken", response.data.token);
+        this.$store.dispatch("setUser", response.data.user);
         this.$router.push({
-          name: 'Main'
-        })
+          name: "Main"
+        });
       } catch (error) {
-        this.error = error.response.data.error
+        this.error = error.response.data.error;
       }
     },
-    async google () {
+    async google() {
       try {
         const response = await AuthenticationService.login({
           email: this.email,
           password: this.password
-        })
-        this.$store.dispatch('setToken', response.data.token)
-        this.$store.dispatch('setUser', response.data.user)
+        });
+        this.$store.dispatch("setToken", response.data.token);
+        this.$store.dispatch("setUser", response.data.user);
         this.$router.push({
-          name: 'music-list'
-        })
+          name: "music-list"
+        });
       } catch (error) {
-        this.error = error.response.data.error
+        this.error = error.response.data.error;
       }
     }
   }
-}
+};
 </script>
-
-

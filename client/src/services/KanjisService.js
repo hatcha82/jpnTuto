@@ -1,10 +1,9 @@
-import Api from '@/services/Api'
+import Api from "@/services/Api";
 
 export default {
-  randomKanjis () {
-    return Api().get('kanjis/randomKanjis', {
-      params: {
-      }
-    })
+  randomKanjis() {
+    return Api().get("kanjis/randomKanjis", {
+      params: {}
+    });
   }
-}
+};

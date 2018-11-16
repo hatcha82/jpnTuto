@@ -59,9 +59,13 @@
       <!-- <v-toolbar-title  @click="linkTo('home')" ></v-toolbar-title> -->
       <v-toolbar-title class="mr- align-center" @click="linkTo({linkTo:'Main'})">
         <router-link to="/Main">
-        <img style="height:25px;margin-top:5px" src="../../assets/logoWhiteWide.svg"/>
+        <img src="../../assets/logoBlue.jpg"  height="50px" style="margin-top:4px"/>
+        <!-- <img style="height:25px;margin-top:5px" src="../../assets/logoWhiteWide.svg"/> -->
+        <span class="title white--text  hidden-sm-and-down" 
+       
+        style=" position: absolute;top: 14px;">FuriganaHub</span>
         </router-link>
-        <!-- <span class="title white--text">FuRIGana</span> -->
+
       </v-toolbar-title>
       <v-spacer></v-spacer>
       <v-toolbar-title  @click="linkTo({linkTo:'music-list'})" > 
@@ -106,89 +110,105 @@
   
 </template>
 <script>
-  //import SiteService from '@/services/SiteService'
-  import AuthenticationService from '@/services/AuthenticationService'
-  import TwitterUsersList from '@/components/twitter/TwitterUsersList'
-  import {mapState} from 'vuex'
-  // import Ipify from 'ipify'
-  export default {
-    components: {
+//import SiteService from '@/services/SiteService'
+import AuthenticationService from "@/services/AuthenticationService";
+import TwitterUsersList from "@/components/twitter/TwitterUsersList";
+import { mapState } from "vuex";
+// import Ipify from 'ipify'
+export default {
+  components: {
     TwitterUsersList
   },
-  async mounted (){   
-      // var visitorRoute = window.location.pathname
-      // var userAgent = window.clientInformation.userAgent
-      // var userLanguage = window.clientInformation.userLanguage
-      // var ip = 'NO_ACCESS'
-      // try {
-      //   ip = await Ipify()
-      // } catch (error) {}
-
-      // try {
-      //   var visitor = {
-      //     visitorIp: ip , 
-      //     visitorRoute: visitorRoute,
-      //     userAgent: userAgent,
-      //     userLanguage: userLanguage
-      //   }
-      //   SiteService.visiterIncrease(visitor)
-      // } catch (error) {}
+  async mounted() {
+    // var visitorRoute = window.location.pathname
+    // var userAgent = window.clientInformation.userAgent
+    // var userLanguage = window.clientInformation.userLanguage
+    // var ip = 'NO_ACCESS'
+    // try {
+    //   ip = await Ipify()
+    // } catch (error) {}
+    // try {
+    //   var visitor = {
+    //     visitorIp: ip ,
+    //     visitorRoute: visitorRoute,
+    //     userAgent: userAgent,
+    //     userLanguage: userLanguage
+    //   }
+    //   SiteService.visiterIncrease(visitor)
+    // } catch (error) {}
   },
   computed: {
-    ...mapState([
-      'isUserLoggedIn',
-      'user'
-    ])
-  },   
+    ...mapState(["isUserLoggedIn", "user"])
+  },
   data: () => ({
-      drawer: false,
-      items: [
-        // { icon: 'trending_up', text: 'Most Popular' },
-        // { icon: 'subscriptions', text: 'Subscriptions' },
-        { icon: 'fas fa-music', text: 'Music', linkTo: 'music-list', params:{}},
-        { icon: 'far fa-newspaper', text: 'News', linkTo: 'article-list', params:{} },
-        { icon: 'fab fa-twitter', text: 'Twitter', linkTo: 'twitter-list' , params:{}},
-        // { icon: 'fab fa-twitter', text: 'Twitter User List', linkTo: 'twitter-userList' , params:{}},
-        { icon: 'translate', text: 'Kanji', linkTo: 'twitter-list-search' , params:{search : '_FURIGANA'}},
-        // { icon: 'history', text: 'History', linkTo: 'history' },
-        // { icon: 'featured_play_list', text: 'Playlists' },
-        // { icon: 'watch_later', text: 'Watch Later' }
-      ],
-      adminItems: [      
-        { icon: 'fas fa-music', text: 'Music Image Tracker', linkTo: 'music-image-tracker-list', params:{}},                  
-      ],
-      items2: [
-        { picture: 28, text: 'Joseph' },
-        { picture: 38, text: 'Apple' },
-        { picture: 48, text: 'Xbox Ahoy' },
-        { picture: 58, text: 'Nokia' },
-        { picture: 78, text: 'MKBHD' }
-      ]
-    }),
-    props: {
-      source: String
-    },
-    methods: {
-      linkTo (item) {
-        this.$router.push({
-          name: item.linkTo,
-          params: item.params
-        })
+    drawer: false,
+    items: [
+      // { icon: 'trending_up', text: 'Most Popular' },
+      // { icon: 'subscriptions', text: 'Subscriptions' },
+      { icon: "fas fa-music", text: "Music", linkTo: "music-list", params: {} },
+      {
+        icon: "far fa-newspaper",
+        text: "News",
+        linkTo: "article-list",
+        params: {}
       },
-      async logout () {
-        try {
-          const response = await AuthenticationService.logout({})
-          if(response.data.logout === 'ok'){
-            this.$store.dispatch('setToken', null)
-            this.$store.dispatch('setUser', null)
-            this.$router.push({
-              name: 'Main'
-            })
-          }
-        } catch (error) {
-          // this.error = error.response.data.error
+      {
+        icon: "fab fa-twitter",
+        text: "Twitter",
+        linkTo: "twitter-list",
+        params: {}
+      },
+      // { icon: 'fab fa-twitter', text: 'Twitter User List', linkTo: 'twitter-userList' , params:{}},
+      {
+        icon: "translate",
+        text: "Kanji",
+        linkTo: "twitter-list-search",
+        params: { search: "_FURIGANA" }
+      }
+      // { icon: 'history', text: 'History', linkTo: 'history' },
+      // { icon: 'featured_play_list', text: 'Playlists' },
+      // { icon: 'watch_later', text: 'Watch Later' }
+    ],
+    adminItems: [
+      {
+        icon: "fas fa-music",
+        text: "Music Image Tracker",
+        linkTo: "music-image-tracker-list",
+        params: {}
+      }
+    ],
+    items2: [
+      { picture: 28, text: "Joseph" },
+      { picture: 38, text: "Apple" },
+      { picture: 48, text: "Xbox Ahoy" },
+      { picture: 58, text: "Nokia" },
+      { picture: 78, text: "MKBHD" }
+    ]
+  }),
+  props: {
+    source: String
+  },
+  methods: {
+    linkTo(item) {
+      this.$router.push({
+        name: item.linkTo,
+        params: item.params
+      });
+    },
+    async logout() {
+      try {
+        const response = await AuthenticationService.logout({});
+        if (response.data.logout === "ok") {
+          this.$store.dispatch("setToken", null);
+          this.$store.dispatch("setUser", null);
+          this.$router.push({
+            name: "Main"
+          });
         }
+      } catch (error) {
+        // this.error = error.response.data.error
       }
     }
   }
+};
 </script>

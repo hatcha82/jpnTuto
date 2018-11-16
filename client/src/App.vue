@@ -34,39 +34,36 @@
   </v-app>
 </template>
 <script>
-  import Header from '@/components/common/Header.vue'
-  import Footer from '@/components/common/Footer.vue'
- 
-  export default {
-    name: 'app',
-    components: {
-      Header,
-      Footer
+import Header from "@/components/common/Header.vue";
+import Footer from "@/components/common/Footer.vue";
+
+export default {
+  name: "app",
+  components: {
+    Header,
+    Footer
+  },
+  head: {
+    // To use "this" in the component, it is necessary to return the object through a function
+    title: function() {
+      return {
+        inner: this.title,
+        separator: "-",
+        complement: "Learning Japanese"
+      };
     },
-    head: {
-      // To use "this" in the component, it is necessary to return the object through a function
-      title: function () {
-        return {
-          inner: this.title,
-          separator: '-',
-          complement: 'Learning Japanese'
-        }
-      },
-      meta: [      
-      ]
-    },
-    data: () => ({
-      title: 'FuriganaHub'
-    }),
-    props: {
-      source: String
-    },
-    methods: {
-      back() {
-        this.$router.back()
-    },
-   
+    meta: []
+  },
+  data: () => ({
+    title: "FuriganaHub"
+  }),
+  props: {
+    source: String
+  },
+  methods: {
+    back() {
+      this.$router.back();
+    }
   }
-    
-  }
+};
 </script>

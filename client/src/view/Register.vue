@@ -38,34 +38,34 @@
 </template>
 
 <script>
-import AuthenticationService from '@/services/AuthenticationService'
+import AuthenticationService from "@/services/AuthenticationService";
 
 export default {
-  data () {
+  data() {
     return {
-      email: '',
-      password: '',
+      email: "",
+      password: "",
       error: null
-    }
+    };
   },
   methods: {
-    async register () {
+    async register() {
       try {
         const response = await AuthenticationService.register({
           email: this.email,
           password: this.password
-        })
-        this.$store.dispatch('setToken', response.data.token)
-        this.$store.dispatch('setUser', response.data.user)
+        });
+        this.$store.dispatch("setToken", response.data.token);
+        this.$store.dispatch("setUser", response.data.user);
         this.$router.push({
-          name: 'music-list'
-        })
+          name: "music-list"
+        });
       } catch (error) {
-        this.error = error.response.data.error
+        this.error = error.response.data.error;
       }
     }
   }
-}
+};
 </script>
 
 <style>

@@ -19,71 +19,73 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
-import BookmarksService from '@/services/BookmarksService'
+import { mapState } from "vuex";
+import BookmarksService from "@/services/BookmarksService";
 export default {
-  props: [
-    'bookmarkObject'
-  ],
-  data () {
+  props: ["bookmarkObject"],
+  data() {
     return {
-      bookmark:null
-    }
+      bookmark: null
+    };
   },
   computed: {
-    ...mapState([
-      'isUserLoggedIn',
-      'user'
-    ])
+    ...mapState(["isUserLoggedIn", "user"])
   },
-  async mounted () {
-    this.reloadBookmark()
+  async mounted() {
+    this.reloadBookmark();
   },
-  watch:{
-      // '$route' () {
-      //   alert(this.bookmark)
-      //   this.reloadBookmark()
-      // },
-      bookmarkObject: {
-        async handler(){          
-          this.reloadBookmark()
-        },
-        deep:true
+  watch: {
+    // '$route' () {
+    //   alert(this.bookmark)
+    //   this.reloadBookmark()
+    // },
+    bookmarkObject: {
+      async handler() {
+        this.reloadBookmark();
+      },
+      deep: true
     }
   },
   methods: {
-    async reloadBookmark(){
+    async reloadBookmark() {
       if (!this.isUserLoggedIn) {
-        return
+        return;
       }
       try {
         const bookmarks = (await BookmarksService.index({
           songId: this.bookmarkObject.id
-        })).data
+        })).data;
+        if (bookmarks.error) {
+          this.bookmark = null;
+        }
         if (bookmarks.length) {
-          this.bookmark = bookmarks[0]
-        }else{
-          this.bookmark =null
+          this.bookmark = bookmarks[0];
+        } else {
+          this.bookmark = null;
         }
       } catch (err) {
         //alert(err)
       }
     },
-    async setAsBookmark () {
+    async setAsBookmark() {
       try {
         this.bookmark = (await BookmarksService.post({
           songId: this.bookmarkObject.id
-        })).data
-      } catch (err) {console.log(err)}
-    },
-    async unsetAsBookmark () {
-        try {
-          await BookmarksService.delete(this.bookmark.id)
-          this.bookmark = null
-        } catch (err) {console.log(err)}
+        })).data;
+      } catch (err) {
+        console.log(err);
       }
+    },
+    async unsetAsBookmark() {
+      try {
+        await BookmarksService.delete(this.bookmark.id);
+        this.bookmark = null;
+      } catch (err) {
+        console.log(err);
+      }
+    }
   }
-}
+};
 </script>
 
 <style>
