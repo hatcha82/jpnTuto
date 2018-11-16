@@ -10,6 +10,19 @@ const KuromojiAnalyzer = require('kuroshiro-analyzer-kuromoji')
 // })
 const kuroshiro = new Kuroshiro()
 kuroshiro.init(new KuromojiAnalyzer())
+async function requestGet (options) {
+  return new Promise(resolve => {
+    var request = require('request')
+    request.get(options, function (error, response, body) {
+      var returnObj = {
+        error: error,
+        response: response,
+        body: body
+      }
+      resolve(returnObj)
+    })
+  })
+}
 module.exports = {
   async index (req, res) {
     try {
@@ -139,6 +152,27 @@ module.exports = {
         error: err
       })
     }
+  },
+  async iTunesSearch (req, res) {
+    try {
+      var keyword = req.query.search
+      var offset = req.query.offset ? 1 : parseInt(req.query.offset)
+      keyword = encodeURI(keyword) //       
+      var apiUrl = `https://itunes.apple.com/search?term=${keyword}&country=JP&entity=song&lang=ja_jp&limit=${offset}`
+      var reqeustOptions = {
+        url: apiUrl
+      }
+      // console.log(reqeustOptions)      
+      var result = await requestGet(reqeustOptions)
+      var JSONBody = JSON.parse(result.body)
+      res.send(JSONBody)
+    } catch (err) {
+      res.status(500).send({
+        error: err
+      })
+    }
+
+    // return Api().get(ituneSearchUrl, { crossDomain: true})
   },
   async randomeSong (req, res) {
     try {

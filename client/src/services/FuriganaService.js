@@ -1,7 +1,7 @@
-import Api from '@/services/Api'
+import Api from "@/services/Api";
 
 export default {
-  post (text) {
-    return Api().post('furigana', {text: text})
+  post(text) {
+    return Api().post("furigana", { text: text });
   }
-}
+};

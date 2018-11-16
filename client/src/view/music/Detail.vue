@@ -137,8 +137,8 @@
                 <v-container grid-list-sm fluid v-if="images && images.items">
                   <v-layout row wrap>
                     <v-flex
-                      v-for="(item, index) in images.items"
-                      :key="index"
+                      v-for="(item) in images.items"
+                      :key="item.link"
                       xs2
                       d-flex
                     >
@@ -185,7 +185,7 @@
         <v-tab  
           v-if="song.lyricsKor"        
           ripple
-          key="1"
+          key="0"
         class="white--text" >
         함께 보기
         </v-tab>
@@ -292,16 +292,15 @@
 </div> 
 </template>
 <script>
-import VuetifyAudio from 'vuetify-audio';
-import {mapState} from 'vuex'
-import RandomMusicList from '@/components/music/RandomMusicList'
-import ArtistMusicList from '@/components/music/ArtistMusicList'
-import SongsService from '@/services/SongsService'
-import FuriganaService from '@/services/FuriganaService'
-import Synthesis from '@/components/common/Synthesis'
-import BookmarkBtn from '@/components/common/BookmarkBtn'
-import PreviewMusic from '@/components/common/PreviewMusic'
-
+import VuetifyAudio from "vuetify-audio";
+import { mapState } from "vuex";
+import RandomMusicList from "@/components/music/RandomMusicList";
+import ArtistMusicList from "@/components/music/ArtistMusicList";
+import SongsService from "@/services/SongsService";
+import FuriganaService from "@/services/FuriganaService";
+import Synthesis from "@/components/common/Synthesis";
+import BookmarkBtn from "@/components/common/BookmarkBtn";
+import PreviewMusic from "@/components/common/PreviewMusic";
 
 export default {
   components: {
@@ -313,108 +312,101 @@ export default {
     VuetifyAudio
   },
   computed: {
-    ...mapState([
-      'isUserLoggedIn',
-      'user'
-    ])
+    ...mapState(["isUserLoggedIn", "user"])
   },
-  data () {
+  data() {
     return {
       ituneInfo: null,
       deleteDialog: false,
       song: null,
       artistSongs: null,
-      images:null,
+      images: null,
       edit: false,
       activeTab: 0,
-      imgNotFound: require('../../assets/noImage.png')
-    }
-  }, 
-  filters:{
-    imageCheck(value){
-      if(value){
-        return value
-      }else{
-        return this.imgNotFound
+      imgNotFound: require("../../assets/noImage.png")
+    };
+  },
+  filters: {
+    imageCheck(value) {
+      if (value) {
+        return value;
+      } else {
+        return this.imgNotFound;
       }
     },
-    withTranslate(furigana, traslate){
-      var html = ''; 
-      var furiganaArray = furigana.split('\n')
-      var traslateArray = traslate.split('\n')
-      for(let [index,line] of furiganaArray.entries()){
-        var trans =  traslateArray[index] ? traslateArray[index] : ''
-        var furiganaText = line ? line : ''
+    withTranslate(furigana, traslate) {
+      var html = "";
+      var furiganaArray = furigana.split("\n");
+      var traslateArray = traslate.split("\n");
+      for (let [index, line] of furiganaArray.entries()) {
+        var trans = traslateArray[index] ? traslateArray[index] : "";
+        var furiganaText = line ? line : "";
         html += furiganaText;
-        html += '\n'
-        html +=  `<span style='color:#aaa;font-size:0.9em'>${trans}</span>`;
-        html += '\n'
+        html += "\n";
+        html += `<span style='color:#aaa;font-size:0.9em'>${trans}</span>`;
+        html += "\n";
       }
       return html;
     }
   },
   methods: {
     back() {
-      this.$router.back()
+      this.$router.back();
     },
-    setImage(imageItem){
-      this.song.albumImageUrl = imageItem.link
+    setImage(imageItem) {
+      this.song.albumImageUrl = imageItem.link;
     },
-    newMusic () {
-      this.ituneInfo = {}
-      this.song = {},
-      this.images = {},
-      this.song.genre = 'J-pop'
-      this.edit = true 
+    newMusic() {
+      this.ituneInfo = {};
+      (this.song = {}), (this.images = {}), (this.song.genre = "J-pop");
+      this.edit = true;
     },
-    editMusic () {
-       this.edit = true 
+    editMusic() {
+      this.edit = true;
     },
-    saveMusic () {      
-      if(this.song.id){
-        this.save()  
+    saveMusic() {
+      if (this.song.id) {
+        this.save();
       } else {
-        this.create()
+        this.create();
       }
-     
-      this.edit = false 
+
+      this.edit = false;
     },
-    async remove () {
+    async remove() {
       try {
-        await SongsService.delete(this.song)
+        await SongsService.delete(this.song);
         this.$router.push({
-          name: 'music-list'
-        })
+          name: "music-list"
+        });
       } catch (err) {
-        alert(err)
+        alert(err);
       }
     },
-    async create () {
-      this.error = null
-      const areAllFieldsFilledIn = Object
-        .keys(this.song)
-        .every(key => {
-          // if (key !== 'tab') {
-          return this.song[key]
-          // }
-        })
+    async create() {
+      this.error = null;
+      const areAllFieldsFilledIn = Object.keys(this.song).every(key => {
+        // if (key !== 'tab') {
+        return this.song[key];
+        // }
+      });
       if (!areAllFieldsFilledIn) {
-        this.error = 'Please fill in all the required fields.'
-        return
+        this.error = "Please fill in all the required fields.";
+        return;
       }
       try {
-        this.song.createdUserId = this.user.id
-        this.song.updatedUserId = this.user.id
-        await SongsService.post(this.song)
+        this.song.createdUserId = this.user.id;
+        this.song.updatedUserId = this.user.id;
+        await SongsService.post(this.song);
         this.$router.push({
-          name: 'music-list'
-        })
+          name: "music-list"
+        });
       } catch (err) {
-        alert(err)
+        alert(err);
       }
     },
-    async save () {
-      this.error = null
+    async save() {
+      this.error = null;
       // const areAllFieldsFilledIn = Object
       //   .keys(this.song)
       //   .every(key => !!this.song[key])
@@ -422,45 +414,56 @@ export default {
       //   this.error = areAllFieldsFilledIn + 'Please fill in all the required fields..'
       //   return
       // }
-      const songId = this.song.id
+      const songId = this.song.id;
       //
       try {
-        const text = this.song.lyrics
-        this.song.tab = (await FuriganaService.post(text)).data.result.furigana
+        const text = this.song.lyrics;
+        this.song.tab = (await FuriganaService.post(text)).data.result.furigana;
 
-        this.song.createdUserId = this.song.createdUserId ? this.song.createdUserId : this.user.id
-        this.song.updatedUserId = this.user.id
-        await SongsService.put(this.song)
+        this.song.createdUserId = this.song.createdUserId
+          ? this.song.createdUserId
+          : this.user.id;
+        this.song.updatedUserId = this.user.id;
+        await SongsService.put(this.song);
         this.$router.push({
-          name: 'music-detail',
+          name: "music-detail",
           params: {
             songId: songId
           }
-        })
+        });
       } catch (err) {
-        alert(err)
+        alert(err);
       }
     },
-    async convert () {
+    async convert() {
       try {
-        const text = this.song.lyrics
-        this.song.tab = (await FuriganaService.post(text)).data.result.furigana
+        const text = this.song.lyrics;
+        this.song.tab = (await FuriganaService.post(text)).data.result.furigana;
       } catch (err) {
-        alert(err)
+        alert(err);
       }
     },
-    async search () {
-      const songId = this.$route.params.songId
-      this.song = (await SongsService.show(songId)).data
-      this.artistSongs = (await SongsService.songByArtist(this.song.artist, 10,0)).data;            
+    async search() {
+      const songId = this.$route.params.songId;
+      this.song = (await SongsService.show(songId)).data;
+      this.artistSongs = (await SongsService.songByArtist(
+        this.song.artist,
+        10,
+        0
+      )).data;
 
       try {
-        this.ituneInfo = (await SongsService.searchItune(`${this.song.artist} ${this.song.title}`))
+        this.ituneInfo = await SongsService.searchItune(
+          `${this.song.artist} ${this.song.title}`,
+          1
+        );
       } catch (error) {
         this.ituneInfo = null;
       }
-      
-      this.images = (await SongsService.searchImage(`${this.song.artist} ${this.song.title}`)).data;        
+
+      this.images = (await SongsService.searchImage(
+        `${this.song.artist} ${this.song.title}`
+      )).data;
       if (this.isUserLoggedIn) {
         // SongHistoryService.post({
         //   songId: songId
@@ -468,65 +471,135 @@ export default {
       }
     }
   },
-  async mounted () {
-    const newSong = this.$route.params.newSong
-    if(newSong){
-      this.newMusic()
-    } else{
-      this.search()  
+  async mounted() {
+    const newSong = this.$route.params.newSong;
+    if (newSong) {
+      this.newMusic();
+    } else {
+      this.search();
     }
-    
   },
   watch: {
-    '$route' () {
-      
+    $route() {
       try {
-        this.$refs.previewMusic.stop();     
-      } catch (error) {        
-      }
-      this.search()
+        this.$refs.previewMusic.stop();
+      } catch (error) {}
+      this.search();
       this.$refs.randomMusic.search();
     }
-  },
-}
+  }
+};
 </script>
 <style scope>
-.furigana{
-  line-height:2em;
-  font-size:1.2em;
+.furigana {
+  line-height: 2em;
+  font-size: 1.2em;
   white-space: pre-line;
 }
-.furigana rt{
-  color:red;
-  font-size:0.6em;
+.furigana rt {
+  color: red;
+  font-size: 0.6em;
 }
 .teal--text {
-    caret-color: #fff!important;
-    color: #fff!important;
+  caret-color: #fff !important;
+  color: #fff !important;
 }
-#top > div > div.layout.row.wrap > div.flex.d-flex.xs12.sm12.md12 > div > div.v-responsive.v-image.white--text > div.v-responsive__content > div > div > div.flex.fill-height > div > div{
-  background:none;  
-  padding:10px;
-  margin-top:-20px  
-  
+#top
+  > div
+  > div.layout.row.wrap
+  > div.flex.d-flex.xs12.sm12.md12
+  > div
+  > div.v-responsive.v-image.white--text
+  > div.v-responsive__content
+  > div
+  > div
+  > div.flex.fill-height
+  > div
+  > div {
+  background: none;
+  padding: 10px;
+  margin-top: -20px;
 }
-#top > div > div.layout.row.wrap > div.flex.d-flex.xs12.sm12.md12 > div > div.v-card__title > div > div:nth-child(1) > div > div > button{
-  color:#fff;
+#top
+  > div
+  > div.layout.row.wrap
+  > div.flex.d-flex.xs12.sm12.md12
+  > div
+  > div.v-card__title
+  > div
+  > div:nth-child(1)
+  > div
+  > div
+  > button {
+  color: #fff;
 }
-#top > div > div.layout.row.wrap > div.flex.d-flex.xs12.sm12.md12 > div > div.v-card__title > div > div:nth-child(1) > div > div > button > div > i{
-  color:#fff;
+#top
+  > div
+  > div.layout.row.wrap
+  > div.flex.d-flex.xs12.sm12.md12
+  > div
+  > div.v-card__title
+  > div
+  > div:nth-child(1)
+  > div
+  > div
+  > button
+  > div
+  > i {
+  color: #fff;
 }
-#top > div > div.layout.row.wrap > div.flex.d-flex.xs12.sm12.md12.lg12 > div > div.v-responsive.v-image.white--text > div.v-responsive__content > div > div > div.flex.align-start.flexbox > div > div > button:nth-child(3){
+#top
+  > div
+  > div.layout.row.wrap
+  > div.flex.d-flex.xs12.sm12.md12.lg12
+  > div
+  > div.v-responsive.v-image.white--text
+  > div.v-responsive__content
+  > div
+  > div
+  > div.flex.align-start.flexbox
+  > div
+  > div
+  > button:nth-child(3) {
   display: none;
 }
-#top > div > div.layout.row.wrap > div.flex.d-flex.xs12.sm12.md12 > div > div.v-card__title > div > div:nth-child(1) > div > div > div > div > div.v-input__slot{
-  display: none
+#top
+  > div
+  > div.layout.row.wrap
+  > div.flex.d-flex.xs12.sm12.md12
+  > div
+  > div.v-card__title
+  > div
+  > div:nth-child(1)
+  > div
+  > div
+  > div
+  > div
+  > div.v-input__slot {
+  display: none;
 }
-#top > div > div.layout.row.wrap > div.flex.d-flex.xs12.sm12.md12 > div > div.v-card__title > div > div:nth-child(1) > div > div > p{
-  display: none
+#top
+  > div
+  > div.layout.row.wrap
+  > div.flex.d-flex.xs12.sm12.md12
+  > div
+  > div.v-card__title
+  > div
+  > div:nth-child(1)
+  > div
+  > div
+  > p {
+  display: none;
 }
-#top > div > div.layout.row.wrap > div.flex.d-flex.xs12.sm12.md12 > div > div.v-card__title > div > div:nth-child(1) > div{
+#top
+  > div
+  > div.layout.row.wrap
+  > div.flex.d-flex.xs12.sm12.md12
+  > div
+  > div.v-card__title
+  > div
+  > div:nth-child(1)
+  > div {
   box-shadow: none;
 }
-
 </style>

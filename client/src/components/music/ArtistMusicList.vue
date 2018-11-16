@@ -1,11 +1,11 @@
 <template>
 <div>  
   <v-layout wrap>
-    <template v-if="songs" v-for="(item, index) in songs">
-      <v-flex x6 sm6 lg6 md6>
+    <template v-if="songs" v-for="(item) in songs">
+      <v-flex x6 sm6 lg6 md6 :key="'artist' + '_' + item.id">
         <v-card>          
           <v-list>
-              <router-link  v-bind:key="item.id" :to="{ name: 'music-detail', params: {  songId: item.id}}" tag="div">
+              <router-link :to="{ name: 'music-detail', params: {  songId: item.id}}" tag="div">
               <v-subheader
                 v-if="item.header"
                 :key="item.header"
@@ -37,41 +37,30 @@
   </div>     
 </template>
 <script>
-import {mapState} from 'vuex'
-import SongsService from '@/services/SongsService'
+import { mapState } from "vuex";
 export default {
-  props: [
-    'songs'
-  ],
-  components: {
+  props: ["songs"],
+  components: {},
+  data() {
+    return {};
   },
-  data () {
-     return {
-     }
+  computed: {
+    ...mapState(["isUserLoggedIn", "user"])
   },
-    computed: {
-    ...mapState([
-      'isUserLoggedIn',
-      'user'
-    ])
-  },
-  watch: {
-  },
-  
-  async mounted () {   
-  },
+  watch: {},
+
+  async mounted() {},
   filters: {
-    imageInfo(item){
+    imageInfo(item) {
       return `
 Title: ${item.title}
 Artist: ${item.artist}
 Album: ${item.album}
 Album Image Source:
 ${item.albumImageUrl}
-      `
+      `;
     }
   },
-  methods: {    
-  }
-}
+  methods: {}
+};
 </script>

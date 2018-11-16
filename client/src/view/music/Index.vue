@@ -63,107 +63,101 @@
 </div>    
 </template>
 <script>
-import {mapState} from 'vuex'
-import SongsService from '@/services/SongsService'
-import _ from 'lodash'
+import { mapState } from "vuex";
+import SongsService from "@/services/SongsService";
+import _ from "lodash";
 export default {
-  components: {
-  },
-  data () {
+  components: {},
+  data() {
     return {
-      searchKeyword : '',
+      searchKeyword: "",
       songs: null,
-      busy : false,
+      busy: false,
       count: 0,
       offset: 0
-    }
+    };
   },
-    computed: {
-    ...mapState([
-      'isUserLoggedIn',
-      'user'
-    ])
+  computed: {
+    ...mapState(["isUserLoggedIn", "user"])
   },
   watch: {
-    searchKeyword: _.debounce(async function () {
-      var search = null 
-      if (this.searchKeyword === '') {
-        search = null
-        this.offset = 0
-      }else{
-        search = this.searchKeyword
-        this.offset = 0
+    searchKeyword: _.debounce(async function() {
+      var search = null;
+      if (this.searchKeyword === "") {
+        search = null;
+        this.offset = 0;
+      } else {
+        search = this.searchKeyword;
+        this.offset = 0;
       }
 
       try {
         var dataSet = (await SongsService.index(search, this.offset)).data;
         this.songs = dataSet.data;
-        this.count = dataSet.count.count
-        this.offset = this.songs.length
+        this.count = dataSet.count.count;
+        this.offset = this.songs.length;
       } catch (error) {
-        alert(error)
+        alert(error);
       }
-      
     }, 700)
   },
-  async mounted () {
+  async mounted() {
     try {
       var dataSet = (await SongsService.index(null, this.offset)).data;
       this.songs = dataSet.data;
-      this.count = dataSet.count.count
-      this.offset = this.songs.length
+      this.count = dataSet.count.count;
+      this.offset = this.songs.length;
     } catch (error) {
-      alert(error)
+      alert(error);
     }
   },
   filters: {
-    imageInfo(item){
+    imageInfo(item) {
       return `
 Title: ${item.title}
 Artist: ${item.artist}
 Album: ${item.album}
 Album Image Source:
 ${item.albumImageUrl}
-      `
+      `;
     }
   },
   methods: {
-    createNewSong () {
+    createNewSong() {
       this.$router.push({
-        name: 'music-detail',
-        params: {  newSong : true}
-      })
+        name: "music-detail",
+        params: { newSong: true }
+      });
     },
     async loadMore() {
-      this.busy = true
+      this.busy = true;
       try {
-        if(!this.songs){
-          this.busy = false
+        if (!this.songs) {
+          this.busy = false;
           return;
-        } 
-        if(this.offset >= this.count){
-          this.busy = false
+        }
+        if (this.offset >= this.count) {
+          this.busy = false;
           return;
-        } 
-        var search
-        if (this.searchKeyword === '') {
-          search = null
-        }else{
-          search = this.searchKeyword
+        }
+        var search;
+        if (this.searchKeyword === "") {
+          search = null;
+        } else {
+          search = this.searchKeyword;
         }
 
         var dataSet = (await SongsService.index(search, this.offset)).data;
         var data = dataSet.data;
-        this.songs = this.songs.concat(data) 
-        this.offset = this.songs.length
-        
+        this.songs = this.songs.concat(data);
+        this.offset = this.songs.length;
+
         //this.songs.push(data)
       } catch (error) {
-        alert(error)
+        alert(error);
       }
-      this.busy = false
-      
+      this.busy = false;
     }
   }
-}
+};
 </script>

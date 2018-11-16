@@ -215,11 +215,11 @@
 </div> 
 </template>
 <script>
-import {mapState} from 'vuex'
-import ArticlesService from '@/services/ArticlesService'
-import FuriganaService from '@/services/FuriganaService'
-import Synthesis from '@/components/common/Synthesis'
-import RecentNews from '@/components/article/RecentNews'
+import { mapState } from "vuex";
+import ArticlesService from "@/services/ArticlesService";
+import FuriganaService from "@/services/FuriganaService";
+import Synthesis from "@/components/common/Synthesis";
+import RecentNews from "@/components/article/RecentNews";
 
 export default {
   components: {
@@ -227,99 +227,94 @@ export default {
     RecentNews
   },
   computed: {
-    ...mapState([
-      'isUserLoggedIn',
-      'user'
-    ])
+    ...mapState(["isUserLoggedIn", "user"])
   },
-  data () {
+  data() {
     return {
       deleteDialog: false,
       article: null,
       edit: false,
       activeTab: 0
-    }
-  }, 
-  filters:{
-    imageCheck(value){
-      if(value){
-        return value
-      }else{
-        return this.imgNotFound
+    };
+  },
+  filters: {
+    imageCheck(value) {
+      if (value) {
+        return value;
+      } else {
+        return this.imgNotFound;
       }
     },
-    withTranslate(furigana, traslate){
-      var html = ''; 
-      var furiganaArray = furigana.split('\n')
-      
-      var traslateArray = traslate.split('\n')
-      for(let [index,line] of furiganaArray.entries()){
-        var trans =  traslateArray[index] ? traslateArray[index] : ''
-        var furiganaText = line ? line : ''
+    withTranslate(furigana, traslate) {
+      var html = "";
+      var furiganaArray = furigana.split("\n");
+
+      var traslateArray = traslate.split("\n");
+      for (let [index, line] of furiganaArray.entries()) {
+        var trans = traslateArray[index] ? traslateArray[index] : "";
+        var furiganaText = line ? line : "";
         html += furiganaText;
-        html += '\n'
-        html +=  `<span style='color:#aaa;font-size:0.9em'>${trans}</span>`;
-        html += '\n'
+        html += "\n";
+        html += `<span style='color:#aaa;font-size:0.9em'>${trans}</span>`;
+        html += "\n";
       }
       return html;
     }
   },
   methods: {
-    newArticle () {
-      this.article = {}
-      this.article.type = 'NEWS'
-      this.article.newsImageUrl = 'https://s.yimg.jp/c/logo/f/2.0/news_r_34_2x.png'
-      this.edit = true 
+    newArticle() {
+      this.article = {};
+      this.article.type = "NEWS";
+      this.article.newsImageUrl =
+        "https://s.yimg.jp/c/logo/f/2.0/news_r_34_2x.png";
+      this.edit = true;
     },
-    editArticle () {
-       this.edit = true 
+    editArticle() {
+      this.edit = true;
     },
-    saveArticle () {
-      
-      if(this.article.id){
-        this.save()  
+    saveArticle() {
+      if (this.article.id) {
+        this.save();
       } else {
-        this.create()
+        this.create();
       }
-     
-      this.edit = false 
+
+      this.edit = false;
     },
-    async remove () {
+    async remove() {
       try {
-        await ArticlesService.delete(this.article)
+        await ArticlesService.delete(this.article);
         this.$router.push({
-          name: 'article-list'
-        })
+          name: "article-list"
+        });
       } catch (err) {
-        alert(err)
+        alert(err);
       }
     },
-    async create () {
-      this.error = null
-      const areAllFieldsFilledIn = Object
-        .keys(this.article)
-        .every(key => {
-          // if (key !== 'tab') {
-          return this.article[key]
-          // }
-        })
+    async create() {
+      this.error = null;
+      const areAllFieldsFilledIn = Object.keys(this.article).every(key => {
+        // if (key !== 'tab') {
+        return this.article[key];
+        // }
+      });
       if (!areAllFieldsFilledIn) {
-        this.error = 'Please fill in all the required fields.'
-        return
+        this.error = "Please fill in all the required fields.";
+        return;
       }
       try {
-        this.article.createdUserId = this.user.id
-        this.article.updatedUserId = this.user.id
-        await ArticlesService.post(this.article)
+        this.article.createdUserId = this.user.id;
+        this.article.updatedUserId = this.user.id;
+        await ArticlesService.post(this.article);
         this.$router.push({
-          name: 'article-list'
-        })
+          name: "article-list"
+        });
       } catch (err) {
-        alert(err)
+        alert(err);
       }
     },
-    async save () {
-      this.error = null
+    async save() {
+      this.error = null;
       // const areAllFieldsFilledIn = Object
       //   .keys(this.article)
       //   .every(key => !!this.article[key])
@@ -327,36 +322,42 @@ export default {
       //   this.error = areAllFieldsFilledIn + 'Please fill in all the required fields..'
       //   return
       // }
-      const articleId = this.article.id
+      const articleId = this.article.id;
       //
       try {
-        const text = this.article.lyrics
-        this.article.tab = (await FuriganaService.post(text)).data.result.furigana
+        const text = this.article.lyrics;
+        this.article.tab = (await FuriganaService.post(
+          text
+        )).data.result.furigana;
 
-        this.article.createdUserId = this.article.createdUserId ? this.article.createdUserId : this.user.id
-        this.article.updatedUserId = this.user.id
-        await ArticlesService.put(this.article)
+        this.article.createdUserId = this.article.createdUserId
+          ? this.article.createdUserId
+          : this.user.id;
+        this.article.updatedUserId = this.user.id;
+        await ArticlesService.put(this.article);
         this.$router.push({
-          name: 'music-detail',
+          name: "music-detail",
           params: {
             articleId: articleId
           }
-        })
+        });
       } catch (err) {
-        alert(err)
+        alert(err);
       }
     },
-    async convert () {
+    async convert() {
       try {
-        const text = this.article.article
-        this.article.furigana = (await FuriganaService.post(text)).data.result.furigana
+        const text = this.article.article;
+        this.article.furigana = (await FuriganaService.post(
+          text
+        )).data.result.furigana;
       } catch (err) {
-        alert(err)
+        alert(err);
       }
     },
-    async search () {
-      const articleId = this.$route.params.articleId
-      this.article = (await ArticlesService.show(articleId)).data
+    async search() {
+      const articleId = this.$route.params.articleId;
+      this.article = (await ArticlesService.show(articleId)).data;
       // if (this.isUserLoggedIn) {
       //   articleHistoryService.post({
       //     articleId: articleId
@@ -364,30 +365,30 @@ export default {
       // }
     }
   },
-  async mounted () {
-    const newarticle = this.$route.params.newarticle
-    if(newarticle){
-      this.newArticle()
-    } else{
-      this.search()  
+  async mounted() {
+    const newarticle = this.$route.params.newarticle;
+    if (newarticle) {
+      this.newArticle();
+    } else {
+      this.search();
     }
-    
   },
   watch: {
-    '$route' () { // (to, from) EsLint warning
-      this.search()
+    $route() {
+      // (to, from) EsLint warning
+      this.search();
     }
-  },
-}
+  }
+};
 </script>
 <style>
-.furigana{
-  line-height:2em;
-  font-size:1.2em;
+.furigana {
+  line-height: 2em;
+  font-size: 1.2em;
   white-space: pre-line;
 }
-.furigana rt{
-  color:red;
-  font-size:0.6em;
+.furigana rt {
+  color: red;
+  font-size: 0.6em;
 }
 </style>
