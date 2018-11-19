@@ -1,5 +1,6 @@
 const AuthenticationController = require('./controllers/AuthenticationController')
 const AuthenticationControllerPolicy = require('./policies/AuthenticationControllerPolicy')
+const HomeController = require('./controllers/HomeController')
 const ImageController = require('./controllers/ImageController')
 const VisitorContoller = require('./controllers/VisitorContoller')
 const ArticleController = require('./controllers/ArticleController')
@@ -28,6 +29,8 @@ module.exports = (app) => {
   app.get('/auth/naver', passport.authenticate('naver', {
     scope: ['profile', 'email', 'nickname']
   }))
+
+  app.get('/home', HomeController.index)
   app.post('/visitor/increase', VisitorContoller.increase)
   app.post('/register',
     AuthenticationControllerPolicy.register,
@@ -59,6 +62,7 @@ module.exports = (app) => {
     isAuthenticated,
     ArticleController.remove)
 
+      
   app.get('/twitters/userTimeLine', TwitterController.userTimeLine)
   app.get('/twitters/homeTimeline', TwitterController.homeTimeline)
   app.get('/twitters/twitterUserList', TwitterController.twitterUserList)
