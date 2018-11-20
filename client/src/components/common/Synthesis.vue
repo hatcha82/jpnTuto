@@ -65,105 +65,101 @@
 </template>
 
 <script>
-import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
-import ScaleLoader from 'vue-spinner/src/ScaleLoader.vue'
+import PulseLoader from "vue-spinner/src/PulseLoader.vue";
+import ScaleLoader from "vue-spinner/src/ScaleLoader.vue";
 export default {
-  props: [
-    'text'
-  ],
-  data () {
+  props: ["text"],
+  data() {
     return {
       select: null,
       isLoading: false,
-      loadingSize : '20px',
-      name: '',
+      loadingSize: "20px",
+      name: "",
       selectedVoice: null,
       rate: 5,
       volume: 5,
       pitch: 5,
       synth: window.speechSynthesis,
-      voiceList: window.speechSynthesis.getVoices()  ,
+      voiceList: window.speechSynthesis.getVoices(),
       greetingSpeech: new window.SpeechSynthesisUtterance()
-    }
+    };
   },
 
   components: {
     PulseLoader,
     ScaleLoader
   },
-  mounted () {
+  mounted() {
     // wait for voices to load
     // I can't get FF to work without calling this first
-    // Chrome works on the onvoiceschanged function   
+    // Chrome works on the onvoiceschanged function
     setTimeout(() => {
-        this.isLoading = false
-        this.voiceList = this.synth.getVoices().filter(function (obj) {
-            if (obj.lang === 'ja-JP') return true
-        })
-        this.selectedVoice = this.voiceList[0]
-    }, 2000)
+      this.isLoading = false;
+      this.voiceList = this.synth.getVoices().filter(function(obj) {
+        if (obj.lang === "ja-JP") return true;
+      });
+      this.selectedVoice = this.voiceList[0];
+    }, 2000);
     if (this.voiceList.length) {
-      this.isLoading = false
+      this.isLoading = false;
     }
     this.synth.onvoiceschanged = () => {
-      this.synth.cancel()
+      this.synth.cancel();
       // give a bit of delay to show loading screen
       // just for the sake of it, I suppose. Not the best reason
-      
-    }
-    this.listenForSpeechEvents()
+    };
+    this.listenForSpeechEvents();
   },
   methods: {
     /**
      * React to speech events
      */
-    listenForSpeechEvents () {
+    listenForSpeechEvents() {
       this.greetingSpeech.onstart = () => {
-       this.isLoading = true
-      }
+        this.isLoading = true;
+      };
       this.greetingSpeech.onend = () => {
-       this.isLoading = false
-      }
+        this.isLoading = false;
+      };
     },
     /**
      * Shout at the user
      */
-    voiceChange () {
-    },
-    play () {
-      // it should be 'craic', but it doesn't sound right      
-      this.synth.cancel()      
+    voiceChange() {},
+    play() {
+      // it should be 'craic', but it doesn't sound right
+      this.synth.cancel();
       if (this.synth.paused) {
-        this.synth.resume()
+        this.synth.resume();
       } else {
-        this.greetingSpeech.text = this.text
-        this.greetingSpeech.rate = this.rate / 5
-        this.greetingSpeech.volume = this.volume / 5
-        this.greetingSpeech.pitch = this.pitch / 5
-        this.greetingSpeech.voice = this.selectedVoice
-        this.synth.speak(this.greetingSpeech)
+        this.greetingSpeech.text = this.text;
+        this.greetingSpeech.rate = this.rate / 5;
+        this.greetingSpeech.volume = this.volume / 5;
+        this.greetingSpeech.pitch = this.pitch / 5;
+        this.greetingSpeech.voice = this.selectedVoice;
+        this.synth.speak(this.greetingSpeech);
       }
     },
-    pause () {
-      this.synth.pause()
+    pause() {
+      this.synth.pause();
     },
-    stop () {
-      this.synth.cancel()
+    stop() {
+      this.synth.cancel();
     },
-    reset () {
-      this.rate = 5
-      this.volume = 5
-      this.pitch = 5
+    reset() {
+      this.rate = 5;
+      this.volume = 5;
+      this.pitch = 5;
     },
-    langChange () {
-      this.synth.cancel()
+    langChange() {
+      this.synth.cancel();
     }
   }
-}
+};
 </script>
 
 <style scope>
-#page-wrapper{
-  border-radius: 10px
+#page-wrapper {
+  border-radius: 10px;
 }
 </style>

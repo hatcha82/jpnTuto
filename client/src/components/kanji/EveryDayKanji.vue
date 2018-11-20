@@ -71,30 +71,26 @@
 //   </v-layout>
 // </template>
 <script>
-import {mapState} from 'vuex'
-import KanjisService from '@/services/KanjisService'
+import { mapState } from "vuex";
+import KanjisService from "@/services/KanjisService";
 
 export default {
-  data () {
+  data() {
     return {
-      kanjis: null,
-    }
+      kanjis: null
+    };
   },
-    computed: {
-    ...mapState([
-      'isUserLoggedIn',
-      'user'
-    ])
+  computed: {
+    ...mapState(["isUserLoggedIn", "user"])
   },
-  async mounted () {
+  async mounted() {
     try {
       var dataSet = (await KanjisService.randomKanjis()).data;
       this.kanjis = dataSet.data;
     } catch (error) {
-      alert(error)
+      alert(error);
     }
   },
-  methods: {
-  }
-}
+  methods: {}
+};
 </script>

@@ -164,15 +164,15 @@
 </div>    
 </template>
 <script>
-import {mapState} from 'vuex'
-import SongsService from '@/services/SongsService'
-import TwitterService from '@/services/TwitterService'
-import _ from 'lodash'
-import myVideo from 'vue-video'
-import 'video.js/dist/video-js.css'
-import Synthesis from '@/components/common/Synthesis'
+import { mapState } from "vuex";
+import SongsService from "@/services/SongsService";
+import TwitterService from "@/services/TwitterService";
+import _ from "lodash";
+import myVideo from "vue-video";
+import "video.js/dist/video-js.css";
+import Synthesis from "@/components/common/Synthesis";
 
-import { videoPlayer } from 'vue-video-player'
+import { videoPlayer } from "vue-video-player";
 
 export default {
   components: {
@@ -180,104 +180,102 @@ export default {
     videoPlayer,
     Synthesis
   },
-  data () {
+  data() {
     return {
-      searchKeyword : null,
+      searchKeyword: null,
       twitters: null,
-      busy : false,
+      busy: false,
       count: 0,
-      isLast : false,
+      isLast: false,
       offset: null,
-      twitterMsg: '트위터 계정을 입력하세요',
-    }
+      twitterMsg: "트위터 계정을 입력하세요"
+    };
   },
-    computed: {
-    ...mapState([
-      'isUserLoggedIn',
-      'user'
-    ])
+  computed: {
+    ...mapState(["isUserLoggedIn", "user"])
   },
   watch: {
-    '$route.params.search': function (search) {
-      this.searchKeyword = search
+    "$route.params.search": function(search) {
+      this.searchKeyword = search;
     },
-    searchKeyword: _.debounce(async function (value) {
-      if(this.busy) return;
-      var serach = null
-      this.isLast = false
-      this.offset = null
-      if (!this.searchKeyword || this.searchKeyword === '') {
-        serach = null
-      } else{
-        serach = this.searchKeyword
+    searchKeyword: _.debounce(async function(value) {
+      if (this.busy) return;
+      var serach = null;
+      this.isLast = false;
+      this.offset = null;
+      if (!this.searchKeyword || this.searchKeyword === "") {
+        serach = null;
+      } else {
+        serach = this.searchKeyword;
       }
-      this.search()
+      this.search();
     }, 1000)
   },
-  mounted () {
-     const search = this.$route.params.search
-     this.searchKeyword = search;
-     this.search()
+  mounted() {
+    const search = this.$route.params.search;
+    this.searchKeyword = search;
+    this.search();
   },
-  
+
   filters: {
-    async twiterLink (value, item) {
-      var html = value
-      if(html){
-        if(item.entities.media){
+    async twiterLink(value, item) {
+      var html = value;
+      if (html) {
+        if (item.entities.media) {
           item.entities.media.forEach(mediaEle => {
-            html = html.replace(mediaEle.url, '<a target="_blank" href="'+ mediaEle.url +'">Twitter</a>')
-          })
+            html = html.replace(
+              mediaEle.url,
+              '<a target="_blank" href="' + mediaEle.url + '">Twitter</a>'
+            );
+          });
         }
-        if(item.entities.urls){
+        if (item.entities.urls) {
           item.entities.urls.forEach(urlEle => {
-            html = html.replace(urlEle.url, '' )
-          })
+            html = html.replace(urlEle.url, "");
+          });
         }
       }
-     return html
+      return html;
     },
-  twiterOnlyText (value, item) {
-      var html = value
-      if(html){
-        if(item.entities.media){
+    twiterOnlyText(value, item) {
+      var html = value;
+      if (html) {
+        if (item.entities.media) {
           item.entities.media.forEach(mediaEle => {
-            html = html.replace(mediaEle.url, '')
-          })
+            html = html.replace(mediaEle.url, "");
+          });
         }
-        if(item.entities.urls){
+        if (item.entities.urls) {
           item.entities.urls.forEach(urlEle => {
-            html = html.replace(urlEle.url, '' )
-          })
+            html = html.replace(urlEle.url, "");
+          });
         }
       }
-     return html
+      return html;
     }
   },
   methods: {
-    isVideoContains(media){
-    },
-    videoParam (media) {
-      var sources = []
+    isVideoContains(media) {},
+    videoParam(media) {
+      var sources = [];
       media.video_info.variants.forEach(variant => {
         var source = {
-            src: variant.url,
-            type: variant.url.content_type
-        }
-        sources.push(source)
+          src: variant.url,
+          type: variant.url.content_type
+        };
+        sources.push(source);
       });
 
-
-      return  {
-          // videojs options
-          fluid:true,
-          //aspectRatio: media.aspect_ratio[0] + ':' + media.aspect_ratio[1],
-          muted: false,
-          language: 'en',
-          playbackRates: [0.7, 1.0, 1.5, 2.0],
-          sources: sources,
-          poster: media.media_url
-        }
+      return {
+        // videojs options
+        fluid: true,
+        //aspectRatio: media.aspect_ratio[0] + ':' + media.aspect_ratio[1],
+        muted: false,
+        language: "en",
+        playbackRates: [0.7, 1.0, 1.5, 2.0],
+        sources: sources,
+        poster: media.media_url
+      };
       // return {
       //           sources: sources,
       //           options: {
@@ -287,93 +285,88 @@ export default {
       //           }
       //         }
     },
-    addNewTwitter () {
+    addNewTwitter() {
       this.$router.push({
-        name: 'twitter-detail',
-        params: {  newTwitter : true}
-      })
+        name: "twitter-detail",
+        params: { newTwitter: true }
+      });
     },
-    async search(isAppend){
-      var serach = null 
-      this.busy = true
-      this.twitterMsg = '트위터 계정을 입력하세요'
-      if (this.searchKeyword === '') {
-        serach = null
-      } else{
-        serach = this.searchKeyword
-      }   
+    async search(isAppend) {
+      var serach = null;
+      this.busy = true;
+      this.twitterMsg = "트위터 계정을 입력하세요";
+      if (this.searchKeyword === "") {
+        serach = null;
+      } else {
+        serach = this.searchKeyword;
+      }
       try {
-        var dataSet = []
-        if(!serach){
-          dataSet = (await TwitterService.homeTimeLine(serach, this.offset)).data;
-        }else{
-          dataSet = (await TwitterService.userTimeLine(serach, this.offset)).data;  
+        var dataSet = [];
+        if (!serach) {
+          dataSet = (await TwitterService.homeTimeLine(serach, this.offset))
+            .data;
+        } else {
+          dataSet = (await TwitterService.userTimeLine(serach, this.offset))
+            .data;
         }
-        
-        if(dataSet.length > 0){
-          if( isAppend){
+
+        if (dataSet.length > 0) {
+          if (isAppend) {
             //var lastOffset = this.offset
-            
+
             //dataSet =  this.$_.without(dataSet,{id_str : this.offset})
-            var appendDataSet = []
-            for(var i = 0 ;  i < dataSet.length; i++){
-              
-              if(dataSet[i].id_str != this.offset){
-                appendDataSet.push(dataSet[i])
+            var appendDataSet = [];
+            for (var i = 0; i < dataSet.length; i++) {
+              if (dataSet[i].id_str != this.offset) {
+                appendDataSet.push(dataSet[i]);
                 // console.log(dataSet[i].id_str)
               }
             }
             // console.log('afeter: ' ,dataSet.length)
-            if(appendDataSet.length == 1){
+            if (appendDataSet.length == 1) {
               this.isLast = true;
-              this.twitters = appendDataSet
-            }else{
-              this.twitters = this.twitters.concat(appendDataSet)
+              this.twitters = appendDataSet;
+            } else {
+              this.twitters = this.twitters.concat(appendDataSet);
             }
-            this.offset = appendDataSet.reverse()[0].id_str; 
-           
-            
-
-          }else{
-            
-            this.twitters = dataSet.length === 0 ? null : dataSet
+            this.offset = appendDataSet.reverse()[0].id_str;
+          } else {
+            this.twitters = dataSet.length === 0 ? null : dataSet;
             this.offset = dataSet[dataSet.length].id_str;
-            alert()
-            if(this.twitters.length == 1){
+            alert();
+            if (this.twitters.length == 1) {
               this.isLast = true;
             }
           }
-           //this.offset = twit.id_str
+          //this.offset = twit.id_str
           //  console.log('offset sett', this.offset)
-        }else{
-          this.twitterMsg = dataSet.message
-          this.twitters =null
-          this.offset = null
-          this.isLast = true
+        } else {
+          this.twitterMsg = dataSet.message;
+          this.twitters = null;
+          this.offset = null;
+          this.isLast = true;
         }
-       
       } catch (error) {
         // console.log(error)
         // console.log(this.twitters)
       }
-      this.busy = false
+      this.busy = false;
     },
     async loadMore() {
-
-      if(this.busy) return;
-      this.busy = true
-      if(!this.isLast){
-        this.search(true)
-      }else{
-        this.busy = false
+      if (this.busy) return;
+      this.busy = true;
+      if (!this.isLast) {
+        this.search(true);
+      } else {
+        this.busy = false;
       }
     }
   }
-}
+};
 </script>
 <style>
-p.furigana{
+p.furigana {
   white-space: pre-wrap;
-  font-size:1.5em
+  font-size: 1.5em;
 }
 </style>

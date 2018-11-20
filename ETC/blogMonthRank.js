@@ -14,16 +14,17 @@ $.map(rowTags,function(obj){
         var aTag = $(obj).find('td.u_ni_align_l a').attr('href')
         var rank = $(obj).find('td:first-child').text()
         var blogId =aTag.replace('/blog/article/','').replace('/cv','') 
-        var link = 'https://blog.naver.com/hatcha82/' + blogId
+        var link = 'https://blog.naver.com/hatcha82/' + blogId	
         var title = $(obj).find('td.u_ni_align_l a').text()		
-        title = title.replace('J-pop : ','').replace('[','')
+		if(title.indexOf('J-pop') != -1){
+            title = title.replace('J-pop : ','').replace('[','')		
+            var artist = title.split('] ')[0].replace('] ','')
+            var songTitle = title.split('] ')[1]
 
-		var artist = title.split('] ')[0].replace('] ','')
-		var songTitle = title.split('] ')[1]
-		
-        var trTag = `<tr><td align="center">${rank}</td><td><a href="${link}" title="${songTitle} - ${artist}">${songTitle}</a></td><tr>`
-        trs+=trTag
-		count++
+            var trTag = `<tr><td align="center">${rank}</td><td><a href="${link}" title="${songTitle} - ${artist}">${songTitle}</a></td><tr>`
+            trs+=trTag
+            count++
+    	}
     }
 })
 html.replace('[trs]',trs)

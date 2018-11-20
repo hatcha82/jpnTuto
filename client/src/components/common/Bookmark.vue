@@ -15,40 +15,37 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
-import BookmarksService from '@/services/BookmarksService'
+import { mapState } from "vuex";
+import BookmarksService from "@/services/BookmarksService";
 export default {
-  data () {
+  data() {
     return {
       headers: [
         {
-          text: 'Title',
-          value: 'title'
+          text: "Title",
+          value: "title"
         },
         {
-          text: 'Artist',
-          value: 'artist'
+          text: "Artist",
+          value: "artist"
         }
       ],
       pagination: {
-        sortBy: 'createdAt',
+        sortBy: "createdAt",
         descending: true
       },
       bookmarks: []
-    }
+    };
   },
   computed: {
-    ...mapState([
-      'isUserLoggedIn',
-      'user'
-    ])
+    ...mapState(["isUserLoggedIn", "user"])
   },
-  async mounted () {
+  async mounted() {
     if (this.isUserLoggedIn) {
-      this.bookmark= (await BookmarksService.index()).data
+      this.bookmark = (await BookmarksService.index()).data;
     }
   }
-}
+};
 </script>
 
 <style>
