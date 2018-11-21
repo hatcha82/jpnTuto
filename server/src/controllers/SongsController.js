@@ -45,7 +45,7 @@ module.exports = {
         })
 
         songs = await Song.findAll({
-          attributes: {exclude: ['lyrics', 'tab']},
+          attributes: {exclude: ['lyrics', 'tab', 'lyricsKor']},
           where: {
             $or: [
               'title', 'artist'
@@ -68,7 +68,7 @@ module.exports = {
         })
 
         songs = await Song.findAll({
-          attributes: {exclude: ['lyrics', 'tab']},
+          attributes: {exclude: ['lyrics', 'tab', 'lyricsKor']},
           order: [
             ['rank', 'ASC'],
             ['updatedAt', 'DESC']
