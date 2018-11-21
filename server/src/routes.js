@@ -65,7 +65,6 @@ module.exports = (app) => {
     isAuthenticated,
     ArticleController.remove)
 
-      
   app.get('/twitters/userTimeLine', TwitterController.userTimeLine)
   app.get('/twitters/homeTimeline', TwitterController.homeTimeline)
   app.get('/twitters/twitterUserList', TwitterController.twitterUserList)
