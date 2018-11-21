@@ -29,7 +29,7 @@ module.exports = {
         order: [
           ['newsPublishedDate', 'DESC']
         ],
-        limit: 4
+        limit: 12
       })
       return articles
     } catch (err) {
@@ -49,7 +49,7 @@ module.exports = {
         order: [
           [sequelize.random()]
         ],
-        limit: 10
+        limit: 12
       })
       return songs
     } catch (err) {

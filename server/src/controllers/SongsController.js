@@ -59,7 +59,7 @@ module.exports = {
             ['rank', 'ASC'],
             ['updatedAt', 'DESC']
           ],
-          limit: 30,
+          limit: 100,
           offset: offset
         })
       } else {
@@ -73,7 +73,7 @@ module.exports = {
             ['rank', 'ASC'],
             ['updatedAt', 'DESC']
           ],
-          limit: 30,
+          limit: 100,
           offset: offset
         })
       }
@@ -175,7 +175,7 @@ module.exports = {
 
     // return Api().get(ituneSearchUrl, { crossDomain: true})
   },
-  async randomeSong (req, res) {
+  async randomSong (req, res) {
     try {
       const Op = sequelize.Op
       const songs = await Song.findAll({
