@@ -12,6 +12,7 @@ module.exports = {
   async index (req, res) {
     try {
       let articles = null
+      const limit = parseInt(req.query.limit || 50)
       const search = req.query.search
       const offset = parseInt(req.query.offset)
       if (search) {
@@ -39,7 +40,7 @@ module.exports = {
           order: [
             ['newsPublishedDate', 'DESC']
           ],
-          limit: 100,
+          limit: limit,
           offset: offset
         })
       }
@@ -51,13 +52,16 @@ module.exports = {
     }
   },
   async recentNews (req, res) {
+    const limit = parseInt(req.query.limit || 4)
+    const offset = parseInt(req.query.offset || 0)
     try {
       const articles = await Article.findAll({
         attributes: {exclude: ['article', 'furigana', 'translateText']},
         order: [
           ['newsPublishedDate', 'DESC']
         ],
-        limit: 4
+        limit: limit,
+        offset: offset
       })
       res.send({data: articles})
     } catch (err) {
