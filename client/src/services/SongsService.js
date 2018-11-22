@@ -36,7 +36,7 @@ export default {
     });
   },
   randomFiveSong() {
-    return Api().get("songs/randomeSong", {
+    return Api().get("songs/randomSong", {
       params: {}
     });
   },
