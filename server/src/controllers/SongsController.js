@@ -29,53 +29,36 @@ module.exports = {
       let songs = null
       const search = req.query.search
       const offset = parseInt(req.query.offset)
+      const limit = parseInt(req.query.limit || 30)
       var count = 0
+
+      var queryOption = {
+        limit: limit,
+        offset: offset
+      }
       if (search) {
-        count = await Song.findOne({
-          attributes: [[Song.sequelize.fn('COUNT', Song.sequelize.col('id')), 'count']],
-          where: {
-            $or: [
-              'title', 'artist'
-            ].map(key => ({
-              [key]: {
-                $like: `%${search}%`
-              }
-            }))
-          }
-        })
+        queryOption.where = {
+          $or: [
+            'title', 'artist'
+          ].map(key => ({
+            [key]: {
+              $like: `%${search}%`
+            }
+          }))
+        }
+        queryOption.attributes = [[Song.sequelize.fn('COUNT', Song.sequelize.col('id')), 'count']]
+        count = await Song.findOne(queryOption)
 
-        songs = await Song.findAll({
-          attributes: {exclude: ['lyrics', 'tab', 'lyricsKor']},
-          where: {
-            $or: [
-              'title', 'artist'
-            ].map(key => ({
-              [key]: {
-                $like: `%${search}%`
-              }
-            }))
-          },
-          order: [
-            ['rank', 'ASC'],
-            ['updatedAt', 'DESC']
-          ],
-          limit: 30,
-          offset: offset
-        })
+        queryOption.attributes = {exclude: ['lyrics', 'tab', 'lyricsKor']}
+        queryOption.order = [['rank', 'ASC']]
+        songs = await Song.findAll(queryOption)
       } else {
-        count = await Song.findOne({
-          attributes: [[Song.sequelize.fn('COUNT', Song.sequelize.col('id')), 'count']]
-        })
+        queryOption.attributes = [[Song.sequelize.fn('COUNT', Song.sequelize.col('id')), 'count']]
+        count = await Song.findOne(queryOption)
 
-        songs = await Song.findAll({
-          attributes: {exclude: ['lyrics', 'tab', 'lyricsKor']},
-          order: [
-            ['rank', 'ASC'],
-            ['updatedAt', 'DESC']
-          ],
-          limit: 30,
-          offset: offset
-        })
+        queryOption.attributes = {exclude: ['lyrics', 'tab', 'lyricsKor']}
+        queryOption.order = [['rank', 'ASC']]
+        songs = await Song.findAll(queryOption)
       }
       res.send({data: songs, count: count})
     } catch (err) {
@@ -175,7 +158,7 @@ module.exports = {
 
     // return Api().get(ituneSearchUrl, { crossDomain: true})
   },
-  async randomeSong (req, res) {
+  async randomSong (req, res) {
     try {
       const Op = sequelize.Op
       const songs = await Song.findAll({
@@ -211,11 +194,7 @@ module.exports = {
           lyricsKor: {
             [Op.ne]: null
           }
-        },
-        order: [
-          [sequelize.random()]
-        ],
-        limit: 10
+        }
       })
       res.send(songs)
     } catch (err) {

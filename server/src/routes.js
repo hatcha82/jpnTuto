@@ -65,7 +65,6 @@ module.exports = (app) => {
     isAuthenticated,
     ArticleController.remove)
 
-      
   app.get('/twitters/userTimeLine', TwitterController.userTimeLine)
   app.get('/twitters/homeTimeline', TwitterController.homeTimeline)
   app.get('/twitters/twitterUserList', TwitterController.twitterUserList)
@@ -76,8 +75,8 @@ module.exports = (app) => {
     SongsController.indexImageTracker)
   app.get('/songs/iTunesSearch',
     SongsController.iTunesSearch)
-  app.get('/songs/randomeSong',
-    SongsController.randomeSong)
+  app.get('/songs/randomSong',
+    SongsController.randomSong)
   app.get('/songs/songByArtist',
     SongsController.songByArtist)
   app.get('/song/meta/:songId',
