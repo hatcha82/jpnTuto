@@ -166,9 +166,7 @@ module.exports = {
     var naverBlogRefNoList = []
     feed.items.forEach(item => {
       if (item.categories[0] === '일본 노래 가사') {
-        console.log(item.title)
         var naverBlogRefNo = item.link.replace('https://blog.naver.com/hatcha82/', '')
-
         naverBlogRefNoList.push(naverBlogRefNo)
       }
     })
