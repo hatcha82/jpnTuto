@@ -1,5 +1,7 @@
 var path = require('path')
 var fs = require('fs')
+let Parser = require('rss-parser')
+
 const {Song, sequelize} = require('../models')
 // import YahooWebAnalyzer from "kuroshiro-analyzer-yahoo-webapi";
 const Kuroshiro = require('kuroshiro')
@@ -159,13 +161,24 @@ module.exports = {
     // return Api().get(ituneSearchUrl, { crossDomain: true})
   },
   async randomSong (req, res) {
+    var parser = new Parser()
+    var feed = await parser.parseURL('https://rss.blog.naver.com/hatcha82.xml')
+    var naverBlogRefNoList = []
+    feed.items.forEach(item => {
+      if (item.categories[0] === '일본 노래 가사') {
+        console.log(item.title)
+        var naverBlogRefNo = item.link.replace('https://blog.naver.com/hatcha82/', '')
+
+        naverBlogRefNoList.push(naverBlogRefNo)
+      }
+    })
     try {
       const Op = sequelize.Op
       const songs = await Song.findAll({
         attributes: {exclude: ['lyrics', 'lyricsKor', 'tab']},
         where: {
-          albumImageUrl: {
-            [Op.ne]: null
+          naverBlogRefNo: {
+            [Op.in]: naverBlogRefNoList
           }
         },
         order: [
