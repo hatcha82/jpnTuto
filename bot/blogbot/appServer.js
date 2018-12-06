@@ -14,6 +14,32 @@ var {Song,Article} = require('./models')
 const {sequelize} = require('./models')
 
 
+async function test(){
+  const Op = sequelize.Op
+  var article = await Article.findOne({
+    where :{
+      $and: [
+        {  
+          translateText : {[Op.ne]: null},
+          naverBlogUpload : 'N',
+          [Op.or] : [ { newsPublisher:  '日テレNEWS24'  }, { newsPublisher: 'TBS News i'  }]
+        },
+        sequelize.where(
+           sequelize.fn('DATE', sequelize.col('createdAt')),
+           sequelize.literal('CURRENT_DATE')
+        )
+      ]
+    },        
+    limit: 1,
+  })
+  console.log(article)
+  if(!article){
+    return;
+  }
+  console.log(article)
+}
+test();
+return;
 
 var blogtemplate = fs.readFileSync('blogtemplate.html', 'utf-8');
 var newsBlogtemplate = fs.readFileSync('newsBlogtemplate.html', 'utf-8');
@@ -26,7 +52,7 @@ async function uploadArticleBlog(){
         {  
           translateText : {[Op.ne]: null},
           naverBlogUpload : 'N',
-          newsPublisher: {like: '%NEWS24'}
+          [Op.or] : [ { newsPublisher:  '日テレNEWS24'  }, { newsPublisher: 'TBS News i'  }]
         },
         sequelize.where(
            sequelize.fn('DATE', sequelize.col('createdAt')),
@@ -124,7 +150,8 @@ async function uploadSongBlog(){
     where :{
       naverBlogUpload : 'N',
       albumImageUrl : {[Op.ne]: null},
-      lyricsKor : {[Op.ne]: null}
+      lyricsKor : {[Op.ne]: null},
+      youtubeId : {[Op.ne]: null},
     },
     order: sequelize.random(),
     limit: 1,
