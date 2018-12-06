@@ -35,7 +35,7 @@ async function test(){
         {  
           translateText : {[Op.ne]: null},
           naverBlogUpload : 'N',
-          [Op.or] : [ { newsPublisher:  '日テレNEWS24'  }, { newsPublisher: 'TBS News i'  }]
+          [Op.or] : [ { newsPublisher: { [Op.like] : '%NEWS24' } }, { newsPublisher: {[Op.like] : '%TBS'}  }]
         },
         sequelize.where(
            sequelize.fn('DATE', sequelize.col('createdAt')),
@@ -45,8 +45,10 @@ async function test(){
     },        
     limit: 1,
   })
-  //console.log(article)
+  console.log(article)
 }
+test();
+return;
 
 var blogtemplate = fs.readFileSync('blogtemplate.html', 'utf-8');
 var newsBlogtemplate = fs.readFileSync('newsBlogtemplate.html', 'utf-8');
@@ -59,7 +61,7 @@ async function uploadArticleBlog(){
         {  
           translateText : {[Op.ne]: null},
           naverBlogUpload : 'N',
-          [Op.or] : [ { newsPublisher:  '日テレNEWS24'  }, { newsPublisher: 'TBS News i'  }]
+          [Op.or] : [ { newsPublisher: { [Op.like] : '%NEWS24' } }, { newsPublisher: {[Op.like] : '%TBS'}  }]
         },
         sequelize.where(
            sequelize.fn('DATE', sequelize.col('createdAt')),
