@@ -35,7 +35,7 @@ async function test(){
         {  
           translateText : {[Op.ne]: null},
           naverBlogUpload : 'N',
-          [Op.or] : [ { newsPublisher: { [Op.like] : '%NEWS24' } }, { newsPublisher: {[Op.like] : '%TBS'}  }]
+          [Op.or] : [ { newsPublisher: { [Op.like] : '%NEWS24' } }, { newsPublisher: {[Op.like] : 'TBS%'}  }]
         },
         sequelize.where(
            sequelize.fn('DATE', sequelize.col('createdAt')),
@@ -60,7 +60,7 @@ async function uploadArticleBlog(){
         {  
           translateText : {[Op.ne]: null},
           naverBlogUpload : 'N',
-          [Op.or] : [ { newsPublisher: { [Op.like] : '%NEWS24' } }, { newsPublisher: {[Op.like] : '%TBS'}  }]
+          [Op.or] : [ { newsPublisher: { [Op.like] : '%NEWS24' } }, { newsPublisher: {[Op.like] : 'TBS%'}  }]
         },
         sequelize.where(
            sequelize.fn('DATE', sequelize.col('createdAt')),
