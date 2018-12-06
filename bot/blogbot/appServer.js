@@ -16,6 +16,19 @@ const {sequelize} = require('./models')
 
 async function test(){
   const Op = sequelize.Op
+  
+  var song = await Song.findOne({
+    where :{
+      naverBlogUpload : 'N',
+      albumImageUrl : {[Op.ne]: null},
+      lyricsKor : {[Op.ne]: null},
+      youtubeId : {[Op.ne]: null},
+    },
+    order: ['youtubeId'],
+    limit: 1,
+  })
+  console.log(song.title)
+
   var article = await Article.findOne({
     where :{
       $and: [
@@ -32,14 +45,8 @@ async function test(){
     },        
     limit: 1,
   })
-  console.log(article)
-  if(!article){
-    return;
-  }
-  console.log(article)
+  //console.log(article)
 }
-test();
-return;
 
 var blogtemplate = fs.readFileSync('blogtemplate.html', 'utf-8');
 var newsBlogtemplate = fs.readFileSync('newsBlogtemplate.html', 'utf-8');
@@ -153,7 +160,7 @@ async function uploadSongBlog(){
       lyricsKor : {[Op.ne]: null},
       youtubeId : {[Op.ne]: null},
     },
-    order: sequelize.random(),
+    order: ['youtubeId'],
     limit: 1,
   })
   if(!song){
