@@ -47,8 +47,7 @@ async function test(){
   })
   console.log(article)
 }
-test();
-return;
+
 
 var blogtemplate = fs.readFileSync('blogtemplate.html', 'utf-8');
 var newsBlogtemplate = fs.readFileSync('newsBlogtemplate.html', 'utf-8');
