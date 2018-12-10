@@ -19,10 +19,14 @@ async function getNoneImageSong(){
   var song = await Song.findOne({
     where :{         
       albumImageUrl : {[Op.eq]: null},
+      artist :{[Op.ne]: null}, 
+      // album : {[Op.ne]: null},
+      title : {[Op.ne]: null},
     },
     order: sequelize.random(),
     limit: 1,    
   })
+
   if(!song){
     return null;
   }else{
@@ -60,7 +64,6 @@ async function findImageFromItune(keyword){
 async function run(){
   try {
     var song = await getNoneImageSong()
-    
     var keyword = `${song.artist} ${song.title}`    
     
     var imageObj  = await findImageFromItune(keyword);
