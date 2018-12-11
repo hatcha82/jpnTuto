@@ -1,3 +1,4 @@
+//require('dotenv').config()
 var Twitter = require('twitter');
 var twitterText = require('twitter-text')
 var config = require('./config/config')
@@ -6,19 +7,61 @@ const image2base64 = require('image-to-base64');
 const jisho = new jishoApi();
 var fs = require('fs');
 const {sequelize} = require('./models/')
-const {Kanji} = require('./models')
+const {Kanji, Song} = require('./models')
+
+
+
 
 sequelize.sync({force: false})
-.then(() => {
+.then( async() => {
+
+  
   console.log(`DB is connected...`)
-  botRun()
+  
+  try {
+    songUpload()
+    botRun()
+    
+  } catch (error) {
+      
+  }
+  
   var internval = 60 * 60
   setInterval(botRun,1000 * internval)
+  setInterval(songUpload,1000 * internval)
 })
 
-
 var word = '日'
+async function songUpload(){
+  const Op = sequelize.Op
+  var song = await Song.findOne({
+    where :{      
+      albumImageUrl : {[Op.ne]: null},
+      lyricsKor : {[Op.ne]: null},
+      youtubeId : {[Op.ne]: null},
+    },
+    order: sequelize.random(),
+    limit: 1,
+  })
+  if(!song){
+    return;
+  }
+  var twit = 
+`J-pop Furigana
+Artist : ${song.artist}
+Title :  ${song.title}
 
+보기 http://www.furiganahub.com/music/detail/${song.id}
+
+#furiganahub,#Jpop,#일본노래,#일본어공부,#일본어,#jpop
+
+${new Date().toLocaleString()}
+`
+  console.log(twit )
+
+  var twitResult = await client.post('statuses/update', {status: twit})
+  
+}
 async function botRun(){
   var kanjis = await Kanji.findAll({
     where: {
@@ -167,5 +210,7 @@ function getUserTimeLine(){
     }
   });
 }
+
+
 
 
