@@ -14,6 +14,40 @@ var {Song,Article} = require('./models')
 const {sequelize} = require('./models')
 
 
+async function test(){
+  const Op = sequelize.Op
+  
+  var song = await Song.findOne({
+    where :{
+      naverBlogUpload : 'N',
+      albumImageUrl : {[Op.ne]: null},
+      lyricsKor : {[Op.ne]: null},
+      youtubeId : {[Op.ne]: null},
+    },
+    order: ['youtubeId'],
+    limit: 1,
+  })
+  console.log(song.title)
+
+  var article = await Article.findOne({
+    where :{
+      $and: [
+        {  
+          translateText : {[Op.ne]: null},
+          naverBlogUpload : 'N',
+          [Op.or] : [ { newsPublisher: { [Op.like] : '%NEWS24' } }, { newsPublisher: {[Op.like] : 'TBS%'}  }]
+        },
+        sequelize.where(
+           sequelize.fn('DATE', sequelize.col('createdAt')),
+           sequelize.literal('CURRENT_DATE')
+        )
+      ]
+    },        
+    limit: 1,
+  })
+  console.log(article)
+}
+
 
 var blogtemplate = fs.readFileSync('blogtemplate.html', 'utf-8');
 var newsBlogtemplate = fs.readFileSync('newsBlogtemplate.html', 'utf-8');
@@ -26,7 +60,7 @@ async function uploadArticleBlog(){
         {  
           translateText : {[Op.ne]: null},
           naverBlogUpload : 'N',
-          newsPublisher: {like: '%NEWS24'}
+          [Op.or] : [ { newsPublisher: { [Op.like] : '%NEWS24' } }, { newsPublisher: {[Op.like] : 'TBS%'}  }]
         },
         sequelize.where(
            sequelize.fn('DATE', sequelize.col('createdAt')),
@@ -124,9 +158,10 @@ async function uploadSongBlog(){
     where :{
       naverBlogUpload : 'N',
       albumImageUrl : {[Op.ne]: null},
-      lyricsKor : {[Op.ne]: null}
+      lyricsKor : {[Op.ne]: null},
+      youtubeId : {[Op.ne]: null},
     },
-    order: sequelize.random(),
+    order: ['youtubeId'],
     limit: 1,
   })
   if(!song){

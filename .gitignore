@@ -25,6 +25,8 @@ bot/kakaoStoryBot/node_modules/
 bot/kakaoStoryBot/.env
 bot/papagoBot/node_modules/
 bot/papagoBot/.env
+bot/mySiteBot/node_modules/
+bot/mySiteBot/.env
 bot/newsBot/node_modules/
 bot/newsBot/.env
 server/src/config/config.js
