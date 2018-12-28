@@ -357,7 +357,7 @@ app.get('/naverlogin', function (req, res) {
         access_token = jsonBody.access_token
         refresh_token = jsonBody.refresh_token     
         uploadArticleBlog()   
-        //uploadSongBlog()
+        uploadSongBlog()
         res.end(body);
       } else {
         res.status(response.statusCode).end();
