@@ -109,7 +109,7 @@ async function uploadArticleBlog(){
   var formData =  {
     title:title
   , contents:contents
-  , categoryNo : 13 // CATEGORY 14뉴스  : 13 test boad
+  , categoryNo : 14 // CATEGORY 14뉴스  : 13 test boad
  
   }
   var attachImageInfo = await getImageInfoForUpload(article.newsImageUrl)
@@ -319,7 +319,7 @@ function refreshToken(){
 }
 
 setInterval(refreshToken, 1000 * 60 * 10)
-/*
+
 setInterval(function(){
   var ranTime = Math.floor((Math.random() * 10) + 1)
   setTimeout(() => {
@@ -332,7 +332,7 @@ setInterval(function(){
     uploadSongBlog()
   }, ranTime) 
 }, 1000 * 60 * 60)
-*/
+
 
 app.get('/naverlogin', function (req, res) {
    res.writeHead(200, {'Content-Type': 'text/html;charset=utf-8'});
