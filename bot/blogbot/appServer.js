@@ -1,5 +1,8 @@
 require('dotenv').config()
 var fs = require('fs');
+var path = require("path");
+var url = require("url");
+const image2base64 = require('image-to-base64');
 var express = require('express');
 var app = express();
 var client_id = 'w7FsuKKmd0_0nh3h_yIb';
@@ -46,8 +49,11 @@ async function test(){
     limit: 1,
   })
   console.log(article)
-}
 
+ 
+}
+// test();
+// return;
 
 var blogtemplate = fs.readFileSync('blogtemplate.html', 'utf-8');
 var newsBlogtemplate = fs.readFileSync('newsBlogtemplate.html', 'utf-8');
@@ -77,6 +83,7 @@ async function uploadArticleBlog(){
   newTemplate = newTemplate.replace('[[title]]', article.titleTranslate)
   newTemplate = newTemplate.split("[[id]]").join(article.id)
   newTemplate = newTemplate.split("[[newsUrl]]").join(article.newsUrl)
+  newTemplate = newTemplate.split("[[newsImageUrl]]").join(article.newsImageUrl)  
   newTemplate = newTemplate.split("[[newsPublishedDate]]").join(article.newsPublishedDate.toString())
   newTemplate = newTemplate.split("[[newsPubllisherImageUrl]]").join(article.newsPubllisherImageUrl)
   newTemplate = newTemplate.split("[[titleFurigana]]").join(article.titleFurigana)
@@ -98,11 +105,26 @@ async function uploadArticleBlog(){
   var api_url = 'https://openapi.naver.com/blog/writePost.json';
   var request = require('request');
   var header = "Bearer " + access_token; // Bearer 다음에 공백 추가
+
+  var formData =  {
+    title:title
+  , contents:contents
+  , categoryNo : 14 // CATEGORY 14뉴스  : 13 test boad
+ 
+  }
+  var attachImageInfo = await getImageInfoForUpload(article.newsImageUrl)
+  if(attachImageInfo !== null){
+    formData.image = [
+      { value: attachImageInfo.image , options: { filename: attachImageInfo.basename,  contentType: `image/${attachImageInfo.extname}`}}
+    ]
+  }  
   var options = {
       url: api_url,
-      form: {'title':title, 'contents':contents, categoryNo : 14}, // CATEGORY 10가사  : 13 test boad 14뉴스
+      formData: formData, 
       headers: {'Authorization': header}
    };
+
+ 
   request.post(options, function (error, response, body) {
     if (!error && response.statusCode == 200) {
       console.log('Blog Uploaded')
@@ -150,6 +172,25 @@ async function uploadArticleBlog(){
       }
     }
   });
+}
+async function getImageInfoForUpload(imgURL){
+  try {
+    
+    var base64Image = await image2base64(imgURL)
+    var parsed = url.parse(imgURL);
+    
+   
+    var result = {
+      basename : path.basename(parsed.pathname),
+      extname : path.extname(parsed.pathname).replace('.',''),
+      base64Image : base64Image,
+      image: new Buffer(base64Image, 'base64')
+    }
+    console.log(result)  
+    return result
+  } catch (error) {
+    return null;
+  }  
 }
 async function uploadSongBlog(){
   console.log("Upload Started...")
@@ -190,14 +231,27 @@ async function uploadSongBlog(){
   var api_url = 'https://openapi.naver.com/blog/writePost.json';
   var request = require('request');
   var header = "Bearer " + access_token; // Bearer 다음에 공백 추가
+
+  var formData =  {
+    title:title
+  , contents:contents
+  , categoryNo : 10 // CATEGORY 10가사  : 13 test boad
+ 
+  }
+  var attachImageInfo = await getImageInfoForUpload(song.albumImageUrl)
+  if(attachImageInfo !== null){
+    formData.image = [
+      { value: attachImageInfo.image , options: { filename: attachImageInfo.basename,  contentType: `image/${attachImageInfo.extname}`}}
+    ]
+  }  
   var options = {
       url: api_url,
-      form: {'title':title, 'contents':contents, categoryNo : 10}, // CATEGORY 10가사  : 13 test boad
+      formData: formData, 
       headers: {'Authorization': header}
    };
   request.post(options, function (error, response, body) {
     if (!error && response.statusCode == 200) {
-      console.log('Blog Uploaded')
+      
       var jsonBody
       var naverBlogRefNo
       var naverBlogUpload = 'Y'
@@ -225,6 +279,7 @@ async function uploadSongBlog(){
         console.log(`result: ${error}  updated row song.id ${song.id} ,title ${song.title}` )
       })  
     } else {
+    
       Song.update({
         naverBlogUpload: 'E',
       }, {
@@ -264,6 +319,7 @@ function refreshToken(){
 }
 
 setInterval(refreshToken, 1000 * 60 * 10)
+
 setInterval(function(){
   var ranTime = Math.floor((Math.random() * 10) + 1)
   setTimeout(() => {
@@ -276,6 +332,8 @@ setInterval(function(){
     uploadSongBlog()
   }, ranTime) 
 }, 1000 * 60 * 60)
+
+
 app.get('/naverlogin', function (req, res) {
    res.writeHead(200, {'Content-Type': 'text/html;charset=utf-8'});
    res.end("<a href='"+ api_url + "'><img height='50' src='http://static.nid.naver.com/oauth/small_g_in.PNG'/></a>");
@@ -299,7 +357,7 @@ app.get('/naverlogin', function (req, res) {
         access_token = jsonBody.access_token
         refresh_token = jsonBody.refresh_token     
         uploadArticleBlog()   
-        uploadSongBlog()
+        //uploadSongBlog()
         res.end(body);
       } else {
         res.status(response.statusCode).end();
