@@ -153,7 +153,8 @@ async function runPost(){
     var postResult = await requestPost(postOption)
     var JSONBody = JSON.parse(postResult.body);
     //console.log(JSONBody.tistory.replacer)
-    newTemplate = newTemplate.split(`<img  src="[[albumImageUrl]]"  alt="[[albumImageUrl]]" width="300" height="300">`).join(JSONBody.tistory.replacer)  
+    var imageTemplate = `<img  src="[[albumImageUrl]]"  alt="[[albumImageUrl]]" width="300" height="300">`.split('[[albumImageUrl]]').join(JSONBody.tistory.url)
+    newTemplate = newTemplate.split(`<img  src="[[albumImageUrl]]"  alt="[[albumImageUrl]]" width="300" height="300">`).join(imageTemplate)  
   } catch (error) {
   
   }
@@ -166,12 +167,13 @@ async function runPost(){
       output:'json',
       blogName:'furigana-hub',
       title:`[ J-Pop : ${song.artist} ] ${song.title}`,
-      content:newTemplate,
+      content:newTemplate,      
       visibility:3,
       category:819448,
       tag:`${song.title},${song.artist},일본노래가사,furiganahub,jpop,일본노래추천`
     }
   };
+  console.log(postOption.form.published)
   var postResult = await requestPost(postOption)
   JSONBody = JSON.parse(postResult.body);
 
