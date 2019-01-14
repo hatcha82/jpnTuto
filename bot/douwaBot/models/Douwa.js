@@ -8,6 +8,7 @@ module.exports = (sequelize, DataTypes) => {
     ImageUrl: DataTypes.STRING,  
     audioUrl : DataTypes.STRING,    
     article: DataTypes.TEXT,
+    articleType : DataTypes.STRING,    
     furigana: DataTypes.TEXT,    
     translateText: DataTypes.TEXT,
     createdUserId: DataTypes.INTEGER,

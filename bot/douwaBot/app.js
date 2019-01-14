@@ -162,10 +162,10 @@ async function detailCrawlerCallBack(error, res, done){
     }
 
 
-    async function findOrCreateSong(param) {
+    async function findOrCreateDouwa(param) {
       param.createdUserId=3
       param.updatedUseId=3   
-    
+      param.articleType = 'JPN01'
       const [instance, wasCreated] = await Douwa.findOrCreate({ where: {  episod : param.episod , title: param.title , linkUrl: param.linkUrl} , defaults : param });      
       if(!wasCreated){            
         instance.audioUrl = param.songLiaudioUrlnk
@@ -173,7 +173,7 @@ async function detailCrawlerCallBack(error, res, done){
       }
       return [instance, wasCreated];
     }
-    const [douwaInstance, douwaCreated]  = await findOrCreateSong(param);
+    const [douwaInstance, douwaCreated]  = await findOrCreateDouwa(param);
   
     console.log(`
     [
