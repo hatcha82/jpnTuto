@@ -9,7 +9,7 @@ const {sequelize} = require('./models')
 const config = require('./config/config')
 const {Douwa} = require('./models') 
 var debug = true
-var rateLimit = 1000
+var rateLimit = 1000 * 10
 var listCrawler = new Crawler({
   maxConnections : 1,
   rateLimit: rateLimit,
@@ -40,61 +40,53 @@ function replaceAll(str, searchStr, replaceStr) {
       var document = dom.window.document;
       var tables = document.querySelectorAll('body > table:nth-child(2) > tbody > tr:nth-child(3) > td:nth-child(3) > table');
       tables = Array.from(tables)
-      tables.shift()
-      tables.forEach(function(table){
-        var aTags = table.querySelectorAll('a')
-        var title = Array.from(table.querySelectorAll('a'))[0].textContent
-        var aHref = Array.from(table.querySelectorAll('a'))[0].href;
-        if(aTags.length > 1){
+      var idx = 1;
+      tables.forEach(function(table){        
+        var td = table.querySelector('td:nth-child(2)');
+        var img = table.querySelector('img')
+        var atag = td.querySelector('a')
+        var audio = table.querySelector('audio');
+      
+        if(atag){
+          var aHref = atag.href;
+          aHref = (aHref.indexOf('http') != -1) ? aHref : fileDir + aHref
 
-          Array.from(aTags).forEach(function(a){
-            if(a.textContent.indexOf('第') != -1){
-              titleIndex = Array.from(aTags).indexOf(a)
-              }
-          })
+          var episod = td.textContent;
+          var title = td.textContent;
+          if(td.textContent.indexOf(":") != -1){
+            episod = td.textContent.split(':')[0].trim();
+            title = td.textContent.split(':')[1].trim();
+          }
+         
+          var imgSrc = img.src;
+          var embedSrc = audio ? audio.src : null
+          imgSrc = (imgSrc.indexOf('http') != -1) ? imgSrc : fileDir + imgSrc
+          embedSrc = (embedSrc.indexOf('http') != -1) ? embedSrc : fileDir + embedSrc
           
+          console.log(`
+          episod: ${episod}
+          title: ${title} 
+          link : ${aHref}
+          imgURL : ${imgSrc}
+          audio: ${embedSrc}
+          `)
 
-          title = Array.from(aTags)[titleIndex].textContent
-          aHref = Array.from(aTags)[titleIndex].href;
+
+          var param = {
+            episod : episod,
+            title : title,
+            href : aHref,
+            imageURL : imgSrc,
+            embedSrc : embedSrc
+          }
+          var crawlerparam = [{
+            uri: aHref,                        
+            callback: detailCrawlerCallBack,
+            param : param                   
+          }] 
+          detailCrawler.queue(crawlerparam)   
         }
-        
-        var embedSrc = table.querySelector('embed') ? table.querySelector('embed').src : null;
-
-        if(embedSrc == null){
-          embedSrc = table.querySelector('audio') ? table.querySelector('audio').src : null;
-        }
-
-        embedSrc = (embedSrc.indexOf('http') != -1) ? embedSrc : embedSrc + imgSrc
-        aHref = (aHref.indexOf('http') != -1) ? aHref : fileDir + aHref
-
-        var episod = (title.split(':')[0] != undefined) ? title.split(':')[0].trim() :title.split(':')[0]
-        title = (title.split(':')[1] != undefined) ? title.split(':')[1].trim() :title.split(':')[1]
-        
-        var imgSrc = table.querySelector('img').src
-
-        imgSrc = (imgSrc.indexOf('http') != -1) ? imgSrc : fileDir + imgSrc
-        
-console.log(`
-${episod} 
-${title}
-${aHref}
-${imgSrc}
-${embedSrc}
-`)      
-        var param = {
-          episod : episod,
-          title : title,
-          href : aHref,
-          imageURL : imgSrc,
-          embedSrc : embedSrc
-        }
-        var crawlerparam = [{
-          uri: aHref,                        
-          callback: detailCrawlerCallBack,
-          param : param                   
-        }] 
-        detailCrawler.queue(crawlerparam)   
-      })      
+      })             
   }
   done();
 }
@@ -114,6 +106,8 @@ async function detailCrawlerCallBack(error, res, done){
     var href=requestURIInfo.href;
     var fileDir = href.replace(fileName, '')
 
+
+    
     var tables = document.querySelectorAll('body > table:nth-child(2) > tbody > tr:nth-child(3) > td:nth-child(3) > table');
     var html = ''
     var imgs = document.querySelectorAll('body > table > tbody > tr:nth-child(3) > td:nth-child(3) img')
@@ -135,6 +129,7 @@ async function detailCrawlerCallBack(error, res, done){
     }
     
     
+    paragraphs.shift()
     paragraphs.pop()
     paragraphs.forEach(function(p){
       html += p.outerHTML
@@ -142,12 +137,12 @@ async function detailCrawlerCallBack(error, res, done){
     imgs.forEach(function(img){
       img.alt = '';
       var src = img.src
+
       var imgSrc = (src.indexOf('http') != -1) ? src : fileDir + src
       var imgTag = img.outerHTML;
       imgTag = replaceAll(imgTag,`"${src}"`,`"${imgSrc}"`)      
       html = replaceAll(html, img.outerHTML,imgTag)
     })
-    const textOnly = new JSDOM(`<!DOCTYPE html><body>${html}</body>`);
 
     param = {
       episod: param.episod,
@@ -158,17 +153,19 @@ async function detailCrawlerCallBack(error, res, done){
       ImageUrl: param.imageURL,
       audioUrl : param.embedSrc,    
       article:html,      
-      articelOnlyText : textOnly.window.document.querySelector("body").textContent,
       furigana: await kuroshiro.convert(html, {mode: 'furigana', to: 'hiragana', romajiSystem: 'passport'}) ,  
       translateText: null,
       createdUserId: 3,
       updatedUserId: 3
     }
-  
+
+    console.log(param)
+    done();
+    return;
     async function findOrCreateDouwa(param) {
       param.createdUserId=3
       param.updatedUseId=3   
-      param.articleType = 'JPN01'
+      param.articleType = 'JPN02'
       const [instance, wasCreated] = await Douwa.findOrCreate({ where: {  episod : param.episod , title: param.title , linkUrl: param.linkUrl} , defaults : param });      
       if(!wasCreated){            
         instance.audioUrl = param.songLiaudioUrlnk
@@ -244,9 +241,20 @@ async function start(){
   ,	'http://hukumusume.com/douwa/koe/jap/index.html'
   ]
   pagelistWD01 = [
-
+      'http://hukumusume.com/douwa/pc/world/itiran/01gatu.htm'
+    ,	'http://hukumusume.com/douwa/pc/world/itiran/02gatu.htm'
+    ,	'http://hukumusume.com/douwa/pc/world/itiran/03gatu.htm'
+    ,	'http://hukumusume.com/douwa/pc/world/itiran/04gatu.htm'
+    ,	'http://hukumusume.com/douwa/pc/world/itiran/05gatu.htm'
+    ,	'http://hukumusume.com/douwa/pc/world/itiran/06gatu.htm'
+    ,	'http://hukumusume.com/douwa/pc/world/itiran/07gatu.htm'
+    ,	'http://hukumusume.com/douwa/pc/world/itiran/08gatu.htm'
+    ,	'http://hukumusume.com/douwa/pc/world/itiran/09gatu.htm'
+    ,	'http://hukumusume.com/douwa/pc/world/itiran/10gatu.htm'
+    ,	'http://hukumusume.com/douwa/pc/world/itiran/11gatu.htm'
+    ,	'http://hukumusume.com/douwa/pc/world/itiran/12gatu.htm'
   ]
-  pagelistJP01.forEach(function(link){
+  pagelistWD01.forEach(function(link){
     addQueue(link)
   })
 

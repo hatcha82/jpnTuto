@@ -11,3 +11,5 @@ tables.forEach(function(table){
 	console.log(`${episod} ${title} , ${imgSrc}`)
 	
 })
+
+
