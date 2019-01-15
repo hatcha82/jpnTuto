@@ -1,0 +1,15 @@
+page query
+var tables = document.querySelectorAll('body > table:nth-child(2) > tbody > tr:nth-child(3) > td:nth-child(3) > table');
+tables = Array.from(tables)
+tables.shift()
+tables.forEach(function(table){
+	var title = table.querySelector('a').innerText
+	var episod = title.split(':')[0].trim()
+	title = title.split(':')[1].trim()
+	var imgSrc = table.querySelector('img').src
+
+	console.log(`${episod} ${title} , ${imgSrc}`)
+	
+})
+
+

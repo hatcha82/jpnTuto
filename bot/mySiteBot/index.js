@@ -10,7 +10,7 @@ var browser = null;
 
   try {
     browser = await puppeteer.launch({
-      headless: false,
+      headless: true,
      
     });
     //console.log(sourceTex)    
@@ -102,6 +102,7 @@ async function mySiteTravel(url){
       page.close()
     }, (rIdx +3 * 1000 ) )
     await linkPage.setViewport({width:1920,height:1080}); //Custom Width
+    console.log(`Site : ${aLinks[rIdx]}`)
     await linkPage.goto(aLinks[rIdx],{
       waitLoad: 'load', 
       timeout:0    
@@ -109,9 +110,9 @@ async function mySiteTravel(url){
       setTimeout( async function(){
         setTimeout(function(){
           linkPage.close();
-        }, (rIdx +3 * 1000 ) )
+        }, ( (rIdx + 3) * 1000 ) )
         await mySiteTravel('http://www.furiganahub.com')    
-      },1000 * 60  * 1.5 +  (rIdx +1 * 1000 ))     
+      },1000 * 60  * 4.5 +  (rIdx +1 * 1000 ))     
   },1000 * (rIdx +  1))     
 }
 async function papagoTranslate(){
