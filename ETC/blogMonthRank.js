@@ -6,7 +6,7 @@ var html = `
 	[trs]
 </table>
 `
-var rowTags = $("#_root > div > div > div:nth-child(2) > div.u_ni_stats_detail_wrap > div > div.u_ni_table_section > div > div:nth-child(1) > div > div > table > tbody > tr")
+var rowTags = $("#_content_area > div > div:nth-child(1) > div > div > div.u_ni_table_section > div > div > div.u_ni_table_component.u_ni_type_8 > table > tbody > tr")
 var trs = ''
 var count = 1
 $.map(rowTags,function(obj){
@@ -21,7 +21,7 @@ $.map(rowTags,function(obj){
             var artist = title.split('] ')[0].replace('] ','')
             var songTitle = title.split('] ')[1]
 
-            var trTag = `<tr><td align="center">${rank}</td><td><a href="${link}" title="${songTitle} - ${artist}">${songTitle}</a></td><tr>`
+            var trTag = `<tr><td align="center">${count}</td><td><a href="${link}" title="${songTitle} - ${artist}">${songTitle}</a></td><tr>`
             trs+=trTag
             count++
     	}

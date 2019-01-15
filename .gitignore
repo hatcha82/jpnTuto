@@ -27,8 +27,11 @@ bot/papagoBot/node_modules/
 bot/papagoBot/.env
 bot/mySiteBot/node_modules/
 bot/mySiteBot/.env
+bot/douwaBot/node_modules/
+bot/douwaBot/.env
 bot/newsBot/node_modules/
 bot/newsBot/.env
+
 server/src/config/config.js
 bot/blogbot/node_modules/
 package-lock.json
