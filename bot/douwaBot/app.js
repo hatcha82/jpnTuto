@@ -124,9 +124,15 @@ async function detailCrawlerCallBack(error, res, done){
   
 
     if(imgs.length > 0){
+      if(paragraphs.length > 4){
+        paragraphs.shift()
+      }
+      
       var headerParagraph = paragraphs.shift();
       html = headerParagraph.outerHTML;  
       imgs[0].alt = '';
+      imgs[0].removeAttribute("width")
+      imgs[0].removeAttribute("height")
       var src = imgs[0].src
       var imgSrc = (src.indexOf('http') != -1) ? src : fileDir + src
       var imgTag = imgs[0].outerHTML;
@@ -140,12 +146,15 @@ async function detailCrawlerCallBack(error, res, done){
       html += p.outerHTML
     })
     imgs.forEach(function(img){
-      img.alt = '';
+      var htmlImgTag = img.outerHTML;
+      img.alt = ''; 
+      img.removeAttribute("width")
+      img.removeAttribute("height")
       var src = img.src
       var imgSrc = (src.indexOf('http') != -1) ? src : fileDir + src
       var imgTag = img.outerHTML;
       imgTag = replaceAll(imgTag,`"${src}"`,`"${imgSrc}"`)      
-      html = replaceAll(html, img.outerHTML,imgTag)
+      html = replaceAll(html, htmlImgTag,imgTag)
     })
     const textOnly = new JSDOM(`<!DOCTYPE html><body>${html}</body>`);
 
@@ -170,8 +179,14 @@ async function detailCrawlerCallBack(error, res, done){
       param.updatedUseId=3   
       param.articleType = 'JPN01'
       const [instance, wasCreated] = await Douwa.findOrCreate({ where: {  episod : param.episod , title: param.title , linkUrl: param.linkUrl} , defaults : param });      
-      if(!wasCreated){            
-        instance.audioUrl = param.songLiaudioUrlnk
+      if(!wasCreated){                    
+        instance.audioUrl = param.audioUrl
+        instance.title = param.title
+        instance.titleFurigana = param.titleFurigana
+        instance.articelOnlyText = param.articelOnlyText
+        instance.article = param.article
+        instance.furigana = param.furigana
+
         await instance.save();
       }
       return [instance, wasCreated];

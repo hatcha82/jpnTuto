@@ -9,7 +9,7 @@ const {sequelize} = require('./models')
 const config = require('./config/config')
 const {Douwa} = require('./models') 
 var debug = true
-var rateLimit = 1000 * 10
+var rateLimit = 100;
 var listCrawler = new Crawler({
   maxConnections : 1,
   rateLimit: rateLimit,
@@ -52,11 +52,8 @@ function replaceAll(str, searchStr, replaceStr) {
           aHref = (aHref.indexOf('http') != -1) ? aHref : fileDir + aHref
 
           var episod = td.textContent;
-          var title = td.textContent;
-          if(td.textContent.indexOf(":") != -1){
-            episod = td.textContent.split(':')[0].trim();
-            title = td.textContent.split(':')[1].trim();
-          }
+          var title = atag.textContent;
+       
          
           var imgSrc = img.src;
           var embedSrc = audio ? audio.src : null
@@ -108,19 +105,26 @@ async function detailCrawlerCallBack(error, res, done){
 
 
     
-    var tables = document.querySelectorAll('body > table:nth-child(2) > tbody > tr:nth-child(3) > td:nth-child(3) > table');
+    var tables = document.querySelectorAll('body > table > tbody > tr:nth-child(3) > td:nth-child(3) > table');
     var html = ''
     var imgs = document.querySelectorAll('body > table > tbody > tr:nth-child(3) > td:nth-child(3) img')
     var paragraphs = document.querySelectorAll('body > table > tbody > tr:nth-child(3) > td:nth-child(3) p')
+    var atags = document.querySelectorAll('body > table > tbody > tr:nth-child(3) > td:nth-child(3) a')
     imgs = Array.from(imgs)
     paragraphs = Array.from(paragraphs)
-
+    atags = Array.from(atags)
   
 
     if(imgs.length > 0){
+      if(paragraphs.length > 4){
+        paragraphs.shift()
+      }
+
       var headerParagraph = paragraphs.shift();
       html = headerParagraph.outerHTML;  
       imgs[0].alt = '';
+      imgs[0].removeAttribute("width")
+      imgs[0].removeAttribute("height")
       var src = imgs[0].src
       var imgSrc = (src.indexOf('http') != -1) ? src : fileDir + src
       var imgTag = imgs[0].outerHTML;
@@ -128,22 +132,33 @@ async function detailCrawlerCallBack(error, res, done){
       html = `<p>${imgTag}</p>`
     }
     
+   
     
-    paragraphs.shift()
     paragraphs.pop()
     paragraphs.forEach(function(p){
       html += p.outerHTML
     })
     imgs.forEach(function(img){
-      img.alt = '';
+      
+      var htmlImgTag = img.outerHTML;
+      
+      img.alt = ''; 
+      img.removeAttribute("width")
+      img.removeAttribute("height")
       var src = img.src
-
       var imgSrc = (src.indexOf('http') != -1) ? src : fileDir + src
       var imgTag = img.outerHTML;
       imgTag = replaceAll(imgTag,`"${src}"`,`"${imgSrc}"`)      
-      html = replaceAll(html, img.outerHTML,imgTag)
+      html = replaceAll(html, htmlImgTag,imgTag)
+    })
+    atags.forEach(function(atag){
+     
+      var text = atag.textContent;
+      var outerHTML = atag.outerHTML;           
+      html = replaceAll(html, outerHTML,text)
     })
 
+    const textOnly = new JSDOM(`<!DOCTYPE html><body>${html}</body>`);
     param = {
       episod: param.episod,
       title: param.title,
@@ -151,7 +166,8 @@ async function detailCrawlerCallBack(error, res, done){
       titleTranslate: null,
       linkUrl: param.href,
       ImageUrl: param.imageURL,
-      audioUrl : param.embedSrc,    
+      audioUrl : param.embedSrc,
+      articelOnlyText : textOnly.window.document.querySelector("body").textContent,    
       article:html,      
       furigana: await kuroshiro.convert(html, {mode: 'furigana', to: 'hiragana', romajiSystem: 'passport'}) ,  
       translateText: null,
@@ -159,16 +175,19 @@ async function detailCrawlerCallBack(error, res, done){
       updatedUserId: 3
     }
 
-    console.log(param)
-    done();
-    return;
+    
     async function findOrCreateDouwa(param) {
       param.createdUserId=3
       param.updatedUseId=3   
       param.articleType = 'JPN02'
       const [instance, wasCreated] = await Douwa.findOrCreate({ where: {  episod : param.episod , title: param.title , linkUrl: param.linkUrl} , defaults : param });      
       if(!wasCreated){            
-        instance.audioUrl = param.songLiaudioUrlnk
+        instance.audioUrl = param.audioUrl
+        instance.title = param.title
+        instance.titleFurigana = param.titleFurigana
+        instance.articelOnlyText = param.articelOnlyText
+        instance.article = param.article
+        instance.furigana = param.furigana
         await instance.save();
       }
       return [instance, wasCreated];
