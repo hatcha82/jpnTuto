@@ -10,7 +10,7 @@ var browser = null;
 
   try {
     browser = await puppeteer.launch({
-      headless: true,
+      headless: false,
      
     });
     //console.log(sourceTex)    
@@ -112,7 +112,7 @@ async function mySiteTravel(url){
           linkPage.close();
         }, ( (rIdx + 3) * 1000 ) )
         await mySiteTravel('http://www.furiganahub.com')    
-      },1000 * 60  * 4.5 +  (rIdx +1 * 1000 ))     
+      },1000 * 60  * 1000)     
   },1000 * (rIdx +  1))     
 }
 async function papagoTranslate(){
