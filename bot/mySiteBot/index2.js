@@ -117,6 +117,8 @@ async function mySiteTravel(url){
     setTimeout(function(){
       page.close()
     }, (rIdx +3 * 1000 ) )
+
+    console.log(aLinks[rIdx])
     await linkPage.setViewport({width:1920,height:1080}); //Custom Width
     await linkPage.goto(aLinks[rIdx],{
       waitLoad: 'load', 
