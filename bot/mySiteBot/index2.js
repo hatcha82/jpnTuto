@@ -9,12 +9,11 @@ var browser = null;
 (async () => {
 
   try {
-    browser = await puppeteer.launch({
-      headless: false,
-     
-    });
+    browser = await puppeteer.launch({ headless: false, args: [ '--window-size=1920,1080'] });
     //console.log(sourceTex)    
+    linkTo(`https://furigana-hub.tistory.com/`)
     await mySiteTravel('http://www.furiganahub.com')    
+    
     // var ranTime = Math.floor((Math.random() * 10) + 1)
     // setInterval( async() => {
     //   var ranTime = Math.floor((Math.random() * 10) + 1)
@@ -68,8 +67,25 @@ async function updateArticle(article){
     console.log(`result: ${error}  updated row article.id ${article.id} ,title ${article.title}` )
   })  
 }
+async function linkTo(url){
+  console.log(url)
+  const page = await browser.newPage();
+  await page.setViewport({width:1920,height:1080}); //Custom Width
+  await page.goto(url,{
+    waitLoad: 'load', 
+    timeout:0    
+  });
+
+  var rIdx = Math.floor(Math.random() * 10) + 1;    
+
+    setTimeout(function(){
+      page.close()
+      linkTo(`https://furigana-hub.tistory.com/`)
+    }, ( (rIdx * 1000)  +  (1000 * 60) ) );    
+}
+
 async function mySiteTravel(url){
- 
+  console.log(url)
   const page = await browser.newPage();
   await page.setViewport({width:1920,height:1080}); //Custom Width
   await page.goto(url,{
@@ -93,7 +109,7 @@ async function mySiteTravel(url){
     })
     return targetLink
   })
-  var rIdx = Math.floor(Math.random() * aLinks.length);    
+  var rIdx = Math.floor(Math.random() * aLinks.length) + 1;    
 
   setTimeout(async function() {  
     const linkPage = await browser.newPage();
@@ -102,7 +118,6 @@ async function mySiteTravel(url){
       page.close()
     }, (rIdx +3 * 1000 ) )
     await linkPage.setViewport({width:1920,height:1080}); //Custom Width
-    console.log(`Site : ${aLinks[rIdx]}`)
     await linkPage.goto(aLinks[rIdx],{
       waitLoad: 'load', 
       timeout:0    
@@ -110,9 +125,9 @@ async function mySiteTravel(url){
       setTimeout( async function(){
         setTimeout(function(){
           linkPage.close();
-        }, ( (rIdx + 3) * 1000 ) )
+        }, (rIdx +3 * 1000 ) )
         await mySiteTravel('http://www.furiganahub.com')    
-      },1000 * 60  * 1000)     
+      },1000 * 60  * 1.5 +  (rIdx +1 * 1000 ))     
   },1000 * (rIdx +  1))     
 }
 async function papagoTranslate(){
@@ -178,3 +193,4 @@ async function furiganaLyrics(){
   // await page.screenshot({path: 'full.png', fullPage: true});
   await browser.close();
 }
+
