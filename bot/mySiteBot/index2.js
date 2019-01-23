@@ -109,7 +109,7 @@ async function mySiteTravel(url){
     })
     return targetLink
   })
-  var rIdx = Math.floor(Math.random() * aLinks.length) + 1;    
+  var rIdx = Math.floor(Math.random() * aLinks.length);    
 
   setTimeout(async function() {  
     const linkPage = await browser.newPage();
