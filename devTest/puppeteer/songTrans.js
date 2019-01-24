@@ -33,9 +33,7 @@ async function getSong(){
         {  lyricsKor : {[Op.eq]: null} }
       ]
     },    
-    order: [
-      ['createdAt','DESC']
-    ],
+    order: sequelize.random(),
     limit: 1
   })
   if(!song){
