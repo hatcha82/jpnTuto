@@ -1,18 +1,18 @@
-import Vue from 'vue'
-import Router from 'vue-router'
-import Login from '@/view/Login'
-import Main from '@/components/Main'
-import Music from '@/view/music/Index'
-import MusicImageTracker from '@/view/music/IndexImageTracker' 
+import Vue from "vue";
+import Router from "vue-router";
+import Login from "@/view/Login";
+import Main from "@/components/Main";
+import Music from "@/view/music/Index";
+import MusicImageTracker from "@/view/music/IndexImageTracker";
 
-import ViewMusic from '@/view/music/Detail'
-import Articles from '@/view/article/Index'
-import ViewArticle from '@/view/article/Detail'
-import Twitter from '@/view/twitter/Index'
-import ViewTwitter from '@/view/twitter/Detail'
-import TwitterUserList from '@/view/twitter/TwitterUsersList'
-import Register from '@/view/Register'
-import AuthRedirect from '@/view/AuthRedirect'
+import ViewMusic from "@/view/music/Detail";
+import Articles from "@/view/article/Index";
+import ViewArticle from "@/view/article/Detail";
+import Twitter from "@/view/twitter/Index";
+import ViewTwitter from "@/view/twitter/Detail";
+import TwitterUserList from "@/view/twitter/TwitterUsersList";
+import Register from "@/view/Register";
+import AuthRedirect from "@/view/AuthRedirect";
 
 // import ConvertFurigana from '@/components/Converter/ConvertFurigana'
 
@@ -24,32 +24,32 @@ import AuthRedirect from '@/view/AuthRedirect'
 // import EditSong from '@/components/Song/EditSong'
 // import ViewSong from '@/components/Song/ViewSong/Index'
 
-Vue.use(Router)
+Vue.use(Router);
 export default new Router({
-  mode: 'history',
+  mode: "history",
   canReuse: false,
   scrollBehavior() {
     return { x: 0, y: 0 };
   },
   routes: [
     {
-      path: '/Main',
-      name: 'Main',
+      path: "/Main",
+      name: "Main",
       component: Main
     },
     {
-      path: '/login',
-      name: 'login',
+      path: "/login",
+      name: "login",
       component: Login
     },
     {
-      path: '/login/:providerId',
-      name: 'login',
+      path: "/login/:providerId",
+      name: "login",
       component: Login
     },
     {
-      path: '/register',
-      name: 'register',
+      path: "/register",
+      name: "register",
       component: Register
     },
     // {
@@ -58,34 +58,34 @@ export default new Router({
     //   component: ConvertFurigana
     // },
     {
-      path: '/article/list',
-      name: 'article-list',
+      path: "/article/list",
+      name: "article-list",
       component: Articles
     },
     {
-      path: '/article/detail/:articleId',
-      name: 'article-detail',
+      path: "/article/detail/:articleId",
+      name: "article-detail",
       component: ViewArticle
     },
     {
-      path: '/twitter/list/',
-      name: 'twitter-list',
+      path: "/twitter/list/",
+      name: "twitter-list",
       component: Twitter
     },
     {
-      path: '/twitter/userList/',
-      name: 'twitter-userList',
+      path: "/twitter/userList/",
+      name: "twitter-userList",
       component: TwitterUserList
     },
-    
+
     {
-      path: '/twitter/detail/:songId',
-      name: 'twitter-detail',
+      path: "/twitter/detail/:songId",
+      name: "twitter-detail",
       component: ViewTwitter
     },
     {
-      path: '/twitter/list/:search',
-      name: 'twitter-list-search',
+      path: "/twitter/list/:search",
+      name: "twitter-list-search",
       component: Twitter
     },
 
@@ -105,13 +105,13 @@ export default new Router({
     //   component: EditArticle
     // },
     {
-      path: '/music/list',
-      name: 'music-list',
+      path: "/music/list",
+      name: "music-list",
       component: Music
     },
     {
-      path: '/music/imageTrackerList',
-      name: 'music-image-tracker-list',
+      path: "/music/imageTrackerList",
+      name: "music-image-tracker-list",
       component: MusicImageTracker
     },
     // {
@@ -120,8 +120,8 @@ export default new Router({
     //   component: CreateSong
     // },
     {
-      path: '/music/detail/:songId',
-      name: 'music-detail',
+      path: "/music/detail/:songId",
+      name: "music-detail",
       component: ViewMusic
     },
     // {
@@ -135,13 +135,13 @@ export default new Router({
     //   component: Home
     // },
     {
-      path: '/auth/google/redirect',
-      name: 'google-redirect',
+      path: "/auth/google/redirect",
+      name: "google-redirect",
       component: AuthRedirect
     },
     {
-      path: '*',
-      redirect: 'Main'
+      path: "*",
+      redirect: "Main"
     }
   ]
-})
+});

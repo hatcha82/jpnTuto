@@ -191,97 +191,91 @@
 </div> 
 </template>
 <script>
-import {mapState} from 'vuex'
-import TwitterService from '@/services/TwitterService'
-import FuriganaService from '@/services/FuriganaService'
-import Synthesis from '@/components/common/Synthesis'
+import { mapState } from "vuex";
+import TwitterService from "@/services/TwitterService";
+import FuriganaService from "@/services/FuriganaService";
+import Synthesis from "@/components/common/Synthesis";
 
 export default {
   components: {
     Synthesis
   },
   computed: {
-    ...mapState([
-      'isUserLoggedIn',
-      'user'
-    ])
+    ...mapState(["isUserLoggedIn", "user"])
   },
-  data () {
+  data() {
     return {
       deleteDialog: false,
       twitter: null,
       edit: false,
       activeTab: 0,
-      imgNotFound: require('../../assets/noImage.png')
-    }
-  }, 
-  filters:{
-    imageCheck(value){
-      if(value){
-        return value
-      }else{
-        return this.imgNotFound
+      imgNotFound: require("../../assets/noImage.png")
+    };
+  },
+  filters: {
+    imageCheck(value) {
+      if (value) {
+        return value;
+      } else {
+        return this.imgNotFound;
       }
     }
   },
   methods: {
     back() {
-      this.$router.back()
+      this.$router.back();
     },
-    newTwitter () {
-      this.twitter = {}
-      this.twitter.genre = 'J-pop'
-      this.edit = true 
+    newTwitter() {
+      this.twitter = {};
+      this.twitter.genre = "J-pop";
+      this.edit = true;
     },
-    editMusic () {
-       this.edit = true 
+    editMusic() {
+      this.edit = true;
     },
-    saveMusic () {
-      
-      if(this.twitter.id){
-        this.save()  
+    saveMusic() {
+      if (this.twitter.id) {
+        this.save();
       } else {
-        this.create()
+        this.create();
       }
-     
-      this.edit = false 
+
+      this.edit = false;
     },
-    async remove () {
+    async remove() {
       try {
-        await TwitterService.delete(this.twitter)
+        await TwitterService.delete(this.twitter);
         this.$router.push({
-          name: 'music-list'
-        })
+          name: "music-list"
+        });
       } catch (err) {
-        alert(err)
+        alert(err);
       }
     },
-    async create () {
-      this.error = null
-      const areAllFieldsFilledIn = Object
-        .keys(this.twitter)
-        .every(key => {
-          // if (key !== 'tab') {
-          return this.twitter[key]
-          // }
-        })
+    async create() {
+      this.error = null;
+      const areAllFieldsFilledIn = Object.keys(this.twitter).every(key => {
+        // if (key !== 'tab') {
+        return this.twitter[key];
+        // }
+      });
       if (!areAllFieldsFilledIn) {
-        this.error = 'Please fill in all the required fields.'
-        return
+        this.error = "Please fill in all the required fields.";
+        return;
       }
       try {
-        this.twitter.createdUserId = this.user.id
-        this.twitter.updatedUserId = this.user.id
-        await TwitterService.post(this.twitter)
+        this.twitter.createdUserId = this.user.id;
+        this.twitter.updatedUserId = this.user.id;
+        await TwitterService.post(this.twitter);
         this.$router.push({
-          name: 'music-list'
-        })
+          name: "music-list"
+        });
       } catch (err) {
-        alert(err)
+        alert(err);
       }
     },
-    async save () {
-      this.error = null
+    async save() {
+      this.error = null;
       // const areAllFieldsFilledIn = Object
       //   .keys(this.twitter)
       //   .every(key => !!this.twitter[key])
@@ -289,36 +283,42 @@ export default {
       //   this.error = areAllFieldsFilledIn + 'Please fill in all the required fields..'
       //   return
       // }
-      const twitterId = this.twitter.id
+      const twitterId = this.twitter.id;
       //
       try {
-        const text = this.twitter.lyrics
-        this.twitter.tab = (await FuriganaService.post(text)).data.result.furigana
+        const text = this.twitter.lyrics;
+        this.twitter.tab = (await FuriganaService.post(
+          text
+        )).data.result.furigana;
 
-        this.twitter.createdUserId = this.twitter.createdUserId ? this.twitter.createdUserId : this.user.id
-        this.twitter.updatedUserId = this.user.id
-        await TwitterService.put(this.twitter)
+        this.twitter.createdUserId = this.twitter.createdUserId
+          ? this.twitter.createdUserId
+          : this.user.id;
+        this.twitter.updatedUserId = this.user.id;
+        await TwitterService.put(this.twitter);
         this.$router.push({
-          name: 'music-detail',
+          name: "music-detail",
           params: {
             twitterId: twitterId
           }
-        })
+        });
       } catch (err) {
-        alert(err)
+        alert(err);
       }
     },
-    async convert () {
+    async convert() {
       try {
-        const text = this.twitter.lyrics
-        this.twitter.tab = (await FuriganaService.post(text)).data.result.furigana
+        const text = this.twitter.lyrics;
+        this.twitter.tab = (await FuriganaService.post(
+          text
+        )).data.result.furigana;
       } catch (err) {
-        alert(err)
+        alert(err);
       }
     },
-    async search () {
-      const twitterId = this.$route.params.twitterId
-      this.twitter = (await TwitterService.show(twitterId)).data
+    async search() {
+      const twitterId = this.$route.params.twitterId;
+      this.twitter = (await TwitterService.show(twitterId)).data;
       if (this.isUserLoggedIn) {
         // SongHistoryService.post({
         //   twitterId: twitterId
@@ -326,30 +326,29 @@ export default {
       }
     }
   },
-  async mounted () {
-    const newTwitter = this.$route.params.newTwitter
-    if(newTwitter){
-      this.newTwitter()
-    } else{
-      this.search()  
+  async mounted() {
+    const newTwitter = this.$route.params.newTwitter;
+    if (newTwitter) {
+      this.newTwitter();
+    } else {
+      this.search();
     }
-    
   },
   watch: {
-    '$route' () {
-      this.search()
+    $route() {
+      this.search();
     }
-  },
-}
+  }
+};
 </script>
 <style>
-.furigana{
-  line-height:2em;
-  font-size:1.2em;
+.furigana {
+  line-height: 2em;
+  font-size: 1.2em;
   white-space: pre-line;
 }
-.furigana rt{
-  color:red;
-  font-size:0.6em;
+.furigana rt {
+  color: red;
+  font-size: 0.6em;
 }
 </style>

@@ -3,6 +3,8 @@ var fs = require('fs');
 var download = require('download-file')
 var uploader = require('base64-image-upload');
 var image2base64 = require('image-to-base64');
+var path = require("path");
+var url = require("url");
 var express = require('express');
 var app = express();
 var client_id = '3caa6a7e4805246c090dab84ac0580de';
@@ -63,6 +65,24 @@ function downloadFile(url, options){
   })
 }
 
+async function getImageInfoForUpload(imgURL){
+  try {
+    
+    var base64Image = await image2base64(imgURL)
+    var parsed = url.parse(imgURL);
+    
+   
+    var result = {
+      basename : path.basename(parsed.pathname),
+      extname : path.extname(parsed.pathname).replace('.',''),
+      base64Image : base64Image,
+      image: new Buffer(base64Image, 'base64')
+    }
+    return result
+  } catch (error) {
+    return null;
+  }  
+}
 
 var template = fs.readFileSync('blogtemplate.html', 'utf-8');
 //setInterval(refreshToken, 1000 * 60 * 30 ) //1hour
@@ -82,37 +102,81 @@ async function runPost(){
   var newTemplate = template.replace('[[title]]', song.title)
   newTemplate = newTemplate.replace('[[artist]]',song.artist)
   newTemplate = newTemplate.split("[[id]]").join(song.id)
-  newTemplate = newTemplate.split("[[albumImageUrl]]").join(song.albumImageUrl)  
+ 
   newTemplate = newTemplate.replace('[[youtubeId]]',song.youtubeId)
 
 
   var furigana = song.tab;
-  furigana =  furigana.replace(/\n/g,'<br>')
-  newTemplate = newTemplate.replace('[[furigana]]',furigana)
-  
   var lyricsKor = song.lyricsKor;
-  if(lyricsKor){
-    lyricsKor =  lyricsKor.replace(/\n/g,'<br>')
-    newTemplate = newTemplate.replace('[[lyricsKor]]',lyricsKor)
+  var furiganaArray = furigana.split('\n')
+  var TransArray = lyricsKor.split('\n')
+  var html = ''; 
+  for(let [index,line] of furiganaArray.entries()){
+  
+    var trans =  TransArray[index] ? TransArray[index] : ''
+    var furigana = line ? line : ''
+    html += furigana;
+    html += '<br>'
+    html += trans;
+    html += '<br>'
   }
 
-  var api_url = 'https://www.tistory.com/apis/post/write'
+  furigana =  furigana.replace(/\n/g,'<br>')
+  newTemplate = newTemplate.replace('[[furigana]]',html)  
+ 
+  // if(lyricsKor){
+  //   lyricsKor =  lyricsKor.replace(/\n/g,'<br>')
+  //   newTemplate = newTemplate.replace('[[lyricsKor]]',lyricsKor)
+  // }
+
+ 
+ 
+
+  // var form = new FormData()
+  // form.append("access_token", 'da7a64ff1ec2eccca06b1b2907948b34_c906903066e671e1dc5ba3df1bcb19b0');
+  // form.append( blogName, 'furigana-hub')
+  var imageInfo = await getImageInfoForUpload(song.albumImageUrl)
+  var api_url = 'https://www.tistory.com/apis/post/attach?access_token=da7a64ff1ec2eccca06b1b2907948b34_c906903066e671e1dc5ba3df1bcb19b0&blogName=furigana-hub'
   var postOption = {
+    url: api_url,   
+    headers : {}, 
+    formData: {
+      access_token:'da7a64ff1ec2eccca06b1b2907948b34_c906903066e671e1dc5ba3df1bcb19b0',
+      output:'json',
+      blogName:'furigana-hub',  
+      uploadedfile : 
+         { value:  imageInfo.image , options: { filename: imageInfo.basename,  contentType: `image/${imageInfo.extname}`}}
+      
+    }
+  };
+  try {
+    var postResult = await requestPost(postOption)
+    var JSONBody = JSON.parse(postResult.body);
+    //console.log(JSONBody.tistory.replacer)
+    var imageTemplate = `<img  src="[[albumImageUrl]]"  alt="[[albumImageUrl]]" width="300" height="300">`.split('[[albumImageUrl]]').join(JSONBody.tistory.url)
+    newTemplate = newTemplate.split(`<img  src="[[albumImageUrl]]"  alt="[[albumImageUrl]]" width="300" height="300">`).join(imageTemplate)  
+  } catch (error) {
+  
+  }
+  newTemplate = newTemplate.split("[[albumImageUrl]]").join(song.albumImageUrl)    
+  api_url = 'https://www.tistory.com/apis/post/write'
+  postOption = {
     url: api_url,    
     form: {
       access_token:'da7a64ff1ec2eccca06b1b2907948b34_c906903066e671e1dc5ba3df1bcb19b0',
       output:'json',
       blogName:'furigana-hub',
       title:`[ J-Pop : ${song.artist} ] ${song.title}`,
-      content:newTemplate,
+      content:newTemplate,      
       visibility:3,
       category:819448,
       tag:`${song.title},${song.artist},일본노래가사,furiganahub,jpop,일본노래추천`
     }
   };
+  console.log(postOption.form.published)
   var postResult = await requestPost(postOption)
   JSONBody = JSON.parse(postResult.body);
-  
+
   var updateResult = null
   try {
     if(JSONBody.tistory.status == '200'){
@@ -206,7 +270,8 @@ app.get('/tstorylogin', function (req, res) {
     request.post(options, function (error, response, body) {
       if (!error && response.statusCode == 200) {
         res.writeHead(200, {'Content-Type': 'text/json;charset=utf-8'});        
-        access_token =body.replace(`access_token=`,'')        
+        access_token =body.replace(`access_token=`,'')   
+        runPost()     
         res.end(body);
       } else {
         res.end(body)

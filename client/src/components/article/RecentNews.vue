@@ -42,30 +42,26 @@
   </v-layout>
 </template>
 <script>
-import {mapState} from 'vuex'
-import ArticlesService from '@/services/ArticlesService'
+import { mapState } from "vuex";
+import ArticlesService from "@/services/ArticlesService";
 
 export default {
-  data () {
+  data() {
     return {
-      articles: null,
-    }
+      articles: null
+    };
   },
-    computed: {
-    ...mapState([
-      'isUserLoggedIn',
-      'user'
-    ])
+  computed: {
+    ...mapState(["isUserLoggedIn", "user"])
   },
-  async mounted () {
+  async mounted() {
     try {
       var dataSet = (await ArticlesService.rencentNews()).data;
       this.articles = dataSet.data;
     } catch (error) {
-      alert(error)
+      alert(error);
     }
   },
-  methods: {
-  }
-}
+  methods: {}
+};
 </script>

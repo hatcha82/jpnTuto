@@ -11,36 +11,35 @@
 </template>
 
 <script>
-import _ from 'lodash'
+import _ from "lodash";
 export default {
-  data () {
+  data() {
     return {
-      searchKeyword: ''
-    }
+      searchKeyword: ""
+    };
   },
   watch: {
-    searchKeyword: _.debounce(async function (value) {
+    searchKeyword: _.debounce(async function(value) {
       const route = {
-        name: 'music-list'
-      }
-      if (this.searchKeyword !== '') {
+        name: "music-list"
+      };
+      if (this.searchKeyword !== "") {
         route.query = {
           search: this.searchKeyword,
           offset: 0
-        }
+        };
       }
-      this.$router.push(route)
+      this.$router.push(route);
     }, 700),
-    '$route.query.search': {
+    "$route.query.search": {
       immediate: true,
-      handler (value) {
-        this.searchKeyword = value
+      handler(value) {
+        this.searchKeyword = value;
       }
     }
   }
-}
+};
 </script>
 
 <style>
-
 </style>

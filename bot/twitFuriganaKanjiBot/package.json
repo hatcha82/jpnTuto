@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^6.2.0",
     "image-to-base64": "^2.0.1",
     "kuroshiro": "^1.1.1",
     "kuroshiro-analyzer-kuromoji": "^1.1.0",

@@ -1,16 +1,20 @@
-const AuthenticationController = require('./controllers/AuthenticationController')
-const AuthenticationControllerPolicy = require('./policies/AuthenticationControllerPolicy')
-const ImageController = require('./controllers/ImageController')
-const VisitorContoller = require('./controllers/VisitorContoller')
-const ArticleController = require('./controllers/ArticleController')
-const SongsController = require('./controllers/SongsController')
-const TwitterController = require('./controllers/TwitterController')
-const KanjisController = require('./controllers/KanjisController')
-const BookmarksController = require('./controllers/BookmarksController')
-const HistoriesController = require('./controllers/HistoriesController')
-const FuriganaController = require('./controllers/FuriganaController')
+const {
+  AuthenticationController,
+  HomeController,
+  ImageController,
+  VisitorContoller,
+  ArticleController,
+  SongsController,
+  TwitterController,
+  KanjisController,
+  BookmarksController,
+  HistoriesController,
+  FuriganaController
+} = require('./controllers/index')
 
+const AuthenticationControllerPolicy = require('./policies/AuthenticationControllerPolicy')
 const isAuthenticated = require('./policies/isAuthenticated')
+
 const passport = require('passport')
 
 module.exports = (app) => {
@@ -28,6 +32,8 @@ module.exports = (app) => {
   app.get('/auth/naver', passport.authenticate('naver', {
     scope: ['profile', 'email', 'nickname']
   }))
+
+  app.get('/home', HomeController.index)
   app.post('/visitor/increase', VisitorContoller.increase)
   app.post('/register',
     AuthenticationControllerPolicy.register,
@@ -67,8 +73,10 @@ module.exports = (app) => {
     SongsController.index)
   app.get('/songs/indexImageTracker',
     SongsController.indexImageTracker)
-  app.get('/songs/randomeSong',
-    SongsController.randomeSong)
+  app.get('/songs/iTunesSearch',
+    SongsController.iTunesSearch)
+  app.get('/songs/randomSong',
+    SongsController.randomSong)
   app.get('/songs/songByArtist',
     SongsController.songByArtist)
   app.get('/song/meta/:songId',

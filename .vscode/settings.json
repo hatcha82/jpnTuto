@@ -2,5 +2,6 @@
   "git.ignoreLimitWarning": true,
   "git.alwaysSignOff": true,
   "git.showPushSuccessNotification": true,
-  "git.promptToSaveFilesBeforeCommit": true
+  "git.promptToSaveFilesBeforeCommit": true,
+  "svn.ignoreMissingSvnWarning": true
 }

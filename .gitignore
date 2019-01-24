@@ -1,9 +1,13 @@
+serverSideClient/node_modules/
+serverSideClient/.env
 client/node_modules/
 server/node_modules/
 server/.env
 devTest/kanjiExtractor/node_modules/
 devTest/kanjiExtractor/.env
 devTest/puppeteer/node_modules/
+bot/ituneImageFinderBot/node_modules/
+bot/ituneImageFinderBot/.env
 bot/tstoryBot/node_modules/
 bot/tstoryBot/.env
 bot/YoubueTagBot/node_modules/
@@ -21,8 +25,13 @@ bot/kakaoStoryBot/node_modules/
 bot/kakaoStoryBot/.env
 bot/papagoBot/node_modules/
 bot/papagoBot/.env
+bot/mySiteBot/node_modules/
+bot/mySiteBot/.env
+bot/douwaBot/node_modules/
+bot/douwaBot/.env
 bot/newsBot/node_modules/
 bot/newsBot/.env
+
 server/src/config/config.js
 bot/blogbot/node_modules/
 package-lock.json
