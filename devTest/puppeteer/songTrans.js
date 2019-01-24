@@ -92,8 +92,8 @@ async function papagoTranslate(){
         song.titleTranslate =translatedText.shift()
         
         song.translateText = translatedText.join('\n')
-        console.log(song)
-        //updateSong(song)
+        
+        updateSong(song)
         //fs.writeFile('myjsonfile.text', textBody); 
         setTimeout(async ()=>{
           browser.close()
