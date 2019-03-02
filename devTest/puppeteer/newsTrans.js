@@ -2,7 +2,7 @@ require('dotenv').config()
 const puppeteer = require('puppeteer');
 const devices = require('puppeteer/DeviceDescriptors');
 var fs = require('fs');
-var {Song} = require('./models')
+var {Article} = require('./models')
 const {sequelize} = require('./models')
 const sourceText = '';
 
@@ -24,43 +24,52 @@ const sourceText = '';
   }
 })();
 
-async function getSong(){
+async function getArticle(){
       
   const Op = sequelize.Op
-  var song = await Song.findOne({
+  var article = await Article.findOne({
     where :{
       $and: [
-        {  lyricsKor : {[Op.eq]: null} }
+        {  translateText : {[Op.eq]: null} },
+        sequelize.where(
+           sequelize.fn('DATE', sequelize.col('createdAt')),
+           sequelize.literal('CURRENT_DATE')
+        )
       ]
     },    
+    order: [
+      ['createdAt','DESC']
+    ],
     limit: 1
   })
-  if(!song){
+  if(!article){
     return null;
   }else{
-    return song
+    return article
   }
 }
-async function updateSong(song){
-  Song.update({
-    titleTranslate: song.titleTranslate,
-    lyricsKor: song.translateText,    
+async function updateArticle(article){
+  Article.update({
+    titleTranslate: article.titleTranslate,
+    translateText: article.translateText,
+    naverBlogUpload: article.naverBlogUpload,
+    naverBlogRefNo: article.naverBlogRefNo
   }, {
-    where: { id: song.id }
+    where: { id: article.id }
   })
   .then(result =>{
-    console.log(`result: ${result}  updated row song.id ${song.id} ,title ${song.title}` )    
+    console.log(`result: ${result}  updated row article.id ${article.id} ,title ${article.title}` )    
   })
   .catch(error =>{
-    console.log(`result: ${error}  updated row song.id ${song.id} ,title ${song.title}` )
+    console.log(`result: ${error}  updated row article.id ${article.id} ,title ${article.title}` )
   })  
 }
 async function papagoTranslate(){
 
-  var song = await getSong();
+  var article = await getArticle();
   
-  if(song == null) return;
-  var sourceText = `${song.title}\n${song.lyrics}`
+  if(article == null) return;
+  var sourceText = `${article.title}\n${article.article}`
 
   const browser = await puppeteer.launch({
     headless: false,
@@ -88,13 +97,13 @@ async function papagoTranslate(){
         JSONObj = JSON.parse(textBody)
         var translatedText =  JSONObj.translatedText.split('\n')
 
-        song.titleTranslate =translatedText.shift()
+        article.titleTranslate =translatedText.shift()
         
-        song.translateText = translatedText.join('\n')
-        
-        updateSong(song)
+        article.translateText = translatedText.join('\n')
+       
+        updateArticle(article)
         //fs.writeFile('myjsonfile.text', textBody); 
-        browser.close()
+          browser.close()
       })
     }
   })
