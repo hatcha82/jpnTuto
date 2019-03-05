@@ -72,7 +72,7 @@ async function papagoTranslate(){
   var sourceText = `${article.title}\n${article.article}`
 
   const browser = await puppeteer.launch({
-    headless: true,
+    headless: false,
   });
   const page = await browser.newPage();
   await page.goto('https://papago.naver.com');
@@ -101,9 +101,7 @@ async function papagoTranslate(){
        
         updateArticle(article)
         //fs.writeFile('myjsonfile.text', textBody); 
-        setTimeout(async ()=>{
           browser.close()
-        },1000 * 10)
       })
     }
   })
