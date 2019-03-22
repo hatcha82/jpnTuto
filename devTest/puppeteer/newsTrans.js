@@ -31,10 +31,6 @@ async function getArticle(){
     where :{
       $and: [
         {  translateText : {[Op.eq]: null} },
-        sequelize.where(
-           sequelize.fn('DATE', sequelize.col('createdAt')),
-           sequelize.literal('CURRENT_DATE')
-        )
       ]
     },    
     order: [
