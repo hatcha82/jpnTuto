@@ -65,7 +65,8 @@ async function uploadArticleBlog(){
           [Op.or] : [ { newsPublisher: { [Op.like] : '%NEWS24' } }, { newsPublisher: {[Op.like] : 'TBS%'}  }]
         },
       ]
-    },        
+    },
+    order : [ ['createdAt','DESC' ]],
     limit: 1,
   })
   if(!article){
