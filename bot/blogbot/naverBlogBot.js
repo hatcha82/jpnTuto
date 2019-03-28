@@ -56,19 +56,28 @@ var newsBlogtemplate = fs.readFileSync('newsBlogtemplate.html', 'utf-8');
 async function uploadArticleBlog(){
   console.log("Upload Started...")
   const Op = sequelize.Op
+
+
+
+
   var article = await Article.findOne({
     where :{
       $and: [
-        {  
+        {
           translateText : {[Op.ne]: null},
           naverBlogUpload : 'N',
           [Op.or] : [ { newsPublisher: { [Op.like] : '%NEWS24' } }, { newsPublisher: {[Op.like] : 'TBS%'}  }]
         },
+        sequelize.where(
+           sequelize.fn('DATE', sequelize.col('createdAt')),
+           sequelize.literal('CURRENT_DATE')
+        )
       ]
     },
-    order : [ ['createdAt','DESC' ]],
+    order : [ ['createdAt','DESC' ]],	  
     limit: 1,
   })
+	
   if(!article){
     return;
   }
