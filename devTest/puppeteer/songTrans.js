@@ -64,7 +64,7 @@ async function papagoTranslate(){
 
   const browser = await puppeteer.launch({
     headless: false,
-    args: [`--window-size=300,300`]
+    args: ['--no-sandbox',`--window-size=300,300`]
   });
   const page = await browser.newPage();
   page.setViewport({width:300,height:300})
