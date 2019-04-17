@@ -188,25 +188,3 @@ var ann = `https://headlines.yahoo.co.jp/videonews/ann` //Nippon NewsNetwork(ANN
 var jnn = `https://headlines.yahoo.co.jp/videonews/jnn` //TBS
 var fnn = `https://headlines.yahoo.co.jp/videonews/fnn` //fnn
 
-setInterval(function() {  
-  addQueue(nnn)
-  addQueue(ann)
-  addQueue(jnn)
-  addQueue(fnn)
-  lasctCalledDate = new Date()
-  console.log(`Now : ${new Date().toDateString()} Queue Size: ${listCrawler.queueSize}`) 
-},60 * 10 * 1000)
-
-setInterval(function() {
-  var currentDate = new Date()
-  var duration = ((new Date() - lasctCalledDate)  ) /100 /6 /60
-  var nextCall =  60 - duration
-  nextCall = Math.floor(nextCall)
-  console.log(`
-  Now : ${new Date().toString()} 
-  NextCall : ${nextCall}Min Left  
-  List Queue Size: ${listCrawler.queueSize}
-  detailCrawler
-  Detail Queue Size: ${listCrawler.queueSize}`
-  ) 
-},60 * 1000)
