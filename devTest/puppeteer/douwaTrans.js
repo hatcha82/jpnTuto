@@ -18,7 +18,7 @@ const sourceText = '';
       setTimeout(async()=>{
         await papagoTranslate()
       },ranTime)
-    },1000 * 60 * 2)   
+    },1000 * 20)   
   } catch (error) {
     console.log(`Error : ${error}` )
   }
@@ -27,21 +27,11 @@ const sourceText = '';
 async function getDouwa(){
       
   const Op = sequelize.Op
-  var douwa = await Douwa.findOne({
-    where :{
-      $and: [
-        {  translateText : {[Op.eq]: null} }
-      ]
-    },    
-    order: [
-      ['createdAt','DESC']
-    ],
-    limit: 1
-  })
+  var douwa = await sequelize.query("SELECT * FROM `Douwas` WHERE  translateText is null and LENGTH(articelOnlyText) < 5000 limit 1", { type: sequelize.QueryTypes.SELECT})     
   if(!douwa){
     return null;
   }else{
-    return douwa
+    return douwa[0]
   }
 }
 async function updateDouwa(douwa){
@@ -66,10 +56,11 @@ async function papagoTranslate(){
   var sourceText = `${douwa.title}\n${douwa.articelOnlyText}`
 
   const browser = await puppeteer.launch({
-    headless: true,
+    headless: false,
+    args: [`--window-size=300,300`]
   });
   const page = await browser.newPage();
-  await page.goto('https://papago.naver.com');
+  await page.goto('https://papago.naver.com' ,{waitUntil: 'networkidle2'});
 
   const param = {
     selector : '#txtSource',
