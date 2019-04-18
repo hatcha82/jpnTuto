@@ -160,9 +160,8 @@ async function detailCrawlerCallBack(error, res, done){
   await kuroshiro.init(new KuromojiAnalyzer());
     var result = await kuroshiro.convert("感じ取れたら手を繋ごう、重なるのは人生のライン and レミリア最高！", { to: "hiragana" });
     console.log(`Kuroshiro Started... \n ${result}`)
-    console.log(`DB Started... \n ${result}`)
-    var sql = `SELECT count(*) count FROM g5_write_furigana_news `
-    
+    console.log(`DB Started...`)
+    var sql = `SELECT count(*) count FROM g5_write_furigana_news `    
     var article = await sequelize.query(sql, { type: sequelize.QueryTypes.SELECT})   
     console.log(`Article Count ${article[0].count}`)   
     
