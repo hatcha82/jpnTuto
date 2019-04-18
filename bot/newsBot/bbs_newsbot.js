@@ -93,7 +93,11 @@ async function detailCrawlerCallBack(error, res, done){
     param.createdUserId = 3
     param.updatedUserId = 3
     ;
-    console.log(`News Title : ${article}`)
+    console.log(`
+News Title : ${param.title}
+Article
+${article}
+`)
     var sequelize = new Sequelize(
       config.db.database,
       config.db.user,
